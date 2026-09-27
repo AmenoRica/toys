@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="잉크를 쏘고 흘려 보세요. 이미지 두 장을 잉크 자국으로 겹칠 수 있습니다.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; connect-src 'none'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'">
+  <title>잉크 · toys</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../shared/base.css?v=1">
+  <link rel="stylesheet" href="style.css?v=1">
+  <script src="app.js?v=1" defer></script>
+</head>
+<body>
+  <main class="app">
+    <section class="studio" aria-label="잉크 작업 공간">
+      <div class="topbar">
+        <a class="home-link" href="../" aria-label="toys 목록으로">← toys</a>
+        <h1>잉크</h1>
+        <div class="actions">
+          <button type="button" id="reset">비우기</button>
+          <button type="button" id="help-open">사용법</button>
+        </div>
+      </div>
+      <div class="paper-surround"><div class="paper">
+        <img id="background" alt="">
+        <canvas tabindex="0" aria-label="잉크 캔버스. 클릭 또는 터치로 발사합니다. Enter 또는 스페이스는 가운데에 발사합니다.">HTML 캔버스를 지원하는 브라우저가 필요합니다.</canvas>
+      </div></div>
+      <div class="bottom-tools" role="group" aria-label="이미지 겹치기">
+        <button type="button" id="choose-background">배경 이미지</button>
+        <button type="button" id="choose-reveal">잉크 이미지</button>
+      </div>
+      <p id="image-status" role="status" aria-live="polite"></p>
+      <input id="background-file" type="file" accept="image/*" hidden>
+      <input id="reveal-file" type="file" accept="image/*" hidden>
+    </section>
+  </main>
+  <dialog id="help" aria-labelledby="help-title">
+    <div class="dialog-heading"><h2 id="help-title">사용법</h2><button id="help-close" aria-label="닫기" title="닫기">✕</button></div>
+    <p>흰 영역을 클릭하거나 터치하면 잉크가 날아와 찍힙니다. 방울은 아래로 흘러내려 자국을 남깁니다.</p>
+    <p>‘배경 이미지’로 바탕을 고르고, ‘잉크 이미지’로 잉크 안에 드러날 이미지를 고릅니다. 두 이미지는 각각 작업 영역을 꽉 채우고 중앙에 정렬되며 가장자리가 잘릴 수 있습니다.</p>
+    <p>‘비우기’는 이미지를 유지한 채 잉크만 지웁니다. 이미지 버튼을 다시 누르면 다른 이미지로 바꿀 수 있습니다.</p>
+    <p>캔버스에 Tab으로 초점을 둔 뒤 Enter 또는 스페이스를 누르면 가운데에 발사합니다. 동작 줄이기 설정에서는 최종 자국을 바로 표시합니다.</p>
+    <p>이미지는 기기 안에서만 읽으며 업로드하지 않습니다. 이미지와 잉크는 저장되지 않아 새로고침하거나 페이지를 나가면 사라집니다.</p>
+  </dialog>
+</body>
+</html>

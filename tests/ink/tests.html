@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>회색 잉크 동작 검사</title>
+<style>body{font:14px system-ui;padding:20px}iframe{width:390px;height:680px;border:1px solid #ddd}pre{white-space:pre-wrap}</style>
+<h1>회색 잉크 동작 검사</h1>
+<p>390px 화면에서 합성 터치 포인터·키보드·초기화를 검사합니다. 실제 기기 터치를 대체하지 않습니다.</p>
+<pre id="result">검사 중…</pre>
+<iframe src="../../docs/ink/" title="검사 대상"></iframe>
+<script>
+  const iframe = document.querySelector('iframe');
+  const result = document.querySelector('#result');
+  iframe.addEventListener('load', async () => {
+    const lines = [];
+    const wait = () => new Promise(resolve => setTimeout(resolve, 650));
+    const win = iframe.contentWindow;
+    const doc = win.document;
+    const canvas = doc.querySelector('canvas');
+    const context = canvas.getContext('2d');
+    const hasInk = () => context.getImageData(0, 0, canvas.width, canvas.height).data.some((value, i) => i % 4 === 3 && value !== 0);
+    const check = (condition, label) => { if (!condition) throw Error(label); lines.push('PASS · ' + label); result.textContent = lines.join('\n'); };
+    const bounds = canvas.getBoundingClientRect();
+    const touch = () => canvas.dispatchEvent(new win.PointerEvent('pointerdown', {pointerType:'touch', pointerId:1, clientX:bounds.left + bounds.width / 2, clientY:bounds.top + bounds.height / 2, button:0, bubbles:true, cancelable:true}));
+    try {
+      check(!hasInk(), '처음에는 빈 화면');
+      check(win.getComputedStyle(canvas).touchAction === 'none', '터치 중 스크롤 방지');
+      touch(); await wait();
+      check(hasInk(), '터치 포인터 입력 후 잉크 표시');
+      const pixels = context.getImageData(0,0,canvas.width,canvas.height).data;
+      check(pixels.every((value,i) => i % 4 !== 0 || pixels[i+3] === 0 || (value === pixels[i+1] && value === pixels[i+2])), '잉크는 무채색');
+      const beforeFlow = canvas.toDataURL();
+      await wait(); await wait();
+      if (!win.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        check(canvas.toDataURL() !== beforeFlow, '착탄 후 방울이 아래로 흐름');
+      }
+      doc.querySelector('#reset').click();
+      check(!hasInk(), '초기화 후 모든 자국 제거');
+      await wait();
+      check(!hasInk(), '흐르는 중 초기화 후 방울 재출현 없음');
+      touch(); doc.querySelector('#reset').click(); await wait();
+      check(!hasInk(), '발사 중 초기화 후 잉크 재출현 없음');
+      canvas.dispatchEvent(new win.KeyboardEvent('keydown', {key:'Enter', bubbles:true, cancelable:true})); await wait();
+      check(hasInk(), '키보드 발사');
+      doc.querySelector('#reset').click();
+      check(!hasInk(), '키보드 발사 후 초기화');
+      check(doc.documentElement.scrollWidth === win.innerWidth, '모바일 너비에서 가로 넘침 없음');
+      const loadImage = async (kind, fill) => {
+        const source = document.createElement('canvas'); source.width = 600; source.height = 100;
+        const painter = source.getContext('2d');
+        painter.fillStyle = '#f03030'; painter.fillRect(0, 0, 600, 100);
+        painter.fillStyle = fill; painter.fillRect(150, 0, 300, 100);
+        const blob = await new Promise(resolve => source.toBlob(resolve));
+        const transfer = new win.DataTransfer();
+        transfer.items.add(new win.File([blob], kind + '.png', {type: 'image/png'}));
+        const input = doc.querySelector('#' + kind + '-file');
+        input.files = transfer.files; input.dispatchEvent(new win.Event('change'));
+        await wait();
+      };
+      await loadImage('background', '#f0d040');
+      const backgroundURL = doc.querySelector('#background').src;
+      check(backgroundURL.startsWith('blob:') && win.getComputedStyle(doc.querySelector('#background')).objectFit === 'cover', '배경 이미지는 로컬에서 불러와 화면 채움');
+      await loadImage('reveal', '#1496f0');
+      check(!hasInk(), '잉크가 없으면 두 번째 이미지는 숨김');
+      touch(); await wait();
+      const pixel = () => context.getImageData(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2), 1, 1).data;
+      check(pixel()[0] === 20 && pixel()[1] === 150 && pixel()[2] === 240, '착탄 부분에서 두 번째 이미지의 중앙이 보임');
+      check(context.getImageData(0, 0, 1, 1).data[3] === 0, '잉크 바깥은 투명');
+      doc.querySelector('#reset').click(); await wait();
+      check(!hasInk() && doc.querySelector('#background').src === backgroundURL, '초기화는 이미지를 유지하고 마스크만 제거');
+      touch(); await wait();
+      check(pixel()[2] === 240 && pixel()[0] === 20, '초기화 후 재발사에도 이미지 클리핑 유지');
+      doc.querySelector('#reset').click();
+      result.textContent += '\n완료';
+    } catch (error) { result.textContent += '\nFAIL · ' + error.message; }
+  });
+</script>
+</html>
