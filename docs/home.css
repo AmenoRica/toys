@@ -1,0 +1,14 @@
+main{max-width:834px;margin:20px auto;padding:0 8px}
+header{display:flex;align-items:baseline;gap:16px;border:1px solid #aaa;background:#f5f5f5;padding:14px 16px}
+h1{font-size:20px;margin:0;font-weight:700}
+header p{font-size:12px;color:#555;margin:0}
+nav{border:1px solid #aaa;border-top:0;background:#fff}
+.toy{display:flex;align-items:center;gap:18px;padding:20px 16px;color:inherit;text-decoration:none;border-bottom:1px solid #ccc}
+.toy:last-child{border-bottom:0}
+.toy:hover{background:#eee}
+.toy:focus-visible{outline:2px solid #2369bb;outline-offset:-3px}
+.number{font:12px monospace;color:#777}
+strong{display:block;font-size:14px;font-weight:600}
+.description{display:block;font-size:12px;color:#666;margin-top:6px}
+.arrow{margin-left:auto;font-size:20px}
+@media(max-width:600px){main{margin:8px auto;padding:0 6px}}

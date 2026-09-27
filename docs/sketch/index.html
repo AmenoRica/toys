@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; connect-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'">
+  <title>종이 한 장 · Local Sketch</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../shared/base.css?v=1">
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <section class="studio" aria-label="그림 작업 공간">
+      <div class="topbar">
+        <a class="home-link" href="../" aria-label="toys 목록으로">← toys</a>
+        <div class="tools" role="group" aria-label="그리기 도구">
+          <button data-tool="brush" aria-pressed="true">브러시 <kbd>B</kbd></button>
+          <button data-tool="eraser" aria-pressed="false">지우개 <kbd>E</kbd></button>
+          <button data-tool="fill" aria-pressed="false">채우기 <kbd>F</kbd></button>
+        </div>
+        <div class="history" role="group" aria-label="그림 편집">
+          <button id="undo" title="실행 취소 (U / Ctrl·⌘ Z)" aria-label="실행 취소" disabled>↶</button>
+          <button id="redo" title="다시 실행 (R / Ctrl·⌘ Shift Z)" aria-label="다시 실행" disabled>↷</button>
+          <button id="clear">비우기 <kbd>C</kbd></button>
+          <button id="settings-open">설정</button>
+          <button id="save" class="primary">PNG 저장</button>
+        </div>
+      </div>
+      <div class="paper-surround"><div class="paper"><canvas id="canvas" width="800" height="600" tabindex="0" aria-label="그림 캔버스. 왼쪽 버튼은 첫 번째 색, 오른쪽 버튼은 두 번째 색으로 그립니다.">이 그림판은 HTML 캔버스를 지원하는 브라우저가 필요합니다.</canvas><span id="cursor" aria-hidden="true"></span></div></div>
+      <div class="bottom-tools">
+        <section class="color-section" aria-label="색상 선택">
+          <div class="color-controls"><div class="selected-colors">
+            <button id="primary-color" class="color-slot" aria-label="왼쪽 색 선택 모드" aria-pressed="true"><span class="color-preview"></span><small>왼쪽</small></button>
+            <button id="secondary-color" class="color-slot" aria-label="오른쪽 색 선택 모드" aria-pressed="false"><span class="color-preview"></span><small>오른쪽</small></button>
+            <button id="swap" title="색 교환 (S)" aria-label="색 교환">⇄</button>
+          </div><div id="palette" class="palette" role="group" aria-label="색상 팔레트"></div></div>
+        </section>
+        <section class="size-section" aria-label="브러시 크기">
+          <div class="section-label"><label for="size">크기</label><output id="size-value" for="size">12 px</output></div>
+          <div class="size-controls"><div id="sizes" role="group" aria-label="브러시 크기 프리셋"></div><input id="size" type="range" min="1" max="64" value="12" aria-label="브러시 크기"></div>
+          <label class="pressure"><input id="pressure" type="checkbox" checked> 필압</label>
+        </section>
+      </div>
+      <span id="status" class="sr-only" role="status" aria-live="polite">그릴 준비가 됐어요.</span>
+    </section>
+
+  </main>
+  <dialog id="settings" aria-labelledby="settings-title">
+    <div class="dialog-heading"><h2 id="settings-title">설정 & 사용법</h2><button id="settings-close" aria-label="닫기">✕</button></div>
+    <p>각 칸에 영문자 또는 숫자 한 글자를 입력하세요.</p><div id="hotkeys"></div>
+    <p id="key-error" role="status"></p>
+    <div class="fixed-keys"><p><kbd>Ctrl / ⌘ + Z</kbd> 실행 취소<br><kbd>Ctrl / ⌘ + Shift + Z</kbd> 다시 실행<br><kbd>Ctrl + Y</kbd> 다시 실행<br><kbd>Ctrl / ⌘ + S</kbd> PNG 저장<br><kbd>[</kbd> <kbd>]</kbd> 브러시 크기 조절</p></div>
+    <p class="help">팔레트 좌클릭은 왼쪽 색, 우클릭은 오른쪽 색을 고릅니다. 터치에서는 먼저 ‘왼쪽’ 또는 ‘오른쪽’ 색 칸을 누르세요. ‘색 교환’으로 터치에 사용할 색도 바꿀 수 있습니다.</p>
+    <p class="help">최근 30개 작업을 되돌릴 수 있습니다. 비우기도 복구됩니다. 그림은 자동 저장되지 않으니 창을 닫기 전에 PNG로 저장하세요. 필압을 지원하지 않는 기기에서는 일정한 굵기로 그려집니다.</p>
+    <button id="keys-reset">기본 단축키로 되돌리기</button>
+  </dialog>
+</body>
+</html>

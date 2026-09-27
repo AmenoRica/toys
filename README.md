@@ -1,0 +1,43 @@
+# toys
+
+브라우저에서 가지고 노는 작은 장난감 모음.
+
+- 사이트: https://amenorica.github.io/toys/
+- 그림판: https://amenorica.github.io/toys/sketch/
+
+## 구조
+
+```text
+docs/
+  index.html          목록 페이지
+  home.css
+  shared/base.css     모든 toy의 공통 디자인
+  sketch/             첫 번째 toy: 그림판
+tests/sketch/         그림판 브라우저 회귀 검사
+DESIGN.md             공통 디자인 기준
+AGENTS.md             앞으로의 작업 지침
+```
+
+## 로컬 실행
+
+이 폴더에서 `python3 -m http.server 8767 --bind 127.0.0.1`을 실행하고 `http://127.0.0.1:8767/docs/`를 연다. 앱은 외부 API나 라이브러리를 사용하지 않는다. 그림은 서버로 전송되지 않는다.
+
+그림판 검사는 `http://127.0.0.1:8767/tests/sketch/tests.html`에서 실행한다. 필압 검사는 합성 PointerEvent를 사용하며 실제 펜 장치 검증을 대신하지 않는다.
+
+## 새 toy 추가
+
+1. `DESIGN.md`를 읽고 `docs/<slug>/`에 정적 HTML/CSS/JS를 만든다.
+2. `../shared/base.css`를 연결하고 `../`로 돌아가는 목록 링크를 둔다.
+3. `docs/index.html`의 목록에 제목·짧은 설명·상대 경로 링크를 추가한다.
+4. 데스크톱/좁은 화면과 직접 하위 경로 접근을 검증한다.
+5. `main`에 push하면 GitHub Pages가 `docs/`를 자동 게시한다.
+
+ZIP이나 별도 빌드 도구가 필요하지 않다. 공통 디자인은 이 저장소의 모든 toy에 적용한다.
+
+## 그림판
+
+800×600 흰 캔버스, AA 없는 브러시/지우개, 26색, 좌·우클릭 색 선택과 그리기, 채우기, 최근 30개 작업 undo/redo, 필압, 사용자 지정 단축키, PNG 저장을 제공한다. 브러시 크기는 1~64px이고 4/12/24/40px 프리셋은 캔버스 아래에 있다. 그림은 자동 저장되지 않으므로 창을 닫기 전에 PNG로 저장한다.
+
+기본 단축키: B 브러시, E 지우개, F 채우기, U undo, R redo, C 비우기, S 색 교환, [/] 크기 조절. Ctrl/⌘+Z, Ctrl/⌘+Shift+Z, Ctrl+Y, Ctrl/⌘+S도 지원한다.
+
+[skribbl.io](https://skribbl.io/)의 공개 안내와 설정 화면에서 조작을 참고했으며 원본 코드·이미지·로고를 복사하지 않았다. 원본 게임의 멀티플레이/채팅 기능은 포함하지 않는다.
