@@ -7,7 +7,7 @@ const posts = [
 {board:'비밀게시판',title:'심심한 문녀있어?',body:'쪽지해',likes:0,comments:[]},
 {board:'자유게시판',title:'잉크 묻은 베스트 이거 맞냐',body:'중고로 샀는데 왜 빠니까 지워짐\n\n카탈로그 한정판이라서 비싸게 샀는데 ㅅㅂ',likes:72,comments:[['익명1','ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ'],['글쓴이','쳐웃지마라']]},
 {board:'자유게시판',title:'과제 들고 가다가 모르는 분이 도와주심',body:'건물 앞에서 문을 못 열고 있었는데 열어주시고 몇 층 가냐고 물어보더라\n4층이라고 했더니 잠깐 고민하다 슈퍼점프로 날아감\n\n아니 상식적으로 그렇게 옮겨도 되는거였으면 나도 날아갔지\n\n가보니까 과제 박살나있고 걔는 튀었더라 이거 언제 새로 하냐',likes:31,comments:[]},
-{board:'영역 배틀 게시판',title:'야 이 패션 테러리스트들아',body:'미대생이 옷 그따구로 입고 다니는 거 맞냐?\n\n아무리 기어파워가 안맞아도 정도가 있지 그럼 알바를 하던가',bold:true,likes:19,comments:[]},
+{board:'영역 배틀 게시판',title:'야 이 패션 테러리스트들아',body:'미대생이 옷 그따구로 입고 다니는 거 맞냐?\n\n아무리 기어파워가 안맞아도 정도가 있지 그럼 알바를 하던가',likes:19,comments:[]},
 {board:'자유게시판',title:'수업시간에 나이스 누르는 애들 뭐냐??',body:'교수님 뒤돌아볼때마다 조용히 나이스 치는 애들때문에 수업에 집중을 못하겠다\n\n원래 한명만 가끔 하던거같은데 점점 늘어나',likes:23,comments:[]}
 ];
 const thumb='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 9l3-6c1-2 3-1 2 2l-1 3h5c1 0 2 1 1.5 2L16 16H7ZM3 9h3v8H3Z"/></svg>';
@@ -34,11 +34,11 @@ function render(){
   menu.innerHTML=boards.map((b,i)=>`<a href="${i?'#board-'+i:'#'}"${(selected===b||(!selected&&i===0))?' aria-current="page"':''}>${esc(b)}<i aria-hidden="true"></i></a>`).join('');
   if(!post){
     document.title=(board||'해녀 미술 대학')+' · 에타';
-    main.innerHTML=`<h2 class="list-heading">${esc(board||'전체 글')}</h2>`+posts.map((p,i)=>!board||p.board===board?`<a class="post-link" href="#post-${i+1}"><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.split('\n')[0])}</p><div class="meta">${counts(p)}<span class="time">09/29 ${times[i]}</span><span class="anonymous">익명</span>${!board?'<span class="board">'+esc(p.board)+'</span>':''}</div></a>`:'').join('');
+    main.innerHTML=(board?`<h2 class="list-heading">${esc(board)}</h2>`:'')+posts.map((p,i)=>!board||p.board===board?`<a class="post-link" href="#post-${i+1}"><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.split('\n')[0])}</p><div class="meta">${counts(p)}<span class="time">09/29 ${times[i]}</span><span class="anonymous">익명</span>${!board?'<span class="board">'+esc(p.board)+'</span>':''}</div></a>`:'').join('');
     requestAnimationFrame(()=>window.scrollTo(0,listScroll));
   }else{
     document.title=post.title+' · 해녀 미술 대학';
-    main.innerHTML=`<article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body${post.bold?' emphasis':''}">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="${listHash}" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>글 목록</a></div>`;
+    main.innerHTML=`<article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="${listHash}" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>글 목록</a></div>`;
     window.scrollTo(0,0);
   }
 }
