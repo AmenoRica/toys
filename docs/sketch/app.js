@@ -185,6 +185,73 @@
     },'image/png');
   }
   $('save').onclick=savePNG;
+  const cropDialog=$('image-crop'), preview=$('crop-preview');
+  const previewCtx=preview.getContext('2d');
+  let crop=null, cropDrag=null, imageRequest=0;
+  function renderCrop() {
+    if(!crop) return;
+    previewCtx.fillStyle='#ffffff';previewCtx.fillRect(0,0,W,H);
+    previewCtx.imageSmoothingEnabled=false;
+    previewCtx.drawImage(crop.image,Math.round(crop.x),Math.round(crop.y),Math.max(1,Math.round(crop.image.naturalWidth*crop.scale)),Math.max(1,Math.round(crop.image.naturalHeight*crop.scale)));
+  }
+  function fitCrop() {
+    crop.scale=Math.min(W/crop.image.naturalWidth,H/crop.image.naturalHeight);
+    crop.base=crop.scale;
+    crop.x=(W-crop.image.naturalWidth*crop.scale)/2;
+    crop.y=(H-crop.image.naturalHeight*crop.scale)/2;
+    $('crop-zoom').value=100;$('crop-scale').textContent='100%';renderCrop();
+  }
+  function endCropDrag() {
+    if(cropDrag && preview.hasPointerCapture(cropDrag.id)) preview.releasePointerCapture(cropDrag.id);
+    cropDrag=null;
+  }
+  $('open-image').onclick=()=>{$('image-file').value='';$('image-file').click();};
+  $('image-file').addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file) return;
+    const request=++imageRequest, url=URL.createObjectURL(file), image=new Image();
+    $('image-error').hidden=true;
+    try {
+      image.src=url;await image.decode();
+      if(request!==imageRequest) return;
+      if(!image.naturalWidth || !image.naturalHeight) throw new Error('Empty image');
+      finish(null);crop={image};fitCrop();cropDialog.showModal();preview.focus();
+    } catch (_) {
+      if(request===imageRequest) {
+        $('image-error').textContent='이미지를 읽지 못했어요. PNG, JPEG, WebP 등 브라우저가 지원하는 이미지 파일을 선택해 주세요.';
+        $('image-error').hidden=false;
+      }
+    } finally {URL.revokeObjectURL(url);}
+  });
+  $('crop-reset').onclick=()=>{if(crop) {endCropDrag();fitCrop();}};
+  $('crop-zoom').oninput=e=>{
+    if(!crop) return;
+    const scale=crop.base*Number(e.target.value)/100, ratio=scale/crop.scale;
+    crop.x=W/2+(crop.x-W/2)*ratio;crop.y=H/2+(crop.y-H/2)*ratio;crop.scale=scale;
+    $('crop-scale').textContent=e.target.value+'%';renderCrop();
+  };
+  const cropPoint=e=>{const r=preview.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};};
+  preview.addEventListener('pointerdown',e=>{
+    if(!crop || cropDrag || !e.isPrimary || e.button!==0) return;
+    e.preventDefault();preview.focus();const p=cropPoint(e);
+    cropDrag={id:e.pointerId,x:p.x,y:p.y,left:crop.x,top:crop.y};preview.setPointerCapture(e.pointerId);
+  });
+  preview.addEventListener('pointermove',e=>{
+    if(!cropDrag || cropDrag.id!==e.pointerId) return;
+    const p=cropPoint(e);crop.x=cropDrag.left+p.x-cropDrag.x;crop.y=cropDrag.top+p.y-cropDrag.y;renderCrop();
+  });
+  for(const type of ['pointerup','pointercancel','lostpointercapture']) preview.addEventListener(type,e=>{if(cropDrag?.id===e.pointerId) endCropDrag();});
+  preview.addEventListener('keydown',e=>{
+    if(!crop || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
+    e.preventDefault();const step=e.shiftKey?10:1;
+    if(e.key==='ArrowLeft')crop.x-=step;if(e.key==='ArrowRight')crop.x+=step;
+    if(e.key==='ArrowUp')crop.y-=step;if(e.key==='ArrowDown')crop.y+=step;renderCrop();
+  });
+  $('crop-apply').onclick=()=>{
+    if(!crop) return;
+    endCropDrag();ctx.drawImage(preview,0,0);commit();cropDialog.close();announce('이미지를 불러왔어요. 실행 취소로 되돌릴 수 있어요.');
+  };
+  $('crop-close').onclick=$('crop-cancel').onclick=()=>cropDialog.close();
+  cropDialog.addEventListener('close',()=>{endCropDrag();crop=null;previewCtx.clearRect(0,0,W,H);$('open-image').focus();});
   const actions={brush:()=>setTool('brush'),eraser:()=>setTool('eraser'),fill:()=>setTool('fill'),undo,redo,clear,swap};
   function renderKeys() {
     $('hotkeys').replaceChildren();
@@ -212,7 +279,7 @@
   $('settings-close').onclick=()=>$('settings').close();
   $('keys-reset').onclick=()=>{keys={...defaults};saveSettings();renderKeys();$('key-error').textContent='기본 단축키로 되돌렸어요.';};
   document.addEventListener('keydown',e=>{
-    if(e.isComposing || e.repeat || e.altKey || $('settings').open || e.target.matches('input,textarea,select,[contenteditable=true]')) return;
+    if(e.isComposing || e.repeat || e.altKey || $('settings').open || cropDialog.open || e.target.matches('input,textarea,select,[contenteditable=true]')) return;
     const key=e.key.toLowerCase();
     if(e.ctrlKey || e.metaKey) {
       if(key==='s') {e.preventDefault();savePNG();}

@@ -7,8 +7,8 @@
   <title>종이 한 장 · Local Sketch</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="../shared/base.css?v=1">
-  <link rel="stylesheet" href="style.css?v=4">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="app.js?v=2" defer></script>
 </head>
 <body>
   <main class="app">
@@ -25,6 +25,8 @@
           <button id="redo" title="다시 실행 (R / Ctrl·⌘ Shift Z)" aria-label="다시 실행" disabled>↷</button>
           <button id="clear">비우기 <kbd>C</kbd></button>
           <button id="settings-open">설정</button>
+          <button id="open-image">이미지 불러오기</button>
+          <input id="image-file" type="file" accept="image/*" hidden>
           <button id="save" class="primary">PNG 저장</button>
         </div>
       </div>
@@ -43,16 +45,25 @@
           <label class="pressure"><input id="pressure" type="checkbox" checked> 필압</label>
         </section>
       </div>
+      <p id="image-error" role="alert" hidden></p>
       <span id="status" class="sr-only" role="status" aria-live="polite">그릴 준비가 됐어요.</span>
     </section>
 
   </main>
+  <dialog id="image-crop" aria-labelledby="crop-title">
+    <div class="dialog-heading"><h2 id="crop-title">이미지 맞추기</h2><button id="crop-close" aria-label="이미지 불러오기 취소">✕</button></div>
+    <p id="crop-help">드래그로 이동하고 크기를 조절하세요. 테두리 밖은 잘리고 빈 곳은 흰색이 됩니다. 방향키로도 이동할 수 있습니다.</p>
+    <canvas id="crop-preview" width="800" height="600" tabindex="0" aria-label="이미지 자르기 미리보기" aria-describedby="crop-help"></canvas>
+    <div class="crop-controls"><label for="crop-zoom">크기</label><input id="crop-zoom" type="range" min="10" max="400" value="100"><output id="crop-scale" for="crop-zoom">100%</output><button id="crop-reset">맞추기</button></div>
+    <div class="crop-actions"><button id="crop-cancel">취소</button><button id="crop-apply" class="primary">적용</button></div>
+  </dialog>
   <dialog id="settings" aria-labelledby="settings-title">
     <div class="dialog-heading"><h2 id="settings-title">설정 & 사용법</h2><button id="settings-close" aria-label="닫기">✕</button></div>
     <p>각 칸에 영문자 또는 숫자 한 글자를 입력하세요.</p><div id="hotkeys"></div>
     <p id="key-error" role="status"></p>
     <div class="fixed-keys"><p><kbd>Ctrl / ⌘ + Z</kbd> 실행 취소<br><kbd>Ctrl / ⌘ + Shift + Z</kbd> 다시 실행<br><kbd>Ctrl + Y</kbd> 다시 실행<br><kbd>Ctrl / ⌘ + S</kbd> PNG 저장<br><kbd>[</kbd> <kbd>]</kbd> 브러시 크기 조절</p></div>
     <p class="help">팔레트 좌클릭은 왼쪽 색, 우클릭은 오른쪽 색을 고릅니다. 터치에서는 먼저 ‘왼쪽’ 또는 ‘오른쪽’ 색 칸을 누르세요. ‘색 교환’으로 터치에 사용할 색도 바꿀 수 있습니다.</p>
+    <p class="help">이미지 불러오기에서 위치와 크기를 조절한 뒤 적용하면 현재 그림을 교체합니다. 빈 곳과 투명한 부분은 흰색이며, 불러오기도 실행 취소할 수 있습니다. 이미지는 서버로 전송되지 않습니다.</p>
     <p class="help">최근 30개 작업을 되돌릴 수 있습니다. 비우기도 복구됩니다. 그림은 자동 저장되지 않으니 창을 닫기 전에 PNG로 저장하세요. 필압을 지원하지 않는 기기에서는 일정한 굵기로 그려집니다.</p>
     <button id="keys-reset">기본 단축키로 되돌리기</button>
   </dialog>

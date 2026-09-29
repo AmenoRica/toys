@@ -75,9 +75,32 @@ document.getElementById('run').onclick = async () => {
     const bitmap=await createImageBitmap(png.blob);const output=document.createElement('canvas');output.width=800;output.height=600;const out=output.getContext('2d');out.drawImage(bitmap,0,0);
     check('PNG 형식, 800×600 크기, 다운로드 파일명',png.blob.type==='image/png'&&bitmap.width===800&&bitmap.height===600&&png.name.endsWith('.png'));
     const pngPixels=out.getImageData(0,0,800,600).data;check('PNG 배경 및 전체 픽셀 불투명',pngPixels.every((v,i)=>i%4!==3||v===255));check('PNG 그림 내용 보존',out.getImageData(100,100,1,1).data[2]===222);bitmap.close();
+    const waitFor=async predicate=>{const until=Date.now()+5000;while(!predicate()){if(Date.now()>until)throw new Error('이미지 검사 시간 초과');await new Promise(r=>setTimeout(r,20));}};
+    const fixture=doc.createElement('canvas');fixture.width=400;fixture.height=200;
+    const fx=fixture.getContext('2d');fx.fillStyle='#ff0000';fx.fillRect(0,0,200,200);fx.fillStyle='#0000ff';fx.fillRect(200,0,200,200);fx.clearRect(0,0,20,20);
+    const fixtureBlob=await new Promise(resolve=>fixture.toBlob(resolve,'image/png'));
+    const upload=async(file,valid=true)=>{const transfer=new win.DataTransfer();transfer.items.add(file);$('image-file').files=transfer.files;$('image-file').dispatchEvent(new win.Event('change'));await waitFor(()=>valid?$('image-crop').open:!$('image-error').hidden);};
+    const file=new win.File([fixtureBlob],'fixture.png',{type:'image/png'});
+    const closeCrop=async id=>{$(id).click();await new Promise(r=>setTimeout(r,20));};
+    await upload(file);check('이미지 미리보기 동안 기존 그림 유지',rgb(100,100,[68,139,222]));
+    press('c');check('미리보기 중 단축키로 기존 그림 지우지 않음',rgb(100,100,[68,139,222]));
+    await closeCrop('crop-apply');check('비율 유지 맞추기 및 흰 여백',white(300,50)&&rgb(100,200,[255,0,0])&&rgb(600,200,[0,0,255]));
+    check('투명 픽셀을 흰색으로 합성',white(10,110));
+    $('undo').click();check('이미지 불러오기 undo',rgb(100,100,[68,139,222]));$('redo').click();check('이미지 불러오기 redo',rgb(100,200,[255,0,0]));
+    await upload(file);$('crop-zoom').value=200;$('crop-zoom').dispatchEvent(new win.Event('input'));
+    const cropCanvas=$('crop-preview');let cropCapture=null;cropCanvas.setPointerCapture=id=>cropCapture=id;cropCanvas.hasPointerCapture=id=>id===cropCapture;cropCanvas.releasePointerCapture=()=>cropCapture=null;
+    const cr=cropCanvas.getBoundingClientRect();
+    for(const [type,x] of [['pointerdown',200],['pointermove',600],['pointerup',600]])cropCanvas.dispatchEvent(new win.PointerEvent(type,{pointerId:77,isPrimary:true,pointerType:'mouse',button:0,clientX:cr.left+x*cr.width/800,clientY:cr.top+300*cr.height/600,bubbles:true}));
+    await closeCrop('crop-apply');check('확대하고 드래그한 위치로 잘라 적용',rgb(600,300,[255,0,0])&&rgb(100,300,[255,0,0]));
+    await upload(file);await closeCrop('crop-cancel');check('불러오기 취소 시 그림 보존',rgb(600,300,[255,0,0]));
+    await upload(file);$('crop-zoom').value=25;$('crop-zoom').dispatchEvent(new win.Event('input'));await closeCrop('crop-apply');check('축소 시 흰 여백 유지',white(100,300)&&rgb(350,300,[255,0,0])&&rgb(450,300,[0,0,255]));
+    await upload(file);$('crop-zoom').value=300;$('crop-zoom').dispatchEvent(new win.Event('input'));$('crop-reset').click();await closeCrop('crop-apply');check('맞추기 버튼으로 위치와 크기 초기화',white(300,50)&&rgb(600,200,[0,0,255]));
+    await upload(new win.File(['invalid'],'broken.png',{type:'image/png'}),false);check('손상된 이미지 오류 안내 및 기존 그림 보존',!$('image-crop').open&&rgb(600,200,[0,0,255]));
     reset();for(let i=0;i<35;i++)stroke([[20+i*20,100]]);for(let i=0;i<35;i++)$('undo').click();check('최근 30작업 제한 및 이전 상태 보존',$('undo').disabled&&rgb(20,100,[32,36,38])&&white(700,100));
     $('settings-open').click();$('keys-reset').click();$('settings-close').click();
     if(originalSettings===null)win.localStorage.removeItem('local-sketch-settings');else win.localStorage.setItem('local-sketch-settings',originalSettings);
+    // Leave the generated fixture visible for manual crop/layout inspection.
+    await upload(file);
   } catch(e) {check('검증 실행 오류: '+e.message,false);}
   summary.textContent=`${passed}개 통과 / ${failed}개 실패`;
   document.getElementById('run').disabled=false;
