@@ -20,13 +20,14 @@ const times=['14:20','14:15','14:09','14:04','13:59','13:53','13:46','13:35','13
 let listScroll=0;
 function render(){
  const match=location.hash.match(/^#post-(\d+)$/);const index=match?Number(match[1])-1:-1;const post=posts[index];
+ document.body.classList.toggle('detail-view',Boolean(post));
  if(!post){
  document.title='해녀 미술 대학 · 에타';
  main.innerHTML='<h1 class="list-heading">전체 글</h1>'+posts.map((p,i)=>`<a class="post-link" href="#post-${i+1}"><div class="board">${esc(p.board)}</div><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.replace(/\n+/g,' '))}</p><div class="meta"><span>09/29 ${times[i]}</span><span>· 익명</span>${counts(p)}</div></a>`).join('');
  requestAnimationFrame(()=>window.scrollTo(0,listScroll));
  }else{
  document.title=post.title+' · 해녀 미술 대학';
- main.innerHTML=`<div class="detail-nav"><button class="back" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8"/></svg></button><h1>${esc(post.board)}</h1></div><article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body${post.bold?' emphasis':''}">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="#">목록으로</a></div>`;
+ main.innerHTML=`<div class="detail-nav"><button class="back" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8"/></svg></button><div class="board-heading"><h1>${esc(post.board)}</h1><span>해녀 미술 대학</span></div><a class="detail-toys" href="../">toys</a></div><article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body${post.bold?' emphasis':''}">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="#">목록으로</a></div>`;
  main.querySelector('.back').addEventListener('click',()=>{location.hash='';});window.scrollTo(0,0);
  }
 }
