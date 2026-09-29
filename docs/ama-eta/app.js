@@ -30,11 +30,11 @@ function render(){
   const board=boardMatch?boards[Number(boardMatch[1])]:null;
   const selected=post?post.board:board;
   document.body.classList.toggle('detail-view',Boolean(post));
-  title.textContent=selected||'해녀 미대 에브리타임';
+  title.textContent=selected||'';
   menu.innerHTML=boards.map((b,i)=>`<a href="${i?'#board-'+i:'#'}"${(selected===b||(!selected&&i===0))?' aria-current="page"':''}>${esc(b)}<i aria-hidden="true"></i></a>`).join('');
   if(!post){
     document.title=(board||'해녀 미술 대학')+' · 에타';
-    main.innerHTML=(board?`<h2 class="list-heading">${esc(board)}</h2>`:'')+posts.map((p,i)=>!board||p.board===board?`<a class="post-link" href="#post-${i+1}"><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.split('\n')[0])}</p><div class="meta">${counts(p)}<span class="time">09/29 ${times[i]}</span><span class="anonymous">익명</span>${!board?'<span class="board">'+esc(p.board)+'</span>':''}</div></a>`:'').join('');
+    main.innerHTML=`<h2 class="list-heading">${esc(board||'전체 글')}</h2>`+posts.map((p,i)=>!board||p.board===board?`<a class="post-link" href="#post-${i+1}"><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.split('\n')[0])}</p><div class="meta">${counts(p)}<span class="time">09/29 ${times[i]}</span><span class="anonymous">익명</span>${!board?'<span class="board">'+esc(p.board)+'</span>':''}</div></a>`:'').join('');
     requestAnimationFrame(()=>window.scrollTo(0,listScroll));
   }else{
     document.title=post.title+' · 해녀 미술 대학';
