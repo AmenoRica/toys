@@ -10,27 +10,45 @@ const posts = [
 {board:'영역 배틀 게시판',title:'야 이 패션 테러리스트들아',body:'미대생이 옷 그따구로 입고 다니는 거 맞냐?\n\n아무리 기어파워가 안맞아도 정도가 있지 그럼 알바를 하던가',bold:true,likes:19,comments:[]},
 {board:'자유게시판',title:'수업시간에 나이스 누르는 애들 뭐냐??',body:'교수님 뒤돌아볼때마다 조용히 나이스 치는 애들때문에 수업에 집중을 못하겠다\n\n원래 한명만 가끔 하던거같은데 점점 늘어나',likes:23,comments:[]}
 ];
-const heart='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 6.5C2 2 8 1 10 5c2-4 8-3 8 1.5C18 12 10 17 10 17Z"/></svg>';
-const chat='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h14v11H9l-5 3v-3H3Z"/></svg>';
-const avatar='<span class="avatar" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="6"/><path d="M4 30c0-16 24-16 24 0Z"/></svg></span>';
+const thumb='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 9l3-6c1-2 3-1 2 2l-1 3h5c1 0 2 1 1.5 2L16 16H7ZM3 9h3v8H3Z"/></svg>';
+const chat='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M17 8.5c0 3-3 5.5-7 5.5H8l-4 3 1-5C1 9 3 3 10 3c4 0 7 2.5 7 5.5Z"/></svg>';
+const avatar='<span class="avatar" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="7"/><path d="M5 32c0-17 22-17 22 0Z"/></svg></span>';
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const counts=p=>`<span class="counts"><span class="stat heart" aria-label="공감 ${p.likes}개">${heart}${p.likes}</span><span class="stat chat" aria-label="댓글 ${p.comments.length}개">${chat}${p.comments.length}</span></span>`;
+const counts=p=>`<span class="counts"><span class="stat like" aria-label="공감 ${p.likes}개">${thumb}${p.likes}</span><span class="stat chat" aria-label="댓글 ${p.comments.length}개">${chat}${p.comments.length}</span></span>`;
 const main=document.getElementById('main');
+const menu=document.getElementById('board-menu');
+const title=document.getElementById('page-title');
+const boards=['전체 글','자유게시판','비밀게시판','장터','알바게시판','영역 배틀 게시판'];
 const times=['14:20','14:15','14:09','14:04','13:59','13:53','13:46','13:35','13:21'];
 let listScroll=0;
+let listHash='#';
 function render(){
- const match=location.hash.match(/^#post-(\d+)$/);const index=match?Number(match[1])-1:-1;const post=posts[index];
- document.body.classList.toggle('detail-view',Boolean(post));
- if(!post){
- document.title='해녀 미술 대학 · 에타';
- main.innerHTML='<h1 class="list-heading">전체 글</h1>'+posts.map((p,i)=>`<a class="post-link" href="#post-${i+1}"><div class="board">${esc(p.board)}</div><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.replace(/\n+/g,' '))}</p><div class="meta"><span>09/29 ${times[i]}</span><span>· 익명</span>${counts(p)}</div></a>`).join('');
- requestAnimationFrame(()=>window.scrollTo(0,listScroll));
- }else{
- document.title=post.title+' · 해녀 미술 대학';
- main.innerHTML=`<div class="detail-nav"><button class="back" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8"/></svg></button><div class="board-heading"><h1>${esc(post.board)}</h1><span>해녀 미술 대학</span></div><a class="detail-toys" href="../">toys</a></div><article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body${post.bold?' emphasis':''}">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="#">목록으로</a></div>`;
- main.querySelector('.back').addEventListener('click',()=>{location.hash='';});window.scrollTo(0,0);
- }
+  const match=location.hash.match(/^#post-(\d+)$/);
+  const index=match?Number(match[1])-1:-1;
+  const post=posts[index];
+  const boardMatch=location.hash.match(/^#board-([1-5])$/);
+  const board=boardMatch?boards[Number(boardMatch[1])]:null;
+  const selected=post?post.board:board;
+  document.body.classList.toggle('detail-view',Boolean(post));
+  title.textContent=selected||'해녀 미대 에브리타임';
+  menu.innerHTML=boards.map((b,i)=>`<a href="${i?'#board-'+i:'#'}"${(selected===b||(!selected&&i===0))?' aria-current="page"':''}>${esc(b)}<i aria-hidden="true"></i></a>`).join('');
+  if(!post){
+    document.title=(board||'해녀 미술 대학')+' · 에타';
+    main.innerHTML=`<h2 class="list-heading">${esc(board||'전체 글')}</h2>`+posts.map((p,i)=>!board||p.board===board?`<a class="post-link" href="#post-${i+1}"><h2>${esc(p.title)}</h2><p class="preview">${esc(p.body.replace(/\n+/g,' '))}</p><div class="meta">${counts(p)}<span class="time">09/29 ${times[i]}</span><span class="anonymous">익명</span>${!board?'<span class="board">'+esc(p.board)+'</span>':''}</div></a>`:'').join('');
+    requestAnimationFrame(()=>window.scrollTo(0,listScroll));
+  }else{
+    document.title=post.title+' · 해녀 미술 대학';
+    main.innerHTML=`<article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body${post.bold?' emphasis':''}">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="${listHash}" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>글 목록</a></div>`;
+    window.scrollTo(0,0);
+  }
 }
-main.addEventListener('click',e=>{if(e.target.closest('.post-link'))listScroll=window.scrollY;});
+main.addEventListener('click',e=>{
+  if(e.target.closest('.post-link')){listScroll=window.scrollY;listHash=location.hash||'#';}
+});
+menu.addEventListener('click',e=>{if(e.target.closest('a'))listScroll=0;});
+document.getElementById('menu-toggle').addEventListener('click',e=>{
+  menu.hidden=!menu.hidden;
+  e.currentTarget.setAttribute('aria-expanded',String(!menu.hidden));
+});
 window.addEventListener('hashchange',()=>{render();main.tabIndex=-1;main.focus({preventScroll:true});});
 render();
