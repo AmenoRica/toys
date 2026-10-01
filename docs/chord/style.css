@@ -22,13 +22,10 @@ kbd{font:11px monospace;border:1px solid #bbb;padding:1px 4px;color:#555}
 .lesson-panel,.editor{min-width:0;background:#f5f5f5;border:1px solid #aaa}
 .section-label{display:flex;justify-content:space-between;padding:7px 9px;border-bottom:1px solid #ccc;color:#555;font-size:11px}
 .prompt-area,.settings{padding:9px}
-.eyebrow{margin:0 0 6px;color:#555}
 h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;margin:0 0 4px;font-size:26px}
 #rootName{font-weight:500}
 #chordSymbol{font-size:20px;font-weight:400}
 .chord-name{margin:0;color:#555}
-.prompt-rule{height:1px;background:#ccc;margin:9px 0}
-.instruction{margin:0 0 6px;font-size:11px;color:#555}
 .text-button{display:flex;align-items:center;gap:3px;padding:5px 6px}
 .text-button svg{width:12px;height:12px}
 .settings{border-top:1px solid #ccc}
@@ -43,11 +40,10 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .session-stats strong{display:block;font:20px monospace}
 .session-stats b{font-weight:400}
 .session-stats small{font-size:11px;color:#555}
-.stats-note{margin:0;padding:0 9px 9px;font-size:11px;color:#555}
 .clip-header,.roll-toolbar,.roll-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px}
 .clip-header{background:#ddd;border-bottom:1px solid #aaa}
 .clip-name{font-weight:bold}
-.clip-meta,.roll-toolbar{font-size:11px;color:#555}
+.roll-toolbar{font-size:11px;color:#555}
 .piano-roll{position:relative;background:#fff}
 .timeline,.note-row{display:grid;grid-template-columns:80px minmax(0,1fr)}
 .timeline{height:25px;border-block:1px solid #aaa;font:11px monospace;color:#555}
@@ -86,10 +82,7 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .actions button{padding:6px 8px;white-space:nowrap}
 .actions .primary kbd{color:#fff;border-color:#888}
 .action-spacer{flex:1}
-.bottom-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0;color:#555;font-size:11px}
-.shortcut-hint{margin-left:auto}
-.shortcut-hint i{font-style:normal}
-.guide{border-top:1px solid #ccc;font-size:11px;color:#555;margin-bottom:16px}
+.guide{border-top:1px solid #ccc;font-size:11px;color:#555;margin:8px 0 16px}
 .guide summary{padding:8px 0;cursor:pointer;width:fit-content}
 .guide p{line-height:1.8;margin:0 0 8px}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
@@ -99,9 +92,7 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
  .lesson-panel{display:grid;grid-template-columns:1fr 1fr}
  .section-label{grid-column:1/-1}
  .settings{border-top:0;border-left:1px solid #ccc}
- .prompt-rule,.instruction{display:none}
- .session-stats,.stats-note{grid-column:1/-1}
- .session-stats{display:flex;gap:20px}
+ .session-stats{display:flex;gap:20px;grid-column:1/-1}
  .session-stats>div{display:flex;align-items:baseline;gap:6px}
  .session-stats>div+div{border:0;padding:0}
  .session-stats strong{font-size:16px}

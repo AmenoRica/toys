@@ -11,7 +11,7 @@ function renderRows(){
  const extra=state.result?.extra.includes(offset),missing=state.result?.missing.includes(offset);
  const correct=selected&&!root&&state.stage!=='editing'&&!extra;
  const name=midiName(midi),alt=alternateName(midi);
- return `<button class="note-row ${isBlack(midi)?'black':''} ${root?'root-note':''} ${extra?'incorrect':''} ${missing?'missing':''} ${correct?'correct':''}" data-offset="${offset}" aria-label="${name}${alt?' 또는 '+alt+(Math.floor(midi/12)-1):''}${root?' 근음 듣기':selected?' 삭제':' 추가'}" aria-pressed="${selected}"><span class="key">${name}${alt?`<small>${alt}</small>`:''}</span><span class="grid-lane"><span class="beat-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${selected?`<span class="midi-note">${root?ROOTS[state.root].name+(Math.floor(midi/12)-1):name}${root?'<span>근음 · 고정</span>':''}</span>`:''}</span></button>`;
+ return `<button class="note-row ${isBlack(midi)?'black':''} ${root?'root-note':''} ${extra?'incorrect':''} ${missing?'missing':''} ${correct?'correct':''}" data-offset="${offset}" aria-label="${name}${alt?' 또는 '+alt+(Math.floor(midi/12)-1):''}${root?' 근음 듣기':selected?' 삭제':' 추가'}" aria-pressed="${selected}"><span class="key">${name}${alt?`<small>${alt}</small>`:''}</span><span class="grid-lane"><span class="beat-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${selected?`<span class="midi-note">${root?ROOTS[state.root].name+(Math.floor(midi/12)-1):name}${root?'<span>근음</span>':''}</span>`:''}</span></button>`;
  }).join('');
  if(focus!==undefined)document.querySelector(`[data-offset="${focus}"]`)?.focus({preventScroll:true});
  $('noteCount').textContent=`${state.selected.size} / ${state.chord.intervals.length}음`;
@@ -53,7 +53,7 @@ async function play(offsets,full=false){
  if(full){const head=$('playhead');head.hidden=true;void head.offsetWidth;head.hidden=false;}
  playTimer=setTimeout(stop,(duration+.08)*1000);
 }
-function initialFeedback(){setFeedback('','근음 위에 화음을 쌓아보세요',`${state.chord.intervals.length-1}개의 음을 더 선택하세요. 노란 음은 주어진 근음이에요.`);}
+function initialFeedback(){setFeedback('','구성음을 선택하세요',`${state.chord.intervals.length-1}개를 더 선택하세요.`);}
 function toggleNote(offset,withSound=true){
  if(!Number.isInteger(offset)||offset<0||offset>12)throw new Error('음은 근음 기준 0~12 반음이어야 합니다.');
  if(offset===0){if(withSound)void play([0]);return;}
@@ -70,15 +70,15 @@ function check(){
  if(first){state.attempts++;state.counted=true;if(result.correct){state.correct++;state.streak++;}else state.streak=0;}
  const spellings=spellChord(state.root,state.chord);
  if(result.correct){state.stage='success';setFeedback('success',first?'정답이에요. 정확히 쌓았어요!':'화음 완성! 정확하게 수정했어요',`${spellings.join(' · ')}  /  ${state.chord.formula}${first?'':' · 첫 시도 점수는 그대로예요.'}`);}
- else{state.stage='error';const missing=result.missing.map(o=>spellings[state.chord.intervals.indexOf(o)]);const extra=result.extra.map(o=>midiName(rootMidi()+o));const notes=[missing.length?`더 필요한 음: ${missing.join(', ')}`:'',extra.length?`빼야 할 음: ${extra.join(', ')}`:''].filter(Boolean).join(' · ');setFeedback('error','조금만 고쳐볼까요?',notes+'. 수정한 뒤 다시 확인해보세요.');}
+ else{state.stage='error';const missing=result.missing.map(o=>spellings[state.chord.intervals.indexOf(o)]);const extra=result.extra.map(o=>midiName(rootMidi()+o));const notes=[missing.length?`더 필요한 음: ${missing.join(', ')}`:'',extra.length?`빼야 할 음: ${extra.join(', ')}`:''].filter(Boolean).join(' · ');setFeedback('error','조금만 고쳐볼까요?',notes);}
  renderStats();renderRows();return snapshot();
 }
-function reset(){stop();state.selected=new Set([0]);state.stage='editing';state.result=null;if(state.counted)setFeedback('','다시 쌓아보세요','이 문제의 첫 시도 점수는 이미 기록됐어요. 다시 확인해도 점수는 변하지 않아요.');else initialFeedback();renderRows();}
+function reset(){stop();state.selected=new Set([0]);state.stage='editing';state.result=null;if(state.counted)setFeedback('','다시 쌓아보세요','첫 시도 점수는 그대로입니다.');else initialFeedback();renderRows();}
 function reveal(){
  if(state.stage==='success'||state.stage==='revealed')return;
  if(!state.counted){state.attempts++;state.counted=true;}state.streak=0;
  state.selected=new Set(state.chord.intervals);state.stage='revealed';state.result=grade([...state.selected],state.chord.intervals);
- setFeedback('revealed','정답 화음을 확인해보세요',`${spellChord(state.root,state.chord).join(' · ')}  /  ${state.chord.formula} · 재생해서 소리도 들어보세요.`);renderStats();renderRows();
+ setFeedback('revealed','정답 화음을 확인해보세요',`${spellChord(state.root,state.chord).join(' · ')}  /  ${state.chord.formula}`);renderStats();renderRows();
 }
 function next(){
  stop();const pool=CHORDS.filter(c=>state.mode==='all'||c.group===state.mode);
