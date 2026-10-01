@@ -5,6 +5,7 @@
 - 사이트: https://amenorica.github.io/toys/
 - 그림판: https://amenorica.github.io/toys/sketch/
 - 잉크: https://amenorica.github.io/toys/ink/
+- 화음 연습실: https://amenorica.github.io/toys/chord/
 
 ## 구조
 
@@ -15,8 +16,10 @@ docs/
   shared/base.css     모든 toy의 공통 디자인
   sketch/             첫 번째 toy: 그림판
   ink/                잉크와 이미지 클리핑
+  chord/              피아노 롤 화음 연습
 tests/sketch/         그림판 브라우저 회귀 검사
 tests/ink/            잉크와 이미지 클리핑 검사
+tests/chord/          화음 채점·표기·연습 상태 검사
 DESIGN.md             공통 디자인 기준
 AGENTS.md             앞으로의 작업 지침
 ```
@@ -50,3 +53,19 @@ ZIP이나 별도 빌드 도구가 필요하지 않다. 공통 디자인은 이 �
 클릭·터치로 회색 잉크를 쏘고 무작위 굵기의 방울을 흘립니다. 배경 이미지와 잉크 이미지를 각각 선택하면 잉크 자국과 줄기 안에서만 두 번째 이미지가 드러납니다. 이미지는 작업 영역에 중앙 정렬로 꽉 차며, 비우기는 이미지를 유지합니다. 이미지는 외부로 전송하거나 저장하지 않습니다.
 
 Google의 스플래툰 이스터에그를 시각 참고했으며 코드·이미지·음원은 재사용하지 않고 곡선과 Canvas로 직접 구현했습니다. `tests/ink/tests.html`에서 터치 포인터, 흐름, 초기화, 로컬 이미지 선택과 클리핑을 검사합니다. 합성 터치 검사는 실제 모바일 기기 검사를 대신하지 않습니다.
+
+## 화음 연습실
+
+주어진 근음과 화음 종류를 보고 피아노 롤에서 나머지 구성음을 선택합니다. 3화음 6종과 7화음 5종, 무작위 또는 고정 근음, 음 선택·삭제, 근음/선택한 화음 듣기, 볼륨·정지, 채점·정답 보기·다음 문제·음 지우기를 제공합니다. Space로 듣기, Enter로 확인, N으로 다음 문제를 시작할 수 있습니다.
+
+근음 위 한 옥타브 안의 기본자리만 채점하며 이명동음은 같은 음으로 처리합니다. 근음은 고정이고 옥타브 근음 추가는 오답입니다. 첫 채점만 점수와 연속 정답에 반영하며 정답 보기는 오답 처리합니다. 기록은 현재 페이지 세션에만 남고 새로고침하면 초기화됩니다. 소리는 클릭 이후 Web Audio로 생성하며 외부 음원이나 서버를 사용하지 않습니다.
+
+Node.js 20 이상에서 의존성 설치 없이 검사합니다. 정적 파일이 정본이므로 별도 lint/typecheck/build 명령은 없습니다.
+
+```sh
+node --check docs/chord/app.js
+node --check docs/chord/music.js
+node --test tests/chord/*.test.mjs
+```
+
+[원본 CHORD / LAB](https://chord-lab-practice.suyasuyazzang.chatgpt.site/)의 commit `4ea50c2ecd694908181cc2a9d4eda55b98366514`에서 가져와 toys의 공통 디자인에 맞췄습니다. 원본 Sites 배포 설정은 가져오지 않았습니다. Node 검사는 실제 브라우저 렌더링이나 소리를 대신하지 않습니다.

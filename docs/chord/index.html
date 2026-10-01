@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHORD / LAB · 화음 연습실</title><meta name="description" content="근음을 듣고 피아노 롤에서 화음을 완성하세요. 3화음부터 7화음까지, 직접 찍고 듣는 코드 연습실.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/base.css?v=1">
+<link rel="stylesheet" href="style.css?v=1"><script type="module" src="app.js?v=1"></script>
+</head>
+<body>
+<div class="app">
+<header class="topbar"><a class="home-link" href="../" aria-label="toys 목록으로">← toys</a><span class="page-tab">화음 연습실</span></header>
+<div class="transport"><div class="transport-left"><button id="play" class="play-button" title="선택한 화음 듣기 (Space)" aria-label="선택한 화음 듣기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></button><button id="stop" class="stop-button" title="재생 멈추기" aria-label="재생 멈추기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12"/></svg></button><div class="transport-divider"></div><span class="transport-title">내 화음 듣기</span><kbd>Space</kbd><span id="audioState" class="audio-state">SYNTH</span></div><label class="volume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 8q5 4 0 8"/></svg><span class="sr-only">볼륨</span><input id="volume" type="range" min="0" max="100" value="50" aria-label="볼륨"><span id="volumeLabel">50%</span></label></div>
+<main class="workspace">
+<aside class="lesson-panel">
+<div class="section-label">문제 <span id="questionNumber">01</span></div>
+<div class="prompt-area"><p class="eyebrow">이 화음을 완성하세요</p><h1><span id="rootName">C</span><span id="chordSymbol">maj7</span></h1><p id="chordName" class="chord-name">메이저 세븐스</p><div class="prompt-rule"></div><p class="instruction">근음은 준비됐어요.<br>나머지 음을 피아노 롤에 찍어보세요.</p><button id="playRoot" class="text-button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 4 9 6-9 6z"/></svg><span id="rootListenLabel">근음 C3 듣기</span></button></div>
+<div class="settings"><span class="setting-label" id="difficultyLabel">연습 범위</span><div class="segmented" role="group" aria-labelledby="difficultyLabel"><button data-mode="triads" aria-pressed="false">3화음</button><button data-mode="sevenths" aria-pressed="true">7화음</button><button data-mode="all" aria-pressed="false">모두</button></div><p id="rangeInfo" class="setting-help">maj7 · m7 · 7 · m7♭5 · dim7</p><label for="rootSelect" class="setting-label root-label">근음 설정</label><div class="select-wrap"><select id="rootSelect"><option value="random">무작위</option><option value="0">C</option><option value="1">D♭ / C♯</option><option value="2">D</option><option value="3">E♭ / D♯</option><option value="4">E</option><option value="5">F</option><option value="6">F♯ / G♭</option><option value="7">G</option><option value="8">A♭ / G♯</option><option value="9">A</option><option value="10">B♭ / A♯</option><option value="11">B</option></select></div></div>
+<div class="session-stats"><div><span>첫 시도 정답</span><strong><b id="correctCount">0</b><small> / <b id="attemptCount">0</b></small></strong></div><div><span>연속 정답</span><strong id="streakCount">0<small>회</small></strong></div></div><p class="stats-note">이번 세션만 기록 · 정답 보기는 오답 처리</p>
+</aside>
+<section class="editor" aria-label="화음 피아노 롤">
+<div class="clip-header"><span class="clip-name">화음 만들기</span><span class="clip-meta">1 BAR · 기본자리</span></div>
+<div class="roll-toolbar"><span>피아노 롤</span><span id="noteCount">1 / 4음</span></div>
+<div class="piano-roll" id="pianoRoll"><div class="timeline"><span class="key-heading">NOTE</span><div class="beats"><span>1.1</span><span>1.2</span><span>1.3</span><span>1.4</span></div></div><div class="note-rows" id="noteRows"></div><div class="playhead" id="playhead" hidden></div></div>
+<div class="roll-bottom"><span id="selectedSummary">C3</span><span class="click-hint">클릭 / 터치로 음 추가·삭제</span></div>
+<div class="feedback-area"><div id="feedback" class="feedback" role="status" aria-live="polite"><span class="feedback-icon">i</span><div><strong>근음 위에 화음을 쌓아보세요</strong><p>노란 음은 주어진 근음이에요. 같은 길이로 함께 재생돼요.</p></div></div><div class="actions"><button id="reset" class="button subtle">음 지우기</button><button id="reveal" class="button subtle">정답 보기</button><div class="action-spacer"></div><button id="check" class="button primary">정답 확인 <kbd>Enter</kbd></button><button id="next" class="button next">다음 문제</button></div></div>
+</section>
+</main>
+<footer class="bottom-bar"><span>근음부터 한 옥타브 안에서 연습해요 · 전위 제외 · 이명동음 허용</span><span class="shortcut-hint">Space 듣기 <i>·</i> Enter 확인 <i>·</i> N 다음</span></footer>
+<details class="guide"><summary>연습 방법과 채점 기준</summary><div><p>피아노 롤의 행을 눌러 음을 추가하거나 삭제하세요. 노란색 근음은 고정되어 있어요. 근음 행을 누르면 소리만 들을 수 있어요.</p><p>모든 문제는 근음을 가장 낮게 둔 기본자리예요. 근음에서 12반음 미만인 구성음을 정확히 선택해야 정답이며, 맨 위의 옥타브 근음은 추가음으로 처리해요. C♯와 D♭처럼 같은 높이의 음은 같은 음으로 채점해요. 정답 설명에는 화음에 맞는 음이름을 사용해요.</p><p>점수와 연속 정답은 첫 확인 결과만 반영해요. 틀린 문제를 고쳐서 다시 확인할 수 있어요. 정답을 보면 첫 시도 오답으로 기록되고 연속 정답이 초기화돼요. 확인 전 건너뛴 문제와 연습 설정 변경은 점수에 포함하지 않아요. 기록은 새로고침하면 초기화돼요.</p></div></details>
+</div>
+</body></html>
