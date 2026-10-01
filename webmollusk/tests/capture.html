@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><title>녹음 경로 검증</title>
+<button id="run">합성 음성 경로 검증</button><p id="status" role="status">마이크 없이 녹음 경로와 WASM 변환을 검증합니다.</p>
+<audio id="audio" controls></audio>
+<script type="module">
+// SPDX-License-Identifier: AGPL-3.0-or-later
+import { recordedWav } from '../../docs/webmollusk/wav.mjs';
+const run = document.getElementById('run'), status = document.getElementById('status');
+run.onclick = async () => {
+  run.disabled = true;
+  const context = new AudioContext({ sampleRate: 48000 });
+  let worker;
+  try {
+    await context.resume();
+    await context.audioWorklet.addModule('../../docs/webmollusk/capture.mjs');
+    const capture = new AudioWorkletNode(context, 'mollusk-capture', { outputChannelCount: [1] });
+    const tone = context.createOscillator(); tone.frequency.value = 220;
+    const gain = context.createGain(); gain.gain.value = 0.12;
+    tone.connect(gain).connect(capture).connect(context.destination);
+    const chunks = [];
+    let frames = 0, stopped = false;
+    await new Promise((resolve, reject) => {
+      capture.onprocessorerror = () => reject(new Error('Capture processor failed'));
+      capture.port.onmessage = ({ data }) => {
+        if (data.chunk) { chunks.push(data.chunk); frames += data.chunk.length; }
+        if (frames >= 8192 && !stopped) { stopped = true; capture.port.postMessage('stop'); }
+        if (data.done) resolve();
+      };
+      tone.start();
+    });
+    tone.stop(); capture.disconnect();
+    const input = recordedWav(chunks, context.sampleRate);
+    if (frames < 8192 || !chunks.some(chunk => chunk.some(x => Math.abs(x) > 0.01))) throw new Error('PCM capture missing');
+    worker = new Worker('../../docs/webmollusk/worker.mjs', { type: 'module' });
+    const output = await new Promise((resolve, reject) => {
+      worker.onmessage = ({ data }) => data.error ? reject(new Error(data.error)) : resolve(data);
+      worker.onerror = () => reject(new Error('Worker failed'));
+      worker.postMessage({ input, preset: 0 }, [input]);
+    });
+    if (output.rate !== 48000 || output.frames !== frames + 24000 || output.peak <= 0) throw new Error('Conversion mismatch');
+    document.getElementById('audio').src = URL.createObjectURL(new Blob([output.output], { type: 'audio/wav' }));
+    status.textContent = `PASS: ${frames} PCM 샘플 녹음 → WAV → WASM 변환 → 수동 재생 준비`;
+  } catch (error) { status.textContent = `FAIL: ${error.message}`; }
+  finally { await context.close(); worker?.terminate(); run.disabled = false; }
+};
+</script></html>

@@ -6,6 +6,7 @@
 - 그림판: https://amenorica.github.io/toys/sketch/
 - 잉크: https://amenorica.github.io/toys/ink/
 - 화음 연습실: https://amenorica.github.io/toys/chord/
+- WebMollusk: https://amenorica.github.io/toys/webmollusk/
 
 ## 구조
 
@@ -17,6 +18,8 @@ docs/
   sketch/             첫 번째 toy: 그림판
   ink/                잉크와 이미지 클리핑
   chord/              피아노 롤 화음 연습
+  webmollusk/          음성 효과, 마이크 녹음, WAV 저장
+webmollusk/           WebMollusk 빌드 소스와 검사, JUCE 모듈
 tests/sketch/         그림판 브라우저 회귀 검사
 tests/ink/            잉크와 이미지 클리핑 검사
 tests/chord/          화음 채점·표기·연습 상태 검사
@@ -26,7 +29,7 @@ AGENTS.md             앞으로의 작업 지침
 
 ## 로컬 실행
 
-이 폴더에서 `python3 -m http.server 8767 --bind 127.0.0.1`을 실행하고 `http://127.0.0.1:8767/docs/`를 연다. 앱은 외부 API나 라이브러리를 사용하지 않는다. 그림은 서버로 전송되지 않는다.
+이 폴더에서 `python3 -m http.server 8767 --bind 127.0.0.1`을 실행하고 `http://127.0.0.1:8767/docs/`를 연다. 앱은 외부 API를 사용하지 않는다. 그림과 오디오는 서버로 전송되지 않는다.
 
 그림판 검사는 `http://127.0.0.1:8767/tests/sketch/tests.html`에서 실행한다. 필압 검사는 합성 PointerEvent를 사용하며 실제 펜 장치 검증을 대신하지 않는다.
 
@@ -69,6 +72,12 @@ node --test tests/chord/*.test.mjs
 ```
 
 [원본 CHORD / LAB](https://chord-lab-practice.suyasuyazzang.chatgpt.site/)의 commit `4ea50c2ecd694908181cc2a9d4eda55b98366514`에서 가져와 toys의 공통 디자인에 맞췄습니다. 원본 Sites 배포 설정은 가져오지 않았습니다. Node 검사는 실제 브라우저 렌더링이나 소리를 대신하지 않습니다.
+
+## WebMollusk
+
+[MolluskVoiceChanger](https://github.com/hyakkei/MolluskVoiceChanger)의 C++ DSP를 WASM으로 이식한 음성 변환 도구입니다. WAV·MP3·M4A/AAC·FLAC·OGG 입력과 마이크 녹음을 지원하고, 네 가지 프리셋을 적용한 모노 WAV를 저장합니다. 녹음 종료 후 자동 변환하며 재생은 수동입니다. WAV는 원본 샘플레이트를 유지하고 추가 형식은 브라우저 내장 디코더로 48kHz 처리하므로 코덱 지원은 브라우저마다 다릅니다.
+
+WebMollusk는 AGPL 기반이며 원작·JUCE 고지와 전체 빌드 소스를 포함합니다. 실행 파일은 `docs/webmollusk/`, 개발 자료는 `webmollusk/`에 있습니다. 상세 제한과 재빌드 방법은 `webmollusk/ReadMe.txt`를 참고하세요. 검사: `node webmollusk/tests/check.mjs`, `node webmollusk/tests/capture-check.mjs`. 라디오 테스트 음원은 포함하지 않습니다.
 
 ## 라이선스와 유지보수
 

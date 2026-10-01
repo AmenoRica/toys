@@ -1,0 +1,39 @@
+WebMollusk proof of concept, 2026-10-01
+
+Based on Mollusk Voice Changer, copyright (C) 2026 Ito Hyakkei.
+https://github.com/hyakkei/MolluskVoiceChanger
+Upstream commit: 17f47a690e4b506d37a2a22d6139514d5f41bca4
+The upstream source permits AGPL version 3 or, at your option, any later version.
+
+JUCE, copyright (c) Raw Material Software Limited.
+https://github.com/juce-framework/JUCE
+JUCE commit: 501c07674e1ad693085a7e7c398f205c2677f5da (8.0.12).
+The included modules are used under their AGPLv3 option.
+Original licence notices and bundled third-party notices are retained.
+
+Changes in this port:
+- Kept the upstream eight-stage DSP chain and its four preset definitions.
+- Added a WAV-to-WAV C ABI, browser UI, Worker, build script and runnable checks.
+- Added local microphone PCM capture, WAV downloads and post-recording conversion.
+- Added browser-native MP3, M4A/AAC, FLAC and OGG input decoding at 48 kHz.
+- Integrated WebMollusk into the Toys hub with shared styling and navigation.
+- Applied the Toys design guide, reusing its shared base.css for the local UI.
+- Compiled only JUCE core, audio_basics, audio_formats and dsp, without desktop UI.
+- Fixed LFOFilter's shared static filter-type cache to be per instance.
+- Added missing WASM thread-priority entries and Emscripten clock declaration.
+- Defined wasm32 pointer size and little-endian byte order (required for WAV I/O).
+- Disabled OS memory-mapped WAV readers on WASM (MemoryInputStream is used).
+- Added the explicit macOS workgroup header for the native comparison build.
+- Split preset definitions from the desktop preset import/export code.
+
+No pitch/formant algorithm replacement, no new effect, no automatic normalization.
+The WAV adapter selects fixed LFO rates, matching Advanced-mode preset values;
+the desktop Basic-mode random-rate behavior is not enabled in this prototype.
+Scalar JUCE FFT is used in both the native reference and WASM comparison.
+
+The browser's "Entire source" download includes all buildable source and JUCE
+modules used here. It excludes generated binaries, personal audio samples, and
+generated test results. The earlier user-provided test audio has been removed
+from this deliverable.
+
+See LICENSE for the GNU Affero General Public License version 3.

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebMollusk</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/base.css?v=1">
+<style>
+  .app { max-width: 834px; margin: 20px auto; padding: 0 8px; font-size: 12px; }
+  .studio { border: 1px solid #bbb; background: #f5f5f5; }
+  .toolbar, .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px; }
+  .toolbar { border-bottom: 1px solid #ccc; }
+  h1 { font-size: 14px; font-weight: 600; margin: 0 6px 0 0; }
+  input, select { max-width: 100%; min-width: 0; font: inherit; }
+  input[type=file] { flex: 1 1 240px; width: 240px; }
+  input::file-selector-button { font: inherit; min-height: 34px; padding: 6px 10px; border: 1px solid #bbb; border-radius: 0; background: #fff; color: #222; cursor: pointer; }
+  input::file-selector-button:hover { background: #e3e3e3; }
+  select { min-height: 34px; border: 1px solid #bbb; border-radius: 0; background: #fff; color: #222; padding: 6px 8px; }
+  select:focus-visible, audio:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid #2369bb; outline-offset: 2px; }
+  .workspace { background: #fff; padding: 12px; }
+  #status { color: #555; margin: 0 0 12px; overflow-wrap: anywhere; line-height: 1.6; }
+  #filename { display: block; color: #555; font-size: 11px; overflow-wrap: anywhere; }
+  audio { display: block; width: 100%; height: 40px; margin: 8px 0; border-radius: 0; }
+  audio::-webkit-media-controls-enclosure { border-radius: 0; background: #f5f5f5; }
+  audio::-webkit-media-controls-panel { background: #f5f5f5; }
+  #result { border-top: 1px solid #ccc; margin-top: 12px; padding-top: 12px; }
+  #details { font-size: 11px; color: #555; line-height: 1.6; margin: 8px 0; }
+  a { color: inherit; }
+  .controls { border-top: 1px solid #ccc; }
+  #record-time { color: #555; font-size: 11px; font-variant-numeric: tabular-nums; }
+  details { margin-top: 8px; padding: 8px; background: #f5f5f5; border: 1px solid #ccc; color: #555; font-size: 11px; line-height: 1.7; }
+  summary { font-size: 12px; color: #222; cursor: pointer; }
+  details p { margin: 8px 0 0; }
+  footer { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 10px; color: #555; font-size: 11px; line-height: 1.7; }
+  [hidden] { display: none !important; }
+  @media (max-width: 600px) { .app { margin-top: 8px; padding: 0 6px; } .workspace { padding: 10px; } }
+</style>
+</head>
+<body>
+<main class="app">
+  <section class="studio" aria-label="음성 변환 작업 공간">
+    <header class="toolbar">
+      <a class="home-link" href="../" aria-label="toys 목록으로">← toys</a>
+      <h1>WebMollusk</h1>
+      <input id="file" type="file" accept=".wav,.mp3,.m4a,.aac,.flac,.ogg,audio/wav,audio/mpeg,audio/mp4,audio/aac,audio/flac,audio/ogg" aria-label="오디오 파일">
+    </header>
+    <div class="workspace">
+      <p id="status" role="status" aria-live="polite">오디오 파일을 선택하거나 마이크로 녹음하세요.</p>
+      <span id="filename"></span>
+      <audio id="original" controls hidden aria-label="원본 오디오"></audio>
+      <a id="original-download" hidden>원본 WAV 다운로드</a>
+      <section id="result" hidden aria-label="변환 결과">
+        <strong id="result-label">변환 결과</strong>
+        <audio id="output" controls aria-label="변환된 오디오"></audio>
+        <p id="details"></p>
+        <a id="download">변환 WAV 다운로드</a>
+      </section>
+    </div>
+    <div class="controls" role="group" aria-label="녹음과 변환">
+      <label for="preset">프리셋</label>
+      <select id="preset">
+        <option value="0">Squid Girl</option>
+        <option value="1">Squid Boy</option>
+        <option value="2">Octopus Girl</option>
+        <option value="3">Octopus Boy</option>
+      </select>
+      <button id="record" type="button">마이크 녹음 시작</button>
+      <button id="convert" class="primary" type="button" disabled>변환</button>
+      <span id="record-time" aria-live="off"></span>
+    </div>
+  </section>
+  <details>
+    <summary>사용법 · 지원 형식</summary>
+    <p>파일이나 마이크 녹음에 오징어·문어풍 음성 효과를 적용합니다. 오디오는 브라우저 안에서 처리합니다.<br>
+    파일은 프리셋을 선택하고 변환하세요. 녹음은 종료 후 자동 변환합니다. 재생 버튼을 눌러 들어보세요.<br>
+    원본 녹음과 변환 결과는 WAV로 저장할 수 있습니다.</p>
+    <p>입력: WAV · MP3 · M4A/AAC · FLAC · OGG. 추가 형식의 코덱 지원은 브라우저에 따라 다릅니다.<br>
+    모노 또는 스테레오 · 최대 64MiB / 1,200만 샘플.<br>
+    WAV는 44.1~192kHz를 지원하며 원본 샘플레이트를 유지합니다. 추가 형식은 48kHz로 처리하며 최대 250초입니다.<br>
+    스테레오는 좌우 평균으로 모노 처리합니다. 출력은 32비트 float 모노 WAV입니다.<br>
+    녹음은 48kHz 모노이며 최대 250초에 자동 종료합니다. HTTPS 또는 localhost와 마이크 권한이 필요합니다.<br>
+    끝소리 보존을 위해 0.5초를 더 처리합니다. 프리셋의 LFO 속도는 고정입니다.</p>
+  </details>
+  <footer>
+    <span>원작: Ito Hyakkei · <a href="https://github.com/hyakkei/MolluskVoiceChanger">MolluskVoiceChanger</a> · JUCE</span>
+    <a href="LICENSE">AGPLv3</a>
+    <a href="source.tar.gz" download>전체 소스 코드</a>
+    <a href="NOTICE.txt">변경·저작권 고지</a>
+  </footer>
+</main>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>
