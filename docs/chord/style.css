@@ -76,6 +76,7 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .feedback-icon{display:flex;align-items:center;justify-content:center;width:19px;height:19px;flex:none;border:1px solid #aaa;font:12px monospace}
 .feedback strong{font-weight:600}
 .feedback p{font-size:11px;color:#555;line-height:1.6;margin:4px 0 0;overflow-wrap:anywhere}
+.feedback .chord-explanation{margin-top:6px;padding-top:6px;border-top:1px solid #ccc;color:#222}
 .feedback.success strong{color:#285e3a}
 .feedback.error strong{color:#973d2c}
 .actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}

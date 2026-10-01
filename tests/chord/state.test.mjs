@@ -31,12 +31,16 @@ function harness(audioWindow = {}) {
 test('initial root, correction and no double scoring', () => {
   const t = harness();
   assert.equal(t.snapshot().selectedSemitones.join(','), '0');
+  assert.equal(t.el('feedback').innerHTML.includes('chord-explanation'), false);
   t.check();
+  assert.equal(t.el('feedback').innerHTML.includes('chord-explanation'), false);
   assert.equal(t.snapshot().score.attempts, 1);
   assert.equal(t.snapshot().result.missing.join(','), '4,7,11');
   for (const n of [4, 7, 11]) t.toggleNote(n, false);
   t.check();
   assert.equal(t.snapshot().stage, 'success');
+  assert.match(t.el('feedback').innerHTML, /메이저 3화음에 장7도를 더한 코드/);
+  assert.match(t.el('feedback').innerHTML, /0 · 4 · 7 · 11반음/);
   assert.equal(t.snapshot().score.correct, 0);
   assert.equal(t.snapshot().score.attempts, 1);
   t.check();
@@ -50,14 +54,18 @@ test('first-try success, reset, reveal and fixed root', () => {
   assert.equal(t.snapshot().score.streak, 1);
   t.reset();
   assert.equal(t.snapshot().selectedSemitones.join(','), '0');
+  assert.equal(t.el('feedback').innerHTML.includes('chord-explanation'), false);
   t.next(); t.reveal();
   assert.equal(t.snapshot().score.attempts, 2);
   assert.equal(t.snapshot().score.streak, 0);
   assert.equal(t.snapshot().stage, 'revealed');
+  assert.match(t.el('feedback').innerHTML, /chord-explanation/);
+  assert.match(t.el('feedback').innerHTML, /근음 기준:/);
   t.check();
   assert.equal(t.snapshot().score.attempts, 2);
   t.el('rootSelect').value = '6'; t.next();
   assert.equal(t.snapshot().root, 'F♯');
+  assert.equal(t.el('feedback').innerHTML.includes('chord-explanation'), false);
 });
 test('invalid semitone inputs fail without changing selection', () => {
   const t = harness();

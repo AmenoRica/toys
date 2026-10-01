@@ -1,9 +1,9 @@
-import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade} from './music.js';
+import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade} from './music.js?v=2';
 const $=id=>document.getElementById(id);
 let state={root:0,chord:CHORDS.find(c=>c.id==='maj7'),mode:'sevenths',selected:new Set([0]),stage:'editing',counted:false,attempts:0,correct:0,streak:0,number:1,result:null};
 let context=null,master=null,voices=[],playTimer=null,playGeneration=0;
 const rootMidi=()=>48+state.root;
-function setFeedback(kind,title,description){$('feedback').className='feedback '+kind;$('feedback').innerHTML=`<span class="feedback-icon">${kind==='success'?'✓':kind==='error'?'!':'i'}</span><div><strong>${title}</strong><p>${description}</p></div>`;}
+function setFeedback(kind,title,description,explain=false){$('feedback').className='feedback '+kind;$('feedback').innerHTML=`<span class="feedback-icon">${kind==='success'?'✓':kind==='error'?'!':'i'}</span><div><strong>${title}</strong><p>${description}</p>${explain?`<p class="chord-explanation">${state.chord.explanation}<br>근음 기준: ${state.chord.intervals.join(' · ')}반음</p>`:''}</div>`;}
 function renderRows(){
  const focus=document.activeElement?.dataset?.offset;
  $('noteRows').innerHTML=Array.from({length:13},(_,i)=>12-i).map(offset=>{
@@ -69,7 +69,7 @@ function check(){
  const first=!state.counted;
  if(first){state.attempts++;state.counted=true;if(result.correct){state.correct++;state.streak++;}else state.streak=0;}
  const spellings=spellChord(state.root,state.chord);
- if(result.correct){state.stage='success';setFeedback('success',first?'정답이에요. 정확히 쌓았어요!':'화음 완성! 정확하게 수정했어요',`${spellings.join(' · ')}  /  ${state.chord.formula}${first?'':' · 첫 시도 점수는 그대로예요.'}`);}
+ if(result.correct){state.stage='success';setFeedback('success',first?'정답이에요. 정확히 쌓았어요!':'화음 완성! 정확하게 수정했어요',`${spellings.join(' · ')}  /  ${state.chord.formula}${first?'':' · 첫 시도 점수는 그대로예요.'}`,true);}
  else{state.stage='error';const missing=result.missing.map(o=>spellings[state.chord.intervals.indexOf(o)]);const extra=result.extra.map(o=>midiName(rootMidi()+o));const notes=[missing.length?`더 필요한 음: ${missing.join(', ')}`:'',extra.length?`빼야 할 음: ${extra.join(', ')}`:''].filter(Boolean).join(' · ');setFeedback('error','조금만 고쳐볼까요?',notes);}
  renderStats();renderRows();return snapshot();
 }
@@ -78,7 +78,7 @@ function reveal(){
  if(state.stage==='success'||state.stage==='revealed')return;
  if(!state.counted){state.attempts++;state.counted=true;}state.streak=0;
  state.selected=new Set(state.chord.intervals);state.stage='revealed';state.result=grade([...state.selected],state.chord.intervals);
- setFeedback('revealed','정답 화음을 확인해보세요',`${spellChord(state.root,state.chord).join(' · ')}  /  ${state.chord.formula}`);renderStats();renderRows();
+ setFeedback('revealed','정답 화음을 확인해보세요',`${spellChord(state.root,state.chord).join(' · ')}  /  ${state.chord.formula}`,true);renderStats();renderRows();
 }
 function next(){
  stop();const pool=CHORDS.filter(c=>state.mode==='all'||c.group===state.mode);
