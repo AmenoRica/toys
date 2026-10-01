@@ -69,3 +69,9 @@ node --test tests/chord/*.test.mjs
 ```
 
 [원본 CHORD / LAB](https://chord-lab-practice.suyasuyazzang.chatgpt.site/)의 commit `4ea50c2ecd694908181cc2a9d4eda55b98366514`에서 가져와 toys의 공통 디자인에 맞췄습니다. 원본 Sites 배포 설정은 가져오지 않았습니다. Node 검사는 실제 브라우저 렌더링이나 소리를 대신하지 않습니다.
+
+## 라이선스와 유지보수
+
+별도 라이선스가 명시된 제3자 자료를 제외한 이 저장소의 코드와 문서는 GNU Affero General Public License version 3 (`AGPL-3.0-only`)에 따라 배포합니다. 라이선스 전문은 [LICENSE](LICENSE)를 참고하세요. 제3자 자료의 저작권·라이선스 고지는 유지하며, 해당 자료에는 각각의 라이선스가 적용됩니다.
+
+이 프로젝트는 있는 그대로 제공됩니다. 별도의 서면 약정이 없는 한, 유지관리자는 기술 지원, 버그 수정, 보안 업데이트, 호환성 유지 또는 지속적인 개발을 제공할 의무를 부담하지 않습니다. 무보증 및 책임 제한은 관련 법률이 허용하는 범위에서 AGPLv3 제15~17조에 따릅니다. 이 안내는 AGPLv3에 따른 이용자의 권리나 배포자의 소스 제공·고지 의무를 제한하지 않습니다.
