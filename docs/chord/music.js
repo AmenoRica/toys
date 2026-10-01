@@ -36,6 +36,19 @@ export function grade(selected,expected){
  const extra=unique.filter(n=>!expected.includes(n));
  return {correct:missing.length===0&&extra.length===0,missing,extra};
 }
+export function parseNoteNames(text,root){
+ const naturals={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+ const tokens=text.trim()?text.trim().split(/[\s,·]+/):[];
+ const offsets=[];
+ for(const token of tokens){
+  const match=token.match(/^([A-Ga-g])([#♯]{1,2}|[b♭]{1,2})?$/);
+  if(!match)return {valid:false,offsets:[]};
+  const marks=match[2]||'';
+  const accidental=marks.length*(marks[0]==='#'||marks[0]==='♯'?1:-1);
+  offsets.push((naturals[match[1].toUpperCase()]+accidental-root+24)%12);
+ }
+ return {valid:true,offsets:[...new Set(offsets)]};
+}
 export function intervalName(semitones,degree){
  const difference=semitones-[0,2,4,5,7,9,11,12][degree-1];
  const perfect=[1,4,5,8].includes(degree);

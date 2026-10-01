@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CHORDS, spellChord, grade, wrongAnswerHints } from '../../docs/chord/music.js';
+import { CHORDS, spellChord, grade, wrongAnswerHints, parseNoteNames } from '../../docs/chord/music.js';
 
 test('132 root/chord combinations have correct grading and spelling count', () => {
   for (let root = 0; root < 12; root++) {
@@ -57,5 +57,27 @@ test('all 132 root/chord combinations have interval-only hints for missing notes
         assert.doesNotMatch(wrong.at(-1), /[A-G]/);
       }
     }
+  }
+});
+
+test('written answers grade correctly for all 132 root/chord combinations', () => {
+  for (let root = 0; root < 12; root++) {
+    for (const chord of CHORDS) {
+      for (const notes of [spellChord(root, chord), spellChord(root, chord).slice(1)]) {
+        const answer = parseNoteNames(notes.join(' '), root);
+        assert.equal(answer.valid, true);
+        assert.equal(grade([0, ...answer.offsets], chord.intervals).correct, true);
+      }
+    }
+  }
+});
+test('note-name parsing accepts enharmonics, case, separators and double accidentals', () => {
+  assert.deepEqual(parseNoteNames(' e , g · b ', 0), {valid:true, offsets:[4,7,11]});
+  assert.deepEqual(parseNoteNames('D# Eb D♯ E♭', 0), {valid:true, offsets:[3]});
+  assert.deepEqual(parseNoteNames('B# Cb E# Fb G## Bbb', 0), {valid:true, offsets:[0,11,5,4,9]});
+  assert.deepEqual(parseNoteNames('A♯ C♯ E♯', 6), {valid:true, offsets:[4,7,11]});
+  assert.deepEqual(parseNoteNames('', 0), {valid:true, offsets:[]});
+  for (const text of ['H', 'E3', '#', 'C#b', 'Dbbb', '<img>', 'E/G', 'EG']) {
+    assert.deepEqual(parseNoteNames(text, 0), {valid:false, offsets:[]});
   }
 });

@@ -16,15 +16,18 @@ function harness(audioWindow = {}) {
     return elements.get(id);
   };
   const modes = ['triads', 'sevenths', 'all'].map(mode => ({...el(mode), dataset:{mode}}));
+  const inputModes = ['roll', 'names'].map(inputMode => ({...el(inputMode), dataset:{inputMode}}));
+  const listeners = {};
   const sandbox = {
     ...music, console, setTimeout, clearTimeout,
-    document: {getElementById:el, querySelectorAll:() => modes, querySelector:() => null,
-      addEventListener() {}, activeElement:null, modelContext:undefined},
+    document: {getElementById:el, querySelectorAll:selector => selector === '[data-mode]' ? modes : inputModes, querySelector:() => null,
+      addEventListener(type, handler) {listeners[type] = handler;}, activeElement:null, modelContext:undefined},
     window: {addEventListener() {}, ...audioWindow}
   };
   vm.createContext(sandbox);
   const code = fs.readFileSync(new URL('../../docs/chord/app.js', import.meta.url), 'utf8').replace(/^import.*\n/, '');
-  vm.runInContext(code + ';this.test={snapshot,check,reset,reveal,next,toggleNote,play,stop,el:$};', sandbox);
+  vm.runInContext(code + ';this.test={snapshot,check,reset,reveal,next,toggleNote,play,stop,setInputMode,editNoteNames,el:$};', sandbox);
+  sandbox.test.keydown = event => listeners.keydown(event);
   return sandbox.test;
 }
 
@@ -87,6 +90,61 @@ test('invalid semitone inputs fail without changing selection', () => {
   assert.equal(t.snapshot().selectedSemitones.join(','), '0');
 });
 
+test('hard mode hides the roll, keeps interval hints and allows correction without double scoring', () => {
+  const t = harness();
+  t.setInputMode('names');
+  assert.equal(t.el('pianoRoll').hidden, true);
+  assert.equal(t.el('rollSummary').hidden, true);
+  assert.equal(t.el('noteEntry').hidden, false);
+  assert.equal(t.el('fixedRootName').textContent, 'C');
+  t.el('noteInput').value = 'Eb G B'; t.editNoteNames(); t.check();
+  assert.match(t.el('feedback').innerHTML, /E♭는 단3도입니다\.<br>장3도가 필요합니다\./);
+  assert.doesNotMatch(t.el('feedback').innerHTML, /chord-explanation/);
+  assert.equal(t.el('pianoRoll').hidden, true);
+  t.el('noteInput').value = 'e g b'; t.editNoteNames(); t.check();
+  assert.equal(t.snapshot().stage, 'success');
+  assert.equal(t.el('noteInput').readOnly, true);
+  assert.equal(t.snapshot().score.attempts, 1);
+  assert.equal(t.snapshot().score.correct, 0);
+  t.setInputMode('roll');
+  assert.equal(t.el('pianoRoll').hidden, false);
+  assert.equal(t.el('noteEntry').hidden, true);
+  assert.equal(t.snapshot().selectedSemitones.join(','), '0');
+  assert.equal(t.snapshot().score.attempts, 1);
+});
+test('hard-mode syntax errors do not score; Enter grades valid text with the fixed root', () => {
+  const t = harness(); t.setInputMode('names');
+  t.el('noteInput').value = 'E#b G B'; t.editNoteNames(); t.check();
+  assert.equal(t.snapshot().score.attempts, 0);
+  assert.equal(t.el('noteInput')['aria-invalid'], 'true');
+  assert.match(t.el('feedback').innerHTML, /음 이름을 확인해주세요/);
+  t.el('noteInput').value = 'C E G B C'; t.editNoteNames();
+  let prevented = false;
+  t.keydown({target:t.el('noteInput'), key:'Enter', preventDefault() {prevented = true;}});
+  assert.equal(prevented, true);
+  assert.equal(t.snapshot().stage, 'success');
+  assert.equal(t.snapshot().score.correct, 1);
+  assert.equal(t.snapshot().score.streak, 1);
+  t.reset();
+  assert.equal(t.el('noteInput').value, '');
+  assert.equal(t.el('noteInput').readOnly, false);
+  assert.equal(t.snapshot().score.attempts, 1);
+});
+test('hard-mode reveal and next keep the roll hidden and clear stale text', () => {
+  const t = harness(); t.setInputMode('names'); t.reveal();
+  assert.equal(t.el('noteInput').value, 'E G B');
+  assert.equal(t.el('noteInput').readOnly, true);
+  assert.equal(t.el('pianoRoll').hidden, true);
+  assert.equal(t.snapshot().score.attempts, 1);
+  t.el('rootSelect').value = '6'; t.next();
+  assert.equal(t.snapshot().inputMode, 'names');
+  assert.equal(t.el('pianoRoll').hidden, true);
+  assert.equal(t.el('fixedRootName').textContent, 'F♯');
+  assert.equal(t.el('noteInput').value, '');
+  assert.equal(t.el('noteInput').readOnly, false);
+  assert.equal(t.el('noteInput')['aria-invalid'], 'false');
+});
+
 function synth(state = 'running') {
   const oscillators = [];
   const param = () => ({value:0, setValueAtTime() {}, linearRampToValueAtTime() {},
@@ -135,4 +193,13 @@ test('Web Audio schedules each chord pitch and updates transport state', async (
   t.stop();
   assert.equal(t.el('audioState').textContent, 'SYNTH');
   assert.equal(t.el('playhead').hidden, true);
+});
+test('hard mode plays typed chord pitches without a roll playhead', async () => {
+  const audio = synth(); const t = harness({AudioContext:audio.AudioContext});
+  t.setInputMode('names'); t.el('noteInput').value = 'E G B'; t.editNoteNames();
+  await t.play(t.snapshot().selectedSemitones, true);
+  assert.equal(audio.oscillators.length, 8);
+  assert.equal(t.el('playhead').hidden, true);
+  assert.equal(t.el('audioState').textContent, 'PLAYING');
+  t.stop();
 });

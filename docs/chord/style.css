@@ -29,6 +29,7 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .text-button{display:flex;align-items:center;gap:3px;padding:5px 6px}
 .text-button svg{width:12px;height:12px}
 .settings{border-top:1px solid #ccc}
+.answer-mode{padding:9px;border-top:1px solid #ccc}
 .setting-label{display:block;font-size:11px;margin-bottom:4px}
 .segmented{display:flex;gap:3px}
 .segmented button{flex:1;padding:4px 2px}
@@ -45,6 +46,16 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .clip-name{font-weight:bold}
 .roll-toolbar{font-size:11px;color:#555}
 .piano-roll{position:relative;background:#fff}
+.note-entry{padding:14px 9px 18px;background:#fff}
+.fixed-root{display:block;margin-bottom:14px;color:#555}
+.fixed-root strong{margin-left:4px;color:#222;font:20px monospace}
+.note-entry label{display:block;margin-bottom:5px}
+.note-entry input{box-sizing:border-box;width:100%;min-width:0;padding:10px 8px;border:1px solid #aaa;border-radius:0;background:#fff;color:#222;font:20px monospace}
+.note-entry input:focus-visible{outline:2px solid #2369bb;outline-offset:2px}
+.note-entry input[aria-invalid="true"]{border-color:#973d2c}
+.note-entry input:read-only{background:#f5f5f5}
+.note-entry p{margin:5px 0 0;color:#555;font-size:11px}
+[hidden]{display:none!important}
 .timeline,.note-row{display:grid;grid-template-columns:80px minmax(0,1fr)}
 .timeline{height:25px;border-block:1px solid #aaa;font:11px monospace;color:#555}
 .key-heading{display:flex;align-items:center;padding-left:9px;border-right:1px solid #aaa}
@@ -91,6 +102,9 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
  .workspace{grid-template-columns:1fr}
  .lesson-panel{display:grid;grid-template-columns:1fr 1fr}
  .section-label{grid-column:1/-1}
+ .prompt-area{grid-row:2;grid-column:1}
+ .settings{grid-row:2;grid-column:2}
+ .answer-mode{grid-column:1/-1}
  .settings{border-top:0;border-left:1px solid #ccc}
  .session-stats{display:flex;gap:20px;grid-column:1/-1}
  .session-stats>div{display:flex;align-items:baseline;gap:6px}

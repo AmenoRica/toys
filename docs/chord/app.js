@@ -1,6 +1,6 @@
-import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade,wrongAnswerHints} from './music.js?v=3';
+import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade,wrongAnswerHints,parseNoteNames} from './music.js?v=4';
 const $=id=>document.getElementById(id);
-let state={root:0,chord:CHORDS.find(c=>c.id==='maj7'),mode:'sevenths',selected:new Set([0]),stage:'editing',counted:false,attempts:0,correct:0,streak:0,number:1,result:null};
+let state={root:0,chord:CHORDS.find(c=>c.id==='maj7'),mode:'sevenths',inputMode:'roll',selected:new Set([0]),stage:'editing',counted:false,attempts:0,correct:0,streak:0,number:1,result:null};
 let context=null,master=null,voices=[],playTimer=null,playGeneration=0;
 const rootMidi=()=>48+state.root;
 function setFeedback(kind,title,description,explain=false){$('feedback').className='feedback '+kind;$('feedback').innerHTML=`<span class="feedback-icon">${kind==='success'?'✓':kind==='error'?'!':'i'}</span><div><strong>${title}</strong><p>${description}</p>${explain?`<p class="chord-explanation">${state.chord.explanation}<br>근음 기준: ${state.chord.intervals.join(' · ')}반음</p>`:''}</div>`;}
@@ -18,6 +18,25 @@ function renderRows(){
  $('selectedSummary').textContent=[...state.selected].sort((a,b)=>a-b).map(o=>midiName(rootMidi()+o)).join(' · ');
  $('check').disabled=state.stage==='success'||state.stage==='revealed';
  $('reveal').disabled=state.stage==='success'||state.stage==='revealed';
+ $('noteInput').readOnly=state.stage==='success'||state.stage==='revealed';
+}
+function renderInputMode(){
+ const names=state.inputMode==='names';
+ $('pianoRoll').hidden=names;$('rollSummary').hidden=names;$('noteEntry').hidden=!names;
+ $('editorTitle').textContent=names?'음 이름 · 고난이도':'피아노 롤';
+ $('editor').setAttribute('aria-label',names?'화음 음 이름 입력':'화음 피아노 롤');
+ $('fixedRootName').textContent=ROOTS[state.root].name;
+ document.querySelectorAll('[data-input-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.inputMode===state.inputMode)));
+}
+function editNoteNames(){
+ if(state.stage==='success'||state.stage==='revealed')return;
+ const parsed=parseNoteNames($('noteInput').value,state.root);
+ state.selected=new Set([0,...parsed.offsets]);state.stage='editing';state.result=null;
+ $('noteInput').setAttribute('aria-invalid','false');initialFeedback();renderRows();
+}
+function setInputMode(mode){
+ if(state.inputMode===mode)return;
+ state.inputMode=mode;reset();renderInputMode();
 }
 function renderPrompt(){
  $('rootName').textContent=ROOTS[state.root].name;
@@ -27,7 +46,7 @@ function renderPrompt(){
  $('rootListenLabel').textContent=`근음 ${ROOTS[state.root].name}3 듣기`;
  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
  $('rangeInfo').textContent=state.mode==='triads'?'메이저 · 마이너 · dim · aug · sus2 · sus4':state.mode==='sevenths'?'maj7 · m7 · 7 · m7♭5 · dim7':'3화음과 7화음을 함께 연습';
- renderStats();renderRows();
+ renderInputMode();renderStats();renderRows();
 }
 function renderStats(){ $('correctCount').textContent=state.correct;$('attemptCount').textContent=state.attempts;$('streakCount').innerHTML=`${state.streak}<small>회</small>`; }
 async function audio(){
@@ -50,10 +69,10 @@ async function play(offsets,full=false){
  for(const detune of [-3,3]){const osc=context.createOscillator();osc.type='triangle';osc.frequency.value=freq;osc.detune.value=detune;osc.connect(filter);osc.start(t);osc.stop(t+duration+.04);voices.push(osc);}
  });
  $('audioState').textContent='PLAYING';$('audioState').classList.add('playing');
- if(full){const head=$('playhead');head.hidden=true;void head.offsetWidth;head.hidden=false;}
+ if(full&&state.inputMode==='roll'){const head=$('playhead');head.hidden=true;void head.offsetWidth;head.hidden=false;}
  playTimer=setTimeout(stop,(duration+.08)*1000);
 }
-function initialFeedback(){setFeedback('','구성음을 선택하세요',`${state.chord.intervals.length-1}개를 더 선택하세요.`);}
+function initialFeedback(){const remaining=Math.max(0,state.chord.intervals.length-state.selected.size);setFeedback('',state.inputMode==='names'?'구성음을 입력하세요':'구성음을 선택하세요',remaining?`${remaining}개를 더 ${state.inputMode==='names'?'입력':'선택'}하세요.`:'정답 확인을 누르세요.');}
 function toggleNote(offset,withSound=true){
  if(!Number.isInteger(offset)||offset<0||offset>12)throw new Error('음은 근음 기준 0~12 반음이어야 합니다.');
  if(offset===0){if(withSound)void play([0]);return;}
@@ -65,6 +84,9 @@ function toggleNote(offset,withSound=true){
 }
 function check(){
  if(state.stage==='success'||state.stage==='revealed')return snapshot();
+ if(state.inputMode==='names'&&!parseNoteNames($('noteInput').value,state.root).valid){
+  $('noteInput').setAttribute('aria-invalid','true');setFeedback('error','음 이름을 확인해주세요','A–G와 #/♯ 또는 b/♭를 쓰고 공백으로 구분하세요.');return snapshot();
+ }
  const result=grade([...state.selected],state.chord.intervals);state.result=result;
  const first=!state.counted;
  if(first){state.attempts++;state.counted=true;if(result.correct){state.correct++;state.streak++;}else state.streak=0;}
@@ -73,27 +95,31 @@ function check(){
  else{state.stage='error';setFeedback('error','조금만 고쳐볼까요?',wrongAnswerHints(state.root,state.chord,result).join('<br>'));}
  renderStats();renderRows();return snapshot();
 }
-function reset(){stop();state.selected=new Set([0]);state.stage='editing';state.result=null;if(state.counted)setFeedback('','다시 쌓아보세요','첫 시도 점수는 그대로입니다.');else initialFeedback();renderRows();}
+function reset(){stop();state.selected=new Set([0]);state.stage='editing';state.result=null;$('noteInput').value='';$('noteInput').setAttribute('aria-invalid','false');if(state.counted)setFeedback('','다시 풀어보세요','첫 시도 점수는 그대로입니다.');else initialFeedback();renderRows();}
 function reveal(){
  if(state.stage==='success'||state.stage==='revealed')return;
  if(!state.counted){state.attempts++;state.counted=true;}state.streak=0;
  state.selected=new Set(state.chord.intervals);state.stage='revealed';state.result=grade([...state.selected],state.chord.intervals);
+ $('noteInput').value=spellChord(state.root,state.chord).slice(1).join(' ');$('noteInput').setAttribute('aria-invalid','false');
  setFeedback('revealed','정답 화음을 확인해보세요',`${spellChord(state.root,state.chord).join(' · ')}  /  ${state.chord.formula}`,true);renderStats();renderRows();
 }
 function next(){
  stop();const pool=CHORDS.filter(c=>state.mode==='all'||c.group===state.mode);
  const fixed=$('rootSelect').value;let root,chord;
  do{root=fixed==='random'?Math.floor(Math.random()*12):Number(fixed);chord=pool[Math.floor(Math.random()*pool.length)];}while(root===state.root&&chord.id===state.chord.id);
- state={...state,root,chord,number:state.number+1,selected:new Set([0]),stage:'editing',counted:false,result:null};renderPrompt();initialFeedback();return snapshot();
+ state={...state,root,chord,number:state.number+1,selected:new Set([0]),stage:'editing',counted:false,result:null};$('noteInput').value='';$('noteInput').setAttribute('aria-invalid','false');renderPrompt();initialFeedback();return snapshot();
 }
-function snapshot(){return {question:state.number,root:ROOTS[state.root].name,rootMidi:rootMidi(),chord:state.chord.id,chordName:state.chord.name,mode:state.mode,selectedSemitones:[...state.selected].sort((a,b)=>a-b),stage:state.stage,result:state.result,score:{correct:state.correct,attempts:state.attempts,streak:state.streak}};}
+function snapshot(){return {question:state.number,root:ROOTS[state.root].name,rootMidi:rootMidi(),chord:state.chord.id,chordName:state.chord.name,mode:state.mode,inputMode:state.inputMode,selectedSemitones:[...state.selected].sort((a,b)=>a-b),stage:state.stage,result:state.result,score:{correct:state.correct,attempts:state.attempts,streak:state.streak}};}
 $('noteRows').addEventListener('click',e=>{const row=e.target.closest('[data-offset]');if(row)toggleNote(Number(row.dataset.offset));});
 $('play').onclick=()=>void play([...state.selected],true);$('stop').onclick=stop;$('playRoot').onclick=()=>void play([0]);
 $('volume').oninput=e=>{$('volumeLabel').textContent=e.target.value+'%';if(master&&context)master.gain.setTargetAtTime(Number(e.target.value)/100*.45,context.currentTime,.02);};
 $('check').onclick=check;$('reset').onclick=reset;$('reveal').onclick=reveal;$('next').onclick=next;
 $('rootSelect').onchange=next;
+$('noteInput').oninput=editNoteNames;
+for(const b of document.querySelectorAll('[data-input-mode]'))b.onclick=()=>setInputMode(b.dataset.inputMode);
 for(const b of document.querySelectorAll('[data-mode]'))b.onclick=()=>{if(state.mode===b.dataset.mode)return;state.mode=b.dataset.mode;next();};
 document.addEventListener('keydown',e=>{
+ if(e.target===$('noteInput')&&e.key==='Enter'&&!e.isComposing){e.preventDefault();check();return;}
  if(e.repeat||e.altKey||e.ctrlKey||e.metaKey||e.target.matches('input,select,textarea')||e.target.isContentEditable)return;
  if(e.code==='Space'&&!e.target.closest('button,summary,a')){e.preventDefault();void play([...state.selected],true);}
  if(e.code==='Enter'&&!e.target.closest('button,summary,a')){e.preventDefault();check();}
@@ -106,7 +132,7 @@ if(mcp?.registerTool){
  const lifecycle=new AbortController();
  const register=tool=>{try{Promise.resolve(mcp.registerTool(tool,{signal:lifecycle.signal})).catch(()=>{});}catch{}};
  register({name:'get_chord_practice_state',title:'현재 화음 문제 읽기',description:'Read the current root, chord prompt, selected semitones and session score. This does not reveal the answer.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:false},execute:()=>snapshot()});
- register({name:'stage_chord_notes',title:'화음 음 선택',description:'Replace selected notes with semitone offsets above the fixed root in the current exercise, without grading or playing audio. Root 0 is always included.',inputSchema:{type:'object',properties:{semitones:{type:'array',items:{type:'integer',minimum:0,maximum:12},uniqueItems:true,maxItems:13}},required:['semitones'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>{if(!input||!Array.isArray(input.semitones)||input.semitones.length>13||input.semitones.some(n=>!Number.isInteger(n)||n<0||n>12)||Object.keys(input).some(k=>k!=='semitones'))throw new Error('semitones must be an array of integers from 0 to 12.');if(['success','revealed'].includes(state.stage))throw new Error('Start the next exercise before staging notes.');state.selected=new Set([0,...input.semitones]);state.stage='editing';state.result=null;renderRows();initialFeedback();return snapshot();}});
+ register({name:'stage_chord_notes',title:'화음 음 선택',description:'Replace selected notes with semitone offsets above the fixed root in the current exercise, without grading or playing audio. Root 0 is always included.',inputSchema:{type:'object',properties:{semitones:{type:'array',items:{type:'integer',minimum:0,maximum:12},uniqueItems:true,maxItems:13}},required:['semitones'],additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:input=>{if(!input||!Array.isArray(input.semitones)||input.semitones.length>13||input.semitones.some(n=>!Number.isInteger(n)||n<0||n>12)||Object.keys(input).some(k=>k!=='semitones'))throw new Error('semitones must be an array of integers from 0 to 12.');if(['success','revealed'].includes(state.stage))throw new Error('Start the next exercise before staging notes.');state.selected=new Set([0,...input.semitones]);state.stage='editing';state.result=null;$('noteInput').value=[...state.selected].filter(n=>n!==0).map(n=>midiName(rootMidi()+n).replace(/\d+$/,'')).join(' ');$('noteInput').setAttribute('aria-invalid','false');renderRows();initialFeedback();return snapshot();}});
  register({name:'check_chord_answer',title:'화음 정답 확인',description:'Grade selected notes and record the first attempt in session score, just like the visible check button.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:()=>check()});
  register({name:'start_next_chord_exercise',title:'다음 화음 시작',description:'Start a new random exercise within the current visible root and chord-range settings. Unchecked exercises are skipped without changing score.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false,untrustedContentHint:false},execute:()=>next()});
  window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});
