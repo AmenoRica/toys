@@ -1,4 +1,4 @@
-import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade} from './music.js?v=2';
+import {ROOTS,CHORDS,midiName,alternateName,isBlack,spellChord,grade,wrongAnswerHints} from './music.js?v=3';
 const $=id=>document.getElementById(id);
 let state={root:0,chord:CHORDS.find(c=>c.id==='maj7'),mode:'sevenths',selected:new Set([0]),stage:'editing',counted:false,attempts:0,correct:0,streak:0,number:1,result:null};
 let context=null,master=null,voices=[],playTimer=null,playGeneration=0;
@@ -8,10 +8,10 @@ function renderRows(){
  const focus=document.activeElement?.dataset?.offset;
  $('noteRows').innerHTML=Array.from({length:13},(_,i)=>12-i).map(offset=>{
  const midi=rootMidi()+offset,selected=state.selected.has(offset),root=offset===0;
- const extra=state.result?.extra.includes(offset),missing=state.result?.missing.includes(offset);
+ const extra=state.result?.extra.includes(offset);
  const correct=selected&&!root&&state.stage!=='editing'&&!extra;
  const name=midiName(midi),alt=alternateName(midi);
- return `<button class="note-row ${isBlack(midi)?'black':''} ${root?'root-note':''} ${extra?'incorrect':''} ${missing?'missing':''} ${correct?'correct':''}" data-offset="${offset}" aria-label="${name}${alt?' 또는 '+alt+(Math.floor(midi/12)-1):''}${root?' 근음 듣기':selected?' 삭제':' 추가'}" aria-pressed="${selected}"><span class="key">${name}${alt?`<small>${alt}</small>`:''}</span><span class="grid-lane"><span class="beat-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${selected?`<span class="midi-note">${root?ROOTS[state.root].name+(Math.floor(midi/12)-1):name}${root?'<span>근음</span>':''}</span>`:''}</span></button>`;
+ return `<button class="note-row ${isBlack(midi)?'black':''} ${root?'root-note':''} ${extra?'incorrect':''} ${correct?'correct':''}" data-offset="${offset}" aria-label="${name}${alt?' 또는 '+alt+(Math.floor(midi/12)-1):''}${root?' 근음 듣기':selected?' 삭제':' 추가'}" aria-pressed="${selected}"><span class="key">${name}${alt?`<small>${alt}</small>`:''}</span><span class="grid-lane"><span class="beat-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${selected?`<span class="midi-note">${root?ROOTS[state.root].name+(Math.floor(midi/12)-1):name}${root?'<span>근음</span>':''}</span>`:''}</span></button>`;
  }).join('');
  if(focus!==undefined)document.querySelector(`[data-offset="${focus}"]`)?.focus({preventScroll:true});
  $('noteCount').textContent=`${state.selected.size} / ${state.chord.intervals.length}음`;
@@ -70,7 +70,7 @@ function check(){
  if(first){state.attempts++;state.counted=true;if(result.correct){state.correct++;state.streak++;}else state.streak=0;}
  const spellings=spellChord(state.root,state.chord);
  if(result.correct){state.stage='success';setFeedback('success',first?'정답이에요. 정확히 쌓았어요!':'화음 완성! 정확하게 수정했어요',`${spellings.join(' · ')}  /  ${state.chord.formula}${first?'':' · 첫 시도 점수는 그대로예요.'}`,true);}
- else{state.stage='error';const missing=result.missing.map(o=>spellings[state.chord.intervals.indexOf(o)]);const extra=result.extra.map(o=>midiName(rootMidi()+o));const notes=[missing.length?`더 필요한 음: ${missing.join(', ')}`:'',extra.length?`빼야 할 음: ${extra.join(', ')}`:''].filter(Boolean).join(' · ');setFeedback('error','조금만 고쳐볼까요?',notes);}
+ else{state.stage='error';setFeedback('error','조금만 고쳐볼까요?',wrongAnswerHints(state.root,state.chord,result).join('<br>'));}
  renderStats();renderRows();return snapshot();
 }
 function reset(){stop();state.selected=new Set([0]);state.stage='editing';state.result=null;if(state.counted)setFeedback('','다시 쌓아보세요','첫 시도 점수는 그대로입니다.');else initialFeedback();renderRows();}

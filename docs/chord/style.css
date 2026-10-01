@@ -66,7 +66,6 @@ h1{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px;line-height:1.2;marg
 .root-note .midi-note span{font-size:10px}
 .note-row.correct .midi-note{background:#b0d9c0;border-color:#447a56}
 .note-row.incorrect .midi-note{background:#efb5aa;border-color:#9e5040}
-.note-row.missing .grid-lane:before{content:"";position:absolute;inset:3px 8px 3px 1px;border:1px dashed #447a56;z-index:1;pointer-events:none}
 .playhead{position:absolute;width:2px;background:#222;top:25px;bottom:0;z-index:3;left:80px;pointer-events:none;animation:travel 1.5s linear forwards}
 @keyframes travel{from{left:80px}to{left:calc(100% - 8px)}}
 .roll-bottom{border-top:1px solid #aaa;font-size:11px;color:#555;flex-wrap:wrap}

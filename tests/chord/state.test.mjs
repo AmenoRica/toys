@@ -36,6 +36,8 @@ test('initial root, correction and no double scoring', () => {
   assert.equal(t.el('feedback').innerHTML.includes('chord-explanation'), false);
   assert.equal(t.snapshot().score.attempts, 1);
   assert.equal(t.snapshot().result.missing.join(','), '4,7,11');
+  assert.match(t.el('feedback').innerHTML, /장3도 · 완전5도 · 장7도가 필요합니다/);
+  assert.doesNotMatch(t.el('noteRows').innerHTML, /\bmissing\b/);
   for (const n of [4, 7, 11]) t.toggleNote(n, false);
   t.check();
   assert.equal(t.snapshot().stage, 'success');
@@ -44,6 +46,18 @@ test('initial root, correction and no double scoring', () => {
   assert.equal(t.snapshot().score.correct, 0);
   assert.equal(t.snapshot().score.attempts, 1);
   t.check();
+  assert.equal(t.snapshot().score.attempts, 1);
+});
+test('wrong-answer feedback does not reveal correct note names or mark missing rows', () => {
+  const t = harness();
+  for (const n of [3, 7, 11]) t.toggleNote(n, false);
+  t.check();
+  assert.match(t.el('feedback').innerHTML, /E♭는 단3도입니다\.<br>장3도가 필요합니다\./);
+  assert.doesNotMatch(t.el('feedback').innerHTML, /E는|필요한 음|chord-explanation/);
+  assert.doesNotMatch(t.el('noteRows').innerHTML, /\bmissing\b/);
+  t.toggleNote(3, false); t.toggleNote(4, false); t.check();
+  assert.equal(t.snapshot().stage, 'success');
+  assert.equal(t.snapshot().score.correct, 0);
   assert.equal(t.snapshot().score.attempts, 1);
 });
 test('first-try success, reset, reveal and fixed root', () => {

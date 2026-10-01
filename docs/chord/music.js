@@ -36,3 +36,25 @@ export function grade(selected,expected){
  const extra=unique.filter(n=>!expected.includes(n));
  return {correct:missing.length===0&&extra.length===0,missing,extra};
 }
+export function intervalName(semitones,degree){
+ const difference=semitones-[0,2,4,5,7,9,11,12][degree-1];
+ const perfect=[1,4,5,8].includes(degree);
+ const quality=perfect?{0:'완전',1:'증',[-1]:'감'}:{0:'장',1:'증',[-1]:'단',[-2]:'감'};
+ return quality[difference]+degree+'도';
+}
+export function wrongAnswerHints(root,chord,result){
+ const degrees=[1,2,2,3,3,4,4,5,6,6,7,7,8];
+ const hints=result.extra.map(offset=>{
+  let degree=degrees[offset];
+  // Use the fourth in sus4; otherwise interpret the tritone as a diminished fifth.
+  if(offset===6)degree=chord.degrees.includes(4)?4:5;
+  if(offset===8&&chord.degrees.includes(5))degree=5;
+  const note=spellChord(root,{intervals:[offset],degrees:[degree]})[0]+(offset===12?'4':'');
+  return `${note}는 ${intervalName(offset,degree)}입니다.`;
+ });
+ if(result.missing.length){
+  const missing=result.missing.map(offset=>intervalName(offset,chord.degrees[chord.intervals.indexOf(offset)]));
+  hints.push(`${missing.join(' · ')}가 필요합니다.`);
+ }
+ return hints;
+}
