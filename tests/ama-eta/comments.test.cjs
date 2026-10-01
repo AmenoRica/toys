@@ -1,0 +1,17 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const root = path.resolve(__dirname, '../../docs/ama-eta');
+const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+const {posts, renderComment} = vm.runInNewContext(source.split('const main=')[0] + '\n({posts, renderComment})');
+const post = posts.find(p => p.title === '니들 교양수업에서 냉장고 안배움??');
+assert.equal(post.comments.map(c => c[0]).join(','), '익명1,익명3,익명2');
+assert.match(renderComment(post.comments[0]), /안식년 가셔서\n이번 학기/);
+assert.match(renderComment(post.comments[1]), /class="comment reply"/);
+assert.match(renderComment(post.comments[1]), /<img[^>]+alt="놀란 표정의 연어 캐릭터"/);
+assert(fs.existsSync(path.join(root, post.comments[1][2].image)));
+assert(!renderComment(post.comments[2]).includes('comment reply'));
+assert(!renderComment(['익명1','<test>']).includes('<test>'));
+assert(renderComment(['글쓴이','답글']).includes('comment reply'));
+console.log('Comment text, image reply, escaping, and existing author replies pass.');

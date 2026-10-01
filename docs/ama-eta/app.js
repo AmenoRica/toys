@@ -21,18 +21,22 @@ const posts = [
 {"board": "비밀게시판", "title": "통통한 문녀 있음?", "body": "쪽지 ㄱ", "likes": 0, "comments": []},
 {"board": "비밀게시판", "title": "여장 좋아하는 잉남 ㅇㄸ", "body": "ㅇㅇ", "likes": 0, "comments": []},
 {"board": "자유게시판", "title": "같이 알바하는 애 좋아하는데", "body": "좋아한다고 티를 어떻게 내야 할지 모르겠음\n진짜 얘때문에 맨날 시간맞춰서 베어상회 가는데\n다음 바이콘 같이 가자고 해볼까??", "likes": 0, "comments": [["익명1", "ㄱㄱ"], ["익명2", "문어임?"]]},
-{"board": "자유게시판", "title": "버스에선 잉크통 앞으로 차면 안 되나요", "body": "진짜 좀 최소한의 배려라는 게 있는데\n적어도 잉클링 몰리는 시간에는 좀 앞으로 차면 좋겠습니다\n하…", "likes": 0, "comments": []}
+{"board": "자유게시판", "title": "버스에선 잉크통 앞으로 차면 안 되나요", "body": "진짜 좀 최소한의 배려라는 게 있는데\n적어도 잉클링 몰리는 시간에는 좀 앞으로 차면 좋겠습니다\n하…", "likes": 0, "comments": []},
+{"board": "자유게시판", "title": "니들 교양수업에서 냉장고 안배움??", "body": "게탱크 울샷 냉장고는 필수 교양인데", "likes": 0, "comments": [["익명1", "드링크 수업 교수님 정년 안식년 가셔서\n이번 학기 교강사 바뀜\n헬강임"], ["익명3", "", {"reply": true, "image": "images/drink-class-reply.png", "alt": "놀란 표정의 연어 캐릭터"}], ["익명2", "그거 드링크 조합법 999가지라 외우는거 넘 어렴"]]}
 ];
 const thumb='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 9l3-6c1-2 3-1 2 2l-1 3h5c1 0 2 1 1.5 2L16 16H7ZM3 9h3v8H3Z"/></svg>';
 const chat='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M17 8.5c0 3-3 5.5-7 5.5H8l-4 3 1-5C1 9 3 3 10 3c4 0 7 2.5 7 5.5Z"/></svg>';
 const avatar='<span class="avatar" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="7"/><path d="M5 32c0-17 22-17 22 0Z"/></svg></span>';
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const counts=p=>`<span class="counts"><span class="stat like" aria-label="공감 ${p.likes}개">${thumb}${p.likes}</span><span class="stat chat" aria-label="댓글 ${p.comments.length}개">${chat}${p.comments.length}</span></span>`;
+function renderComment([name,text,attachment={}]){
+  return `<div class="comment${attachment.reply||name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div>${text?`<p>${esc(text)}</p>`:''}${attachment.image?`<img class="comment-image" src="${esc(attachment.image)}" alt="${esc(attachment.alt||'첨부 이미지')}" width="200" height="200">`:''}<div class="date">09/29</div></div>`;
+}
 const main=document.getElementById('main');
 const menu=document.getElementById('board-menu');
 const title=document.getElementById('page-title');
 const boards=['전체 글','자유게시판','비밀게시판','장터','알바게시판','영역 배틀 게시판'];
-const times=['14:20','14:15','14:09','14:04','13:59','13:53','13:46','13:35','13:21','13:15','13:10','13:04','12:58','12:51','12:46','12:39','12:31','12:25','12:19','12:13','12:06','11:58'];
+const times=['14:20','14:15','14:09','14:04','13:59','13:53','13:46','13:35','13:21','13:15','13:10','13:04','12:58','12:51','12:46','12:39','12:31','12:25','12:19','12:13','12:06','11:58','11:50'];
 let listScroll=0;
 let listHash='#';
 function render(){
@@ -51,7 +55,7 @@ function render(){
     requestAnimationFrame(()=>window.scrollTo(0,listScroll));
   }else{
     document.title=post.title+' · 해녀 미술 대학';
-    main.innerHTML=`<article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(([name,text])=>`<div class="comment${name==='글쓴이'?' reply':''}"><div class="comment-author${name==='글쓴이'?' writer':''}">${avatar}${esc(name)}</div><p>${esc(text)}</p><div class="date">09/29</div></div>`).join('')}</section><div class="detail-bottom"><a class="return-link" href="${listHash}" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>글 목록</a></div>`;
+    main.innerHTML=`<article class="post"><div class="author">${avatar}<div><div class="author-name">익명</div><div class="date">09/29 ${times[index]}</div></div></div><h2>${esc(post.title)}</h2><p class="body">${esc(post.body)}</p><div class="meta">${counts(post)}</div></article><section class="comments" aria-label="댓글">${post.comments.map(renderComment).join('')}</section><div class="detail-bottom"><a class="return-link" href="${listHash}" aria-label="글 목록으로 돌아가기"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>글 목록</a></div>`;
     window.scrollTo(0,0);
   }
 }
