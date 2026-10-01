@@ -49,17 +49,38 @@ function renderPrompt(){
  renderInputMode();renderStats();renderRows();
 }
 function renderStats(){ $('correctCount').textContent=state.correct;$('attemptCount').textContent=state.attempts;$('streakCount').innerHTML=`${state.streak}<small>회</small>`; }
-async function audio(){
+function audioNotice(message=''){$('audioNotice').textContent=message;$('audioNotice').hidden=!message;}
+async function audio(generation){
+ let resumeTimer;
  try{
- if(!context){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw new Error('unsupported');context=new Audio();master=context.createGain();master.gain.value=Number($('volume').value)/100*.45;master.connect(context.destination);}
- if(context.state!=='running')await context.resume();
- return context.state==='running';
- }catch{setFeedback('error','소리를 켤 수 없어요','이 브라우저의 오디오 설정을 확인해주세요. 음 선택과 채점은 계속할 수 있어요.');return false;}
+ // Request music playback rather than the default ambient session on supported iOS.
+ try{if(window.navigator?.audioSession)window.navigator.audioSession.type='playback';}catch{}
+ if(!context||context.state==='closed'){
+  const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw new Error('unsupported');
+  context=new Audio();master=context.createGain();master.gain.value=Number($('volume').value)/100*.45;master.connect(context.destination);
+  const active=context;
+  active.onstatechange=()=>{if(active===context&&active.state!=='running'&&playTimer!==null){stop();audioNotice('소리가 중단됐어요. 듣기를 다시 눌러주세요.');}};
+ }
+ const active=context;
+ if(active.state!=='running'){
+  // Start a silent source and call resume inside the original tap, before awaiting.
+  const unlock=active.createBufferSource();unlock.buffer=active.createBuffer(1,1,active.sampleRate);unlock.connect(active.destination);unlock.onended=()=>unlock.disconnect();unlock.start(0);voices.push(unlock);
+  const resuming=active.resume();
+  await Promise.race([resuming,new Promise((_,reject)=>{resumeTimer=setTimeout(()=>reject(new Error('resume-timeout')),3000);})]);
+ }
+ if(active!==context||active.state!=='running')throw new Error('not-running');
+ return true;
+ }catch{
+  if(generation===playGeneration&&!document.hidden){stop();audioNotice('소리를 시작하지 못했어요. 듣기를 다시 눌러주세요.');}
+  return false;
+ }finally{clearTimeout(resumeTimer);}
 }
-function stop(){ playGeneration++;voices.forEach(v=>{try{v.stop();}catch{}});voices=[];clearTimeout(playTimer);$('playhead').hidden=true;$('audioState').textContent='SYNTH';$('audioState').classList.remove('playing');$('play').setAttribute('aria-label','선택한 화음 듣기');}
+function stop(){ playGeneration++;voices.forEach(v=>{try{v.stop();}catch{}});voices=[];clearTimeout(playTimer);playTimer=null;$('playhead').hidden=true;$('audioState').textContent='SYNTH';$('audioState').classList.remove('playing');$('play').setAttribute('aria-label','선택한 화음 듣기');}
 async function play(offsets,full=false){
- stop();const generation=playGeneration;if(!await audio()||generation!==playGeneration)return;
- const t=context.currentTime,duration=full?1.45:.6;
+ stop();audioNotice();const generation=playGeneration;if(!await audio(generation)||generation!==playGeneration)return;
+ if(Number($('volume').value)===0){audioNotice('볼륨이 0%입니다.');return;}
+ try{
+ const t=context.currentTime+.02,duration=full?1.45:.6;
  const voiceGain=.2/Math.sqrt(Math.max(1,offsets.length));
  offsets.forEach(offset=>{
  const freq=440*Math.pow(2,(rootMidi()+offset-69)/12);
@@ -71,6 +92,7 @@ async function play(offsets,full=false){
  $('audioState').textContent='PLAYING';$('audioState').classList.add('playing');
  if(full&&state.inputMode==='roll'){const head=$('playhead');head.hidden=true;void head.offsetWidth;head.hidden=false;}
  playTimer=setTimeout(stop,(duration+.08)*1000);
+ }catch{if(generation===playGeneration){stop();audioNotice('소리를 재생하지 못했어요. 듣기를 다시 눌러주세요.');}}
 }
 function initialFeedback(){const remaining=Math.max(0,state.chord.intervals.length-state.selected.size);setFeedback('',state.inputMode==='names'?'구성음을 입력하세요':'구성음을 선택하세요',remaining?`${remaining}개를 더 ${state.inputMode==='names'?'입력':'선택'}하세요.`:'정답 확인을 누르세요.');}
 function toggleNote(offset,withSound=true){

@@ -6,12 +6,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'none'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="../shared/base.css?v=1">
-<link rel="stylesheet" href="style.css?v=5"><script type="module" src="app.js?v=5"></script>
+<link rel="stylesheet" href="style.css?v=6"><script type="module" src="app.js?v=6"></script>
 </head>
 <body>
 <div class="app">
 <header class="topbar"><a class="home-link" href="../" aria-label="toys 목록으로">← toys</a><span class="page-tab">화음 연습실</span></header>
 <div class="transport"><div class="transport-left"><button id="play" class="play-button" title="선택한 화음 듣기 (Space)" aria-label="선택한 화음 듣기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></button><button id="stop" class="stop-button" title="재생 멈추기" aria-label="재생 멈추기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12"/></svg></button><div class="transport-divider"></div><span class="transport-title">듣기</span><kbd>Space</kbd><span id="audioState" class="audio-state sr-only" role="status">SYNTH</span></div><label class="volume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 8q5 4 0 8"/></svg><span class="sr-only">볼륨</span><input id="volume" type="range" min="0" max="100" value="50" aria-label="볼륨"><span id="volumeLabel">50%</span></label></div>
+<p id="audioNotice" class="audio-notice" role="status" hidden></p>
 <main class="workspace">
 <aside class="lesson-panel">
 <div class="section-label">문제 <span id="questionNumber">01</span></div>

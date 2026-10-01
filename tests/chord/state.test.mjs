@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import * as music from '../../docs/chord/music.js';
 
-function harness(audioWindow = {}) {
+function harness(audioWindow = {}, timers = {}) {
   const elements = new Map();
   const el = id => {
     if (!elements.has(id)) elements.set(id, {
@@ -19,7 +19,7 @@ function harness(audioWindow = {}) {
   const inputModes = ['roll', 'names'].map(inputMode => ({...el(inputMode), dataset:{inputMode}}));
   const listeners = {};
   const sandbox = {
-    ...music, console, setTimeout, clearTimeout,
+    ...music, console, setTimeout:timers.setTimeout || setTimeout, clearTimeout:timers.clearTimeout || clearTimeout,
     document: {getElementById:el, querySelectorAll:selector => selector === '[data-mode]' ? modes : inputModes, querySelector:() => null,
       addEventListener(type, handler) {listeners[type] = handler;}, activeElement:null, modelContext:undefined},
     window: {addEventListener() {}, ...audioWindow}
@@ -146,23 +146,33 @@ test('hard-mode reveal and next keep the roll hidden and clear stale text', () =
 });
 
 function synth(state = 'running') {
-  const oscillators = [];
-  const param = () => ({value:0, setValueAtTime() {}, linearRampToValueAtTime() {},
-    exponentialRampToValueAtTime() {}, setTargetAtTime(value) {this.value = value;}});
-  let resume;
+  const oscillators = [], contexts = [], sources = [], gains = [], filters = [], resumes = [];
+  const param = () => ({value:0, events:[],
+    setValueAtTime(value, time) {this.events.push(['set', value, time]);},
+    linearRampToValueAtTime(value, time) {this.events.push(['linear', value, time]);},
+    exponentialRampToValueAtTime(value, time) {this.events.push(['exponential', value, time]);},
+    setTargetAtTime(value) {this.value = value;}});
+  const node = properties => ({connections:[], connect(destination) {this.connections.push(destination);},
+    disconnect() {this.connections = [];}, ...properties});
   class AudioContext {
-    constructor() {this.state = state; this.currentTime = 0; this.destination = {};}
-    resume() {return new Promise(resolve => {resume = () => {this.state = 'running'; resolve();};});}
-    createGain() {return {gain:param(), connect() {}};}
-    createBiquadFilter() {return {frequency:param(), connect() {}};}
+    constructor() {this.state = state; this.currentTime = 0; this.sampleRate = 48000; this.destination = {}; this.resumeCalls = 0; contexts.push(this);}
+    setState(next) {this.state = next; this.onstatechange?.();}
+    resume() {this.resumeCalls++; return new Promise(resolve => {resumes.push(() => {this.setState('running'); resolve();});});}
+    createGain() {const gain = node({gain:param()}); gains.push(gain); return gain;}
+    createBiquadFilter() {const filter = node({frequency:param()}); filters.push(filter); return filter;}
+    createBuffer(channels, length, sampleRate) {return {channels, length, sampleRate, data:new Float32Array(length)};}
+    createBufferSource() {
+      const source = node({started:false, stopped:false, start() {this.started = true;}, stop() {this.stopped = true;}});
+      sources.push(source); return source;
+    }
     createOscillator() {
-      const oscillator = {frequency:param(), detune:param(), connect() {},
-        started:false, start() {this.started = true;}, stop() {}};
+      const oscillator = node({frequency:param(), detune:param(),
+        started:false, stops:[], start(time) {this.started = true; this.startTime = time;}, stop(time) {this.stops.push(time);}});
       oscillators.push(oscillator);
       return oscillator;
     }
   }
-  return {AudioContext, oscillators, resume:() => resume()};
+  return {AudioContext, oscillators, contexts, sources, gains, filters, resumes, resume:() => resumes.at(-1)()};
 }
 
 test('stop during pending audio resume prevents delayed playback', async () => {
@@ -202,4 +212,114 @@ test('hard mode plays typed chord pitches without a roll playhead', async () => 
   assert.equal(t.el('playhead').hidden, true);
   assert.equal(t.el('audioState').textContent, 'PLAYING');
   t.stop();
+});
+
+test('iOS preparation uses playback session and unlocks synchronously inside the initial tap', async () => {
+  const audio = synth('suspended'); const session = {type:'auto'};
+  const t = harness({AudioContext:audio.AudioContext, navigator:{audioSession:session}});
+  const playback = t.play([0]);
+  assert.equal(session.type, 'playback');
+  assert.equal(audio.contexts[0].resumeCalls, 1);
+  assert.equal(audio.sources[0].started, true);
+  assert.equal(audio.sources[0].buffer.data[0], 0);
+  assert.equal(audio.sources[0].connections[0], audio.contexts[0].destination);
+  audio.resume(); await playback;
+  assert.equal(audio.oscillators.length, 2);
+  t.stop();
+});
+test('interrupted contexts resume on a fresh tap; mid-play interruption cancels voices', async () => {
+  const audio = synth('interrupted'); const t = harness({AudioContext:audio.AudioContext});
+  const playback = t.play([0]); audio.resume(); await playback;
+  audio.contexts[0].setState('interrupted');
+  assert.equal(t.el('audioState').textContent, 'SYNTH');
+  assert.match(t.el('audioNotice').textContent, /소리가 중단/);
+  assert.ok(audio.oscillators.every(voice => voice.stops.includes(undefined)));
+  const retry = t.play([0]); audio.resume(); await retry;
+  assert.equal(t.el('audioNotice').hidden, true);
+  assert.equal(t.el('audioState').textContent, 'PLAYING');
+  t.stop();
+});
+test('closed audio contexts are recreated without letting old state events stop new playback', async () => {
+  const audio = synth(); const t = harness({AudioContext:audio.AudioContext});
+  await t.play([0]); audio.contexts[0].setState('closed'); await t.play([0]);
+  assert.equal(audio.contexts.length, 2);
+  assert.equal(audio.gains[2].connections[0], audio.contexts[1].destination);
+  audio.contexts[0].setState('closed');
+  assert.equal(t.el('audioState').textContent, 'PLAYING');
+  t.stop();
+});
+test('a blocked resume times out visibly and never plays notes when it resolves later', async () => {
+  const audio = synth('suspended'); const tasks = new Map(); let nextId = 0;
+  const t = harness({AudioContext:audio.AudioContext}, {
+    setTimeout(fn, delay) {tasks.set(++nextId, {fn, delay}); return nextId;},
+    clearTimeout(id) {tasks.delete(id);}
+  });
+  const feedback = t.el('feedback').innerHTML;
+  const playback = t.play([0]);
+  [...tasks.values()].find(task => task.delay === 3000).fn(); await playback;
+  assert.match(t.el('audioNotice').textContent, /소리를 시작하지 못/);
+  assert.equal(t.el('audioNotice').hidden, false);
+  assert.equal(t.el('feedback').innerHTML, feedback);
+  assert.equal(audio.sources[0].stopped, true);
+  audio.resume(); await Promise.resolve();
+  assert.equal(audio.oscillators.length, 0);
+  assert.equal(t.el('audioState').textContent, 'SYNTH');
+  assert.equal(tasks.size, 0);
+});
+test('resume rejection and non-running resolution report failure without unhandled playback', async () => {
+  for (const rejected of [true, false]) {
+    const audio = synth('interrupted');
+    audio.AudioContext.prototype.resume = () => rejected ? Promise.reject(new Error('blocked')) : Promise.resolve();
+    const t = harness({AudioContext:audio.AudioContext}); await t.play([0]);
+    assert.equal(audio.oscillators.length, 0);
+    assert.match(t.el('audioNotice').textContent, /소리를 시작하지 못/);
+    assert.equal(t.el('audioState').textContent, 'SYNTH');
+  }
+});
+test('latest rapid tap wins even when earlier resume resolves first', async () => {
+  const audio = synth('suspended'); const t = harness({AudioContext:audio.AudioContext});
+  const first = t.play([0]); const last = t.play([0,4,7,11], true);
+  audio.resumes[0](); await first;
+  assert.equal(audio.oscillators.length, 0);
+  audio.resumes[1](); await last;
+  assert.equal(audio.oscillators.length, 8);
+  assert.equal(t.el('audioNotice').hidden, true);
+  t.stop();
+});
+test('tone graph reaches the destination with positive gain and future start times', async () => {
+  const audio = synth(); const t = harness({AudioContext:audio.AudioContext}); await t.play([0,4,7,11], true);
+  const master = audio.gains[0];
+  assert.equal(master.gain.value, .225);
+  assert.equal(master.connections[0], audio.contexts[0].destination);
+  for (const voice of audio.oscillators) {
+    const filter = voice.connections[0]; const envelope = filter.connections[0];
+    assert.equal(envelope.connections[0], master);
+    assert.ok(envelope.gain.events.some(([kind, value]) => kind === 'linear' && value > 0));
+    assert.ok(voice.startTime > audio.contexts[0].currentTime);
+  }
+  t.stop();
+});
+test('unsupported audio-session API does not block sound; zero app volume is explained', async () => {
+  const audio = synth(); const t = harness({AudioContext:audio.AudioContext,
+    navigator:{get audioSession() {throw new Error('unsupported');}}});
+  await t.play([0]); assert.equal(audio.oscillators.length, 2); t.stop();
+  t.el('volume').value = '0'; await t.play([0]);
+  assert.equal(audio.oscillators.length, 2);
+  assert.match(t.el('audioNotice').textContent, /볼륨이 0%/);
+  assert.equal(t.el('volume').value, '0');
+});
+
+test('partial graph failure stops scheduled voices and preserves the exercise feedback', async () => {
+  const audio = synth(); const original = audio.AudioContext.prototype.createOscillator;
+  audio.AudioContext.prototype.createOscillator = function() {
+    if (audio.oscillators.length === 2) throw new Error('graph failure');
+    return original.call(this);
+  };
+  const t = harness({AudioContext:audio.AudioContext}); const feedback = t.el('feedback').innerHTML;
+  await t.play([0,4,7,11], true);
+  assert.equal(audio.oscillators.length, 2);
+  assert.ok(audio.oscillators.every(voice => voice.stops.includes(undefined)));
+  assert.match(t.el('audioNotice').textContent, /소리를 재생하지 못/);
+  assert.equal(t.el('audioState').textContent, 'SYNTH');
+  assert.equal(t.el('feedback').innerHTML, feedback);
 });

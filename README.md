@@ -65,6 +65,8 @@ Google의 스플래툰 이스터에그를 시각 참고했으며 코드·이미�
 
 근음 위 한 옥타브 안의 기본자리만 채점하며 이명동음은 같은 음으로 처리합니다. 근음은 고정이고 옥타브 근음 추가는 오답입니다. 첫 채점만 점수와 연속 정답에 반영하며 정답 보기는 오답 처리합니다. 기록은 현재 페이지 세션에만 남고 새로고침하면 초기화됩니다. 소리는 클릭 이후 Web Audio로 생성하며 외부 음원이나 서버를 사용하지 않습니다. 오답은 선택한 음의 음정과 필요한 음정만 안내하며, 정답 음 이름이나 정답 행 위치를 표시하지 않습니다. 정답 확인과 정답 보기에는 코드의 구성 원리와 근음 기준 반음 간격을 함께 표시합니다.
 
+iOS Safari에서 지원하는 경우 오디오 세션을 `playback`으로 지정하고, 사용자 탭 안에서 무음 소스 시작과 `resume()`을 호출합니다. 중단된 컨텍스트는 다음 탭에서 재개하고 닫힌 컨텍스트는 새로 만듭니다. 재개 실패·3초 이상 대기·재생 중 중단은 연습 답안을 건드리지 않는 안내로 표시합니다. 지원하지 않는 브라우저는 기존 Web Audio로 동작합니다. `playback`은 다른 미디어 재생을 중단할 수 있으며, 구형 iOS와 실제 출력 장치·무음 정책까지 동일하게 동작한다고 보장하지 않습니다. 실제 iPhone Safari 청취 검증은 별도로 필요합니다. 근거: [오디오 세션 명세](https://www.w3.org/TR/audio-session/), [Apple playback 정책](https://developer.apple.com/documentation/avfaudio/avaudiosession/category-swift.struct/playback), [iOS 중단 상태](https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/state).
+
 Node.js 20 이상에서 의존성 설치 없이 검사합니다. 정적 파일이 정본이므로 별도 lint/typecheck/build 명령은 없습니다.
 
 ```sh
