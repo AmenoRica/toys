@@ -1,0 +1,4 @@
+@font-face{font-family:Medal;src:url('assets/KBO-Dia-Gothic_bold.woff') format('woff');font-weight:700}
+main{max-width:834px;margin:20px auto;padding:0 8px}header{display:flex;align-items:center;gap:10px;margin-bottom:12px}h1{font-size:16px;margin:0;font-weight:600}#save{margin-left:auto}.preview{background:#282b31;border:1px solid #bbb}canvas{display:block;width:100%;height:auto}form{margin-top:12px;display:grid;gap:6px}label{display:flex;gap:8px;align-items:center;font-size:12px}label span{width:45px;flex-shrink:0}input,select{min-height:36px;border:1px solid #aaa;border-radius:0;background:#fff;color:#222;font:inherit;padding:6px 8px}input{min-width:0;flex:1}select{width:65px}select:focus-visible{outline:2px solid #2369bb;outline-offset:2px}#status,footer{font-size:11px;color:#555;line-height:1.6}footer a{color:inherit}@media(max-width:500px){main{margin-top:8px;padding:0 6px}}
+
+#status:empty{display:none}

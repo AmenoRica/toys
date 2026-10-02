@@ -1,0 +1,5 @@
+Asset provenance
+- paper.png (512x128), gold.png and silver.png (128x128): Splatoon 3 v11.2.0, Layout/CmnMedal_00.Nin_NX_NVN.blarc.zs -> timg/__Combined.bntx. Textures Medal_00^w, IconMedal_00^w, IconMedal_01^w. Original ASTC 4x4 sRGB decoded to RGBA PNG with BntxTexture deswizzle and texture2ddecoder. No redrawing.
+- Original layout: paper 570x142.5; icon 128x128 at scale 0.9, rotated -5 degrees in game coordinates; text area 399x59. Canvas uses equivalent inverted-Y rotation.
+- KBO-Dia-Gothic_bold.woff: https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff. All Korean/Latin medal text and heading use this font; previous font files removed.
+- Presentation updated to user reference: opaque #282b31 background, 900x479 output, heading at (450,60), rows angled -2.5 degrees with centers offset by (48,112).

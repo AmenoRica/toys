@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>표창 · toys</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/base.css"><link rel="stylesheet" href="style.css?v=3">
+</head>
+<body><main>
+<header><a class="home-link" href="../">← toys</a><h1>표창</h1><button id="save" class="primary" disabled>PNG 저장</button></header>
+<div class="preview"><canvas id="preview" width="900" height="479" role="img" aria-label="표창 미리보기"></canvas></div>
+<form id="editor" aria-label="표창 편집">
+<label><span>표창 1</span><input aria-label="표창 1 문구" maxlength="80" value="배틀 No.1"><select aria-label="표창 1 등급"><option value="gold">금</option><option value="silver">은</option><option value="none">없음</option></select></label>
+<label><span>표창 2</span><input aria-label="표창 2 문구" maxlength="80" value="색칠 포인트 No.1"><select aria-label="표창 2 등급"><option value="gold">금</option><option value="silver">은</option><option value="none">없음</option></select></label>
+<label><span>표창 3</span><input aria-label="표창 3 문구" maxlength="80" value="주목받은 시간 No.1"><select aria-label="표창 3 등급"><option value="gold">금</option><option value="silver" selected>은</option><option value="none">없음</option></select></label>
+</form>
+<p id="status" role="status">이미지와 글꼴을 불러오는 중…</p>
+<footer>비공식 팬 도구. 종이 배경과 금·은 아이콘은 <strong>스플래툰 3 게임 데이터에서 추출한 원본 에셋</strong>이며, 직접 제작한 이미지가 아닙니다. 관련 권리는 Nintendo에 있습니다.<br>
+한글·영문 글꼴: <a href="https://noonnu.cc/font_page/1146">KBO 다이아고딕 Bold</a> © (사)한국야구위원회 · <a href="assets/LICENSE.txt">에셋 출처·글꼴 라이선스</a></footer>
+</main><script type="module" src="app.js?v=3"></script></body></html>

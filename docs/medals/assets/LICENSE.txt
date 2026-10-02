@@ -1,0 +1,22 @@
+추출 에셋 출처 및 권리 안내
+
+paper.png, gold.png, silver.png는 Splatoon 3 v11.2.0 게임 데이터에서 직접 추출한 원본 텍스처입니다. 자체 제작·재구성한 그림이나 무료 배포 에셋이 아닙니다.
+원본: Layout/CmnMedal_00.Nin_NX_NVN.blarc.zs 내부 timg/__Combined.bntx
+텍스처: Medal_00^w, IconMedal_00^w, IconMedal_01^w
+변환: ASTC 텍스처를 RGBA PNG로 디코딩했습니다.
+Splatoon 및 관련 이미지·캐릭터·명칭의 권리는 Nintendo에 있습니다.
+이 toy는 Nintendo와 제휴하거나 승인을 받은 공식 서비스가 아닌 비공식 팬 도구입니다. 이 저장소의 코드 라이선스는 위 게임 에셋에 적용되지 않으며, 이 안내는 에셋에 대한 별도 사용·재배포 허락을 부여하지 않습니다.
+
+글꼴
+KBO 다이아고딕 Bold — (사)한국야구위원회
+한글·영문·숫자에 동일한 글꼴을 사용합니다.
+공식 배포 및 라이선스: https://www.koreabaseball.com/Reference/etc/KboFont.aspx
+웹폰트 안내: https://noonnu.cc/font_page/1146
+글꼴 파일은 수정 없이 번들했습니다.
+KBO 다이아고딕의 지적 재산권은 (사)한국야구위원회에 있습니다.
+KBO 홈페이지를 통해 배포되는 KBO 글꼴은 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 재배포가 가능합니다.
+(단, 파일의 수정 및 폰트 자체를 판매하는 행위는 불가합니다.)
+정확한 사용 조건은 위 공식 사이트의 KBO 다이아고딕 라이선스를 참고하시기 바랍니다.
+문의: kbop@koreabaseball.or.kr
+
+공식 라이선스 전문: KBO-LICENSE.pdf (동일 폴더)

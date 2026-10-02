@@ -1,0 +1,37 @@
+// Run with a local server: node tests/medals/check.cjs http://localhost:8765/medals/
+const { chromium } = require('playwright');
+const assert = require('node:assert/strict');
+(async () => {
+ const browser = await chromium.launch({headless:true,channel:"chrome"});
+ const page = await browser.newPage({viewport:{width:1000,height:850}});
+ const errors=[]; page.on('pageerror', e=>errors.push(e.message));
+ await page.goto(process.argv[2] || 'http://localhost:8765/medals/');
+ await page.waitForFunction(()=>!document.querySelector('#save').disabled);
+ const original=await page.locator('canvas').evaluate(c=>c.toDataURL());
+ await page.getByRole('textbox',{name:'표창 1 문구',exact:true}).fill('오늘도 최고 No.1');
+ await page.getByLabel('표창 1 등급',{exact:true}).selectOption('silver');
+ const changed=await page.locator('canvas').evaluate(c=>c.toDataURL());
+ assert.notEqual(original,changed);
+ assert.match(await page.locator('canvas').getAttribute('aria-label'),/은 표창: 오늘도 최고 No.1/);
+ const download=page.waitForEvent('download'); await page.locator('#save').click();
+ const file=await download; await file.saveAs('/tmp/medals-export.png');
+ assert.equal(file.suggestedFilename(),'medals.png');
+ assert.deepEqual(await page.locator('canvas').evaluate(c=>[...c.getContext('2d').getImageData(0,0,1,1).data]),[40,43,49,255]);
+ assert.equal(await page.locator('canvas').evaluate(c=>c.width),900);
+ assert(await page.evaluate(()=>document.fonts.check('700 32px Medal', '획득한 표창 ABC')));
+ await page.screenshot({path:'/tmp/medals-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.getByRole('textbox',{name:'표창 2 문구',exact:true}).fill('긴 문구 테스트 '.repeat(8));
+ await page.getByRole('textbox',{name:'표창 3 문구',exact:true}).fill('');
+ await page.screenshot({path:'/tmp/medals-mobile.png'});
+ await page.getByLabel('표창 2 등급',{exact:true}).selectOption('none');
+ assert.equal(await page.locator('#status').textContent(),'');
+ assert(!await page.locator('#status').isVisible());
+ assert.deepEqual(await page.locator('canvas').evaluate(c=>[...c.getContext('2d').getImageData(450,272,1,1).data]),[40,43,49,255]);
+ assert(!((await page.locator('canvas').getAttribute('aria-label')).includes('긴 문구')));
+ await page.getByLabel('표창 2 등급',{exact:true}).selectOption('gold');
+ assert((await page.locator('canvas').getAttribute('aria-label')).includes('긴 문구'));
+ assert.deepEqual(errors,[]);
+ await browser.close(); console.log('PASS: editing, medal selection, PNG export, dark background and font, mobile overflow');
+})().catch(e=>{console.error(e);process.exit(1)});
