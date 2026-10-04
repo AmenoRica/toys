@@ -82,3 +82,11 @@ kbd{font:11px monospace;background:#eee;border:1px solid #ccc;padding:1px 4px}
 #crop-zoom{flex:1;min-width:30px;accent-color:#444}
 #crop-scale{min-width:38px;font:12px monospace;text-align:right}
 .crop-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
+
+.layer-panel{border-top:1px solid #aaa;padding:7px;font-size:12px}
+.layer-actions,.layer-row{display:flex;align-items:center;gap:4px}
+.layer-actions{margin-bottom:4px}.layer-actions span{margin-right:auto}
+#layers{display:flex;flex-direction:column;gap:3px;max-height:160px;overflow:auto}
+.layer-row button{flex:1;text-align:left}.layer-row input{accent-color:#333}
+#ellipse-options{font-size:12px}#ellipse-options span{color:#555;font-size:11px}
+.tools{flex-wrap:wrap}

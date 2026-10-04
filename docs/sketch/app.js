@@ -2,47 +2,98 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const canvas = $('canvas'), ctx = canvas.getContext('2d', {willReadFrequently: true});
+  const canvas = $('canvas'), display = canvas.getContext('2d', {willReadFrequently: true});
+  let ctx, layers = [], activeId, nextId = 1;
   const W = canvas.width, H = canvas.height, HISTORY_LIMIT = 30;
   const palette = [
     ['흰색','#ffffff'],['밝은 회색','#c8c8c8'],['빨강','#ef3939'],['주황','#f99b32'],['노랑','#ffe34c'],['연두','#91ce47'],['초록','#39ae67'],['하늘','#51cde0'],['파랑','#448bde'],['보라','#885cce'],['분홍','#ed8cbb'],['살구','#f5c5a2'],['갈색','#aa7554'],
     ['검정','#202426'],['회색','#727a7d'],['진한 빨강','#a62336'],['진한 주황','#be6324'],['황토','#b49b27'],['올리브','#617a2d'],['진한 초록','#21794c'],['청록','#227a88'],['남색','#2b477e'],['진한 보라','#533476'],['자주','#a94375'],['황갈색','#cf9b72'],['진한 갈색','#624634']
   ];
-  const defaults = {brush:'b',eraser:'e',fill:'f',undo:'u',redo:'r',clear:'c',swap:'s'};
-  const labels = {brush:'브러시',eraser:'지우개',fill:'채우기',undo:'실행 취소',redo:'다시 실행',clear:'비우기',swap:'색 교환'};
+  const defaults = {brush:'b',eraser:'e',fill:'f',ellipse:'o',undo:'u',redo:'r',clear:'c',swap:'s'};
+  const labels = {brush:'브러시',eraser:'지우개',fill:'채우기',ellipse:'원',undo:'실행 취소',redo:'다시 실행',clear:'비우기',swap:'색 교환'};
   let keys = {...defaults}, tool = 'brush', size = 12, colors = ['#202426','#ffffff'], slot = 0;
   let stroke = null, states = [], position = -1, dirty = false;
   try {
     const saved = JSON.parse(localStorage.getItem('local-sketch-settings') || 'null');
-    if (saved && saved.keys && Object.keys(defaults).every(k => /^[a-z0-9]$/.test(saved.keys[k])) && new Set(Object.values(saved.keys)).size === 7) keys = {...saved.keys};
+    if (saved?.keys) {
+      const merged = {...defaults,...saved.keys};
+      if (!saved.keys.ellipse) merged.ellipse = 'oabcdefghijklmnopqrstuvwxyz0123456789'.split('').find(k => !Object.values(saved.keys).includes(k));
+      if (Object.keys(defaults).every(k => /^[a-z0-9]$/.test(merged[k])) && new Set(Object.keys(defaults).map(k=>merged[k])).size === Object.keys(defaults).length) keys = Object.fromEntries(Object.keys(defaults).map(k=>[k,merged[k]]));
+    }
     if (saved && typeof saved.pressure === 'boolean') $('pressure').checked = saved.pressure;
   } catch (_) { /* Private/file browsing may deny storage. Drawing still works. */ }
   const announce = text => { $('status').textContent = text; };
   function saveSettings() {
     try {localStorage.setItem('local-sketch-settings', JSON.stringify({keys,pressure:$('pressure').checked}));} catch (_) { /* Optional persistence. */ }
   }
-  function blank() {ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,W,H);}
+  function newLayer() {
+    const surface=document.createElement('canvas');surface.width=W;surface.height=H;
+    const layer={id:nextId++,visible:true,surface};
+    layers.push(layer);activeId=layer.id;ctx=surface.getContext('2d',{willReadFrequently:true});
+    return layer;
+  }
+  function render() {
+    display.fillStyle='#ffffff';display.fillRect(0,0,W,H);
+    for(const layer of layers) if(layer.visible) display.drawImage(layer.surface,0,0);
+  }
+  function layerUI() {
+    $('layers').replaceChildren();
+    for(const layer of [...layers].reverse()) {
+      const row=document.createElement('div');row.className='layer-row';
+      const visible=document.createElement('input');visible.type='checkbox';visible.checked=layer.visible;
+      visible.setAttribute('aria-label',`레이어 ${layer.id} 표시`);
+      visible.onchange=()=>{if(stroke){visible.checked=layer.visible;return;}layer.visible=visible.checked;commit();};
+      const select=document.createElement('button');select.textContent=`레이어 ${layer.id}`;
+      select.setAttribute('aria-pressed',String(layer.id===activeId));
+      select.onclick=()=>{if(stroke)return;activeId=layer.id;ctx=layer.surface.getContext('2d');layerUI();};
+      row.append(visible,select);$('layers').append(row);
+    }
+    const index=layers.findIndex(l=>l.id===activeId);
+    $('layer-delete').disabled=layers.length===1;
+    $('layer-up').disabled=index===layers.length-1;$('layer-down').disabled=index===0;
+  }
   function updateHistory() {$('undo').disabled = position <= 0; $('redo').disabled = position >= states.length - 1;}
   function commit() {
-    const next = ctx.getImageData(0,0,W,H);
-    const previous = states[position];
-    if (previous && next.data.every((v,i) => v === previous.data[i])) return false;
-    states.splice(position + 1); states.push(next);
-    if (states.length > HISTORY_LIMIT + 1) states.shift();
-    position = states.length - 1; dirty = true; updateHistory(); return true;
+    const previous=states[position];
+    const next={activeId,layers:layers.map(layer=>{
+      const old=previous?.layers.find(l=>l.id===layer.id), image=layer.surface.getContext('2d').getImageData(0,0,W,H);
+      const pixels=old && image.data.every((v,i)=>v===old.image.data[i]) ? old.image : image;
+      return {id:layer.id,visible:layer.visible,image:pixels};
+    })};
+    render();layerUI();
+    if(previous && next.layers.length===previous.layers.length && next.layers.every((l,i)=>l.id===previous.layers[i].id && l.visible===previous.layers[i].visible && l.image===previous.layers[i].image)) return false;
+    states.splice(position+1);states.push(next);
+    if(states.length>HISTORY_LIMIT+1)states.shift();
+    position=states.length-1;dirty=true;updateHistory();return true;
   }
-  function undo() {
-    if (stroke || position <= 0) return;
-    ctx.putImageData(states[--position],0,0); dirty = true; updateHistory(); announce('실행 취소했어요.');
+  function restore(state) {
+    layers=state.layers.map(saved=>{
+      const surface=document.createElement('canvas');surface.width=W;surface.height=H;
+      surface.getContext('2d').putImageData(saved.image,0,0);
+      return {id:saved.id,visible:saved.visible,surface};
+    });
+    activeId=state.activeId;ctx=layers.find(l=>l.id===activeId).surface.getContext('2d',{willReadFrequently:true});
+    render();layerUI();updateHistory();
   }
-  function redo() {
-    if (stroke || position >= states.length - 1) return;
-    ctx.putImageData(states[++position],0,0); dirty = true; updateHistory(); announce('다시 실행했어요.');
+  function undo() {if(stroke || position<=0)return;restore(states[--position]);dirty=true;announce('실행 취소했어요.');}
+  function redo() {if(stroke || position>=states.length-1)return;restore(states[++position]);dirty=true;announce('다시 실행했어요.');}
+  function clear() {if(stroke)return;ctx.clearRect(0,0,W,H);if(commit())announce('선택 레이어를 비웠어요.');}
+  $('layer-add').onclick=()=>{if(stroke)return;newLayer();commit();};
+  $('layer-delete').onclick=()=>{
+    if(stroke || layers.length===1)return;
+    const index=layers.findIndex(l=>l.id===activeId);layers.splice(index,1);
+    activeId=layers[Math.min(index,layers.length-1)].id;ctx=layers.find(l=>l.id===activeId).surface.getContext('2d');commit();
+  };
+  function reorder(delta) {
+    if(stroke)return;const index=layers.findIndex(l=>l.id===activeId), target=index+delta;
+    if(target<0 || target>=layers.length)return;
+    [layers[index],layers[target]]=[layers[target],layers[index]];commit();
   }
-  function clear() {if (stroke) return; blank(); if (commit()) announce('종이를 비웠어요. 실행 취소로 되돌릴 수 있어요.');}
+  $('layer-up').onclick=()=>reorder(1);$('layer-down').onclick=()=>reorder(-1);
   function setTool(value) {
     if (stroke) return;
     tool = value;
+    $('ellipse-options').hidden=value!=='ellipse';
     document.querySelectorAll('[data-tool]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tool === value)));
     $('cursor').style.display = 'none'; announce(labels[value] + ' 도구를 선택했어요.');
   }
@@ -118,8 +169,8 @@
   function fill(p,color) {
     const x=Math.floor(p.x), y=Math.floor(p.y); if(x<0 || x>=W || y<0 || y>=H) return;
     const image=ctx.getImageData(0,0,W,H), data=image.data, seed=y*W+x, start=seed*4;
-    const target=Array.from(data.slice(start,start+3));
-    const replacement=color.match(/[a-f0-9]{2}/gi).map(v=>parseInt(v,16));
+    const target=Array.from(data.slice(start,start+4));
+    const replacement=[...color.match(/[a-f0-9]{2}/gi).map(v=>parseInt(v,16)),255];
     if(target.every((v,i)=>v===replacement[i])) return;
     // Iterative flood fill: bounded memory and no recursion overflow on empty paper.
     const queue=new Int32Array(W*H), visited=new Uint8Array(W*H); let head=0,tail=1;
@@ -137,39 +188,70 @@
   canvas.addEventListener('pointerdown',e=>{
     if(stroke || !e.isPrimary || (e.button!==0 && e.button!==2)) return;
     e.preventDefault(); canvas.focus({preventScroll:true});
+    if(!layers.find(l=>l.id===activeId).visible){announce('숨긴 레이어는 표시한 뒤 그려 주세요.');return;}
     const p=point(e), color=tool==='eraser' ? '#ffffff' : colors[e.button===2 ? 1 : 0];
     if(tool==='fill') {fill(p,color); if(commit()) announce('영역을 채웠어요.');return;}
-    stroke={id:e.pointerId,last:p,width:width(e),color,size,pressure:$('pressure').checked};
-    canvas.setPointerCapture(e.pointerId); dot(p,stroke.width,color);
+    stroke={id:e.pointerId,start:p,last:p,width:width(e),color,size,tool,filled:$('ellipse-filled').checked,pressure:$('pressure').checked,before:ctx.getImageData(0,0,W,H)};
+    canvas.setPointerCapture(e.pointerId);
+    if(tool==='eraser')ctx.globalCompositeOperation='destination-out';
+    if(tool!=='ellipse'){dot(p,stroke.width,color);render();}
   });
   function showCursor(e) {
-    if(e.pointerType==='touch' || tool==='fill') {$('cursor').style.display='none';return;}
+    if(e.pointerType==='touch' || (tool==='fill' || tool==='ellipse')) {$('cursor').style.display='none';return;}
     const r=canvas.getBoundingClientRect(), d=size*r.width/W;
     Object.assign($('cursor').style,{display:'block',left:(e.clientX-r.left)+'px',top:(e.clientY-r.top)+'px',width:d+'px',height:d+'px'});
   }
   function move(e) {
     showCursor(e);
     if(!stroke || e.pointerId!==stroke.id) return;
+    if(stroke.tool==='ellipse'){ellipse(point(e),e.shiftKey);return;}
     const events=e.getCoalescedEvents ? e.getCoalescedEvents() : [];
     for(const sample of events.length ? events : [e]) {
       const p=point(sample), d=width(sample); segment(stroke.last,p,stroke.width,d,stroke.color); stroke.last=p;stroke.width=d;
     }
+    render();
   }
+  function ellipse(p,round) {
+    ctx.putImageData(stroke.before,0,0);stroke.last=p;
+    let dx=p.x-stroke.start.x,dy=p.y-stroke.start.y;
+    if(round){const d=Math.max(Math.abs(dx),Math.abs(dy));dx=(dx<0?-1:1)*d;dy=(dy<0?-1:1)*d;}
+    const left=Math.round(Math.min(stroke.start.x,stroke.start.x+dx)),top=Math.round(Math.min(stroke.start.y,stroke.start.y+dy));
+    const rx=Math.max(1,Math.round(Math.abs(dx)))/2,ry=Math.max(1,Math.round(Math.abs(dy)))/2,cx=left+rx,cy=top+ry;
+    const ix=rx-stroke.size,iy=ry-stroke.size;
+    ctx.fillStyle=stroke.color;
+    // Whole-pixel scanlines preserve the existing non-AA drawing contract.
+    for(let y=Math.max(0,top);y<Math.min(H,top+ry*2);y++) {
+      const dy=y+.5-cy,span=rx*Math.sqrt(Math.max(0,1-(dy/ry)**2));
+      const x0=Math.max(0,Math.ceil(cx-span-.5)),x1=Math.min(W-1,Math.floor(cx+span-.5));
+      if(x1<x0)continue;
+      if(stroke.filled || ix<=0 || iy<=0 || Math.abs(dy)>=iy)ctx.fillRect(x0,y,x1-x0+1,1);
+      else {
+        const inner=ix*Math.sqrt(1-(dy/iy)**2),a=Math.max(x0,Math.ceil(cx-inner-.5)),b=Math.min(x1,Math.floor(cx+inner-.5));
+        if(a>x0)ctx.fillRect(x0,y,a-x0,1);if(b<x1)ctx.fillRect(b+1,y,x1-b,1);
+      }
+    }
+    render();
+  }
+  for(const type of ['keydown','keyup'])document.addEventListener(type,e=>{
+    if(e.key==='Shift' && stroke?.tool==='ellipse')ellipse(stroke.last,e.shiftKey);
+  });
   function finish(e,cancel=false) {
     if(!stroke || (e && e.pointerId!==stroke.id)) return;
-    if(e && !cancel && (e.clientX!==undefined)) {
+    if(e?.type==='pointerup' && !cancel) {
       // pointerup has pressure 0; retain the last nonzero width for the endpoint.
-      const p=point(e);segment(stroke.last,p,stroke.width,stroke.width,stroke.color);
+      const p=point(e);if(stroke.tool==='ellipse')ellipse(p,e.shiftKey);else segment(stroke.last,p,stroke.width,stroke.width,stroke.color);
     }
-    const id=stroke.id; stroke=null;
+    const id=stroke.id, before=stroke.before; stroke=null;ctx.globalCompositeOperation='source-over';
     if(canvas.hasPointerCapture(id)) canvas.releasePointerCapture(id);
-    if(cancel) {ctx.putImageData(states[position],0,0);announce('중단된 획을 취소했어요.');}
+    if(cancel) {ctx.putImageData(before,0,0);render();announce('중단된 획을 취소했어요.');}
     else if(commit()) announce('획을 그렸어요.');
   }
   canvas.addEventListener('pointermove',move);
   canvas.addEventListener('pointerup',e=>finish(e));
   canvas.addEventListener('pointercancel',e=>finish(e,true));
-  canvas.addEventListener('lostpointercapture',e=>finish(e,true));
+  // Capture can end without pointerup; preserve the last drawn pixels.
+  // Capture events do not carry a usable drawing endpoint.
+  canvas.addEventListener('lostpointercapture',e=>finish(e));
   canvas.addEventListener('pointerleave',()=>{$('cursor').style.display='none';});
   window.addEventListener('blur',()=>finish(null));
   document.addEventListener('visibilitychange',()=>{if(document.hidden) finish(null);});
@@ -190,7 +272,7 @@
   let crop=null, cropDrag=null, imageRequest=0;
   function renderCrop() {
     if(!crop) return;
-    previewCtx.fillStyle='#ffffff';previewCtx.fillRect(0,0,W,H);
+    previewCtx.drawImage(canvas,0,0);
     previewCtx.imageSmoothingEnabled=false;
     previewCtx.drawImage(crop.image,Math.round(crop.x),Math.round(crop.y),Math.max(1,Math.round(crop.image.naturalWidth*crop.scale)),Math.max(1,Math.round(crop.image.naturalHeight*crop.scale)));
   }
@@ -248,11 +330,11 @@
   });
   $('crop-apply').onclick=()=>{
     if(!crop) return;
-    endCropDrag();ctx.drawImage(preview,0,0);commit();cropDialog.close();announce('이미지를 불러왔어요. 실행 취소로 되돌릴 수 있어요.');
+    endCropDrag();newLayer();ctx.imageSmoothingEnabled=false;ctx.drawImage(crop.image,Math.round(crop.x),Math.round(crop.y),Math.max(1,Math.round(crop.image.naturalWidth*crop.scale)),Math.max(1,Math.round(crop.image.naturalHeight*crop.scale)));commit();cropDialog.close();announce('이미지를 불러왔어요. 실행 취소로 되돌릴 수 있어요.');
   };
   $('crop-close').onclick=$('crop-cancel').onclick=()=>cropDialog.close();
   cropDialog.addEventListener('close',()=>{endCropDrag();crop=null;previewCtx.clearRect(0,0,W,H);$('open-image').focus();});
-  const actions={brush:()=>setTool('brush'),eraser:()=>setTool('eraser'),fill:()=>setTool('fill'),undo,redo,clear,swap};
+  const actions={brush:()=>setTool('brush'),eraser:()=>setTool('eraser'),fill:()=>setTool('fill'),ellipse:()=>setTool('ellipse'),undo,redo,clear,swap};
   function renderKeys() {
     $('hotkeys').replaceChildren();
     for(const [action,label] of Object.entries(labels)) {
@@ -293,5 +375,5 @@
     if(action) {e.preventDefault();actions[action]();}
   });
   window.addEventListener('beforeunload',e=>{if(dirty) {e.preventDefault();e.returnValue='';}});
-  blank();commit();dirty=false;updateColors();setSize(size);renderKeys();
+  newLayer();commit();dirty=false;updateColors();setSize(size);renderKeys();
 })();

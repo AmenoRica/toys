@@ -7,8 +7,8 @@
   <title>종이 한 장 · Local Sketch</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="../shared/base.css?v=1">
-  <link rel="stylesheet" href="style.css?v=5">
-  <script src="app.js?v=2" defer></script>
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="app.js?v=4" defer></script>
 </head>
 <body>
   <main class="app">
@@ -18,6 +18,7 @@
         <div class="tools" role="group" aria-label="그리기 도구">
           <button data-tool="brush" aria-pressed="true">브러시 <kbd>B</kbd></button>
           <button data-tool="eraser" aria-pressed="false">지우개 <kbd>E</kbd></button>
+          <button data-tool="ellipse" aria-pressed="false">원 <kbd>O</kbd></button>
           <button data-tool="fill" aria-pressed="false">채우기 <kbd>F</kbd></button>
         </div>
         <div class="history" role="group" aria-label="그림 편집">
@@ -31,7 +32,12 @@
         </div>
       </div>
       <div class="paper-surround"><div class="paper"><canvas id="canvas" width="800" height="600" tabindex="0" aria-label="그림 캔버스. 왼쪽 버튼은 첫 번째 색, 오른쪽 버튼은 두 번째 색으로 그립니다.">이 그림판은 HTML 캔버스를 지원하는 브라우저가 필요합니다.</canvas><span id="cursor" aria-hidden="true"></span></div></div>
+      <section class="layer-panel" aria-label="레이어">
+        <div class="layer-actions"><span>레이어</span><button id="layer-add">추가</button><button id="layer-delete">삭제</button><button id="layer-up" aria-label="레이어 위로">↑</button><button id="layer-down" aria-label="레이어 아래로">↓</button></div>
+        <div id="layers"></div>
+      </section>
       <div class="bottom-tools">
+        <label id="ellipse-options" hidden><input id="ellipse-filled" type="checkbox"> 내부 채움 <span>· Shift: 정원 · 크기: 테두리 굵기</span></label>
         <section class="color-section" aria-label="색상 선택">
           <div class="color-controls"><div class="selected-colors">
             <button id="primary-color" class="color-slot" aria-label="왼쪽 색 선택 모드" aria-pressed="true"><span class="color-preview"></span><small>왼쪽</small></button>
@@ -52,7 +58,7 @@
   </main>
   <dialog id="image-crop" aria-labelledby="crop-title">
     <div class="dialog-heading"><h2 id="crop-title">이미지 맞추기</h2><button id="crop-close" aria-label="이미지 불러오기 취소">✕</button></div>
-    <p id="crop-help">드래그로 이동하고 크기를 조절하세요. 테두리 밖은 잘리고 빈 곳은 흰색이 됩니다. 방향키로도 이동할 수 있습니다.</p>
+    <p id="crop-help">드래그로 이동하고 크기를 조절하세요. 테두리 밖은 잘리고 빈 곳과 투명한 부분에는 아래 레이어가 보입니다. 방향키로도 이동할 수 있습니다.</p>
     <canvas id="crop-preview" width="800" height="600" tabindex="0" aria-label="이미지 자르기 미리보기" aria-describedby="crop-help"></canvas>
     <div class="crop-controls"><label for="crop-zoom">크기</label><input id="crop-zoom" type="range" min="10" max="400" value="100"><output id="crop-scale" for="crop-zoom">100%</output><button id="crop-reset">맞추기</button></div>
     <div class="crop-actions"><button id="crop-cancel">취소</button><button id="crop-apply" class="primary">적용</button></div>
@@ -63,8 +69,8 @@
     <p id="key-error" role="status"></p>
     <div class="fixed-keys"><p><kbd>Ctrl / ⌘ + Z</kbd> 실행 취소<br><kbd>Ctrl / ⌘ + Shift + Z</kbd> 다시 실행<br><kbd>Ctrl + Y</kbd> 다시 실행<br><kbd>Ctrl / ⌘ + S</kbd> PNG 저장<br><kbd>[</kbd> <kbd>]</kbd> 브러시 크기 조절</p></div>
     <p class="help">팔레트 좌클릭은 왼쪽 색, 우클릭은 오른쪽 색을 고릅니다. 터치에서는 먼저 ‘왼쪽’ 또는 ‘오른쪽’ 색 칸을 누르세요. ‘색 교환’으로 터치에 사용할 색도 바꿀 수 있습니다.</p>
-    <p class="help">이미지 불러오기에서 위치와 크기를 조절한 뒤 적용하면 현재 그림을 교체합니다. 빈 곳과 투명한 부분은 흰색이며, 불러오기도 실행 취소할 수 있습니다. 이미지는 서버로 전송되지 않습니다.</p>
-    <p class="help">최근 30개 작업을 되돌릴 수 있습니다. 비우기도 복구됩니다. 그림은 자동 저장되지 않으니 창을 닫기 전에 PNG로 저장하세요. 필압을 지원하지 않는 기기에서는 일정한 굵기로 그려집니다.</p>
+    <p class="help">이미지 불러오기는 새 레이어를 만듭니다. 빈 곳과 투명한 부분에는 아래 레이어가 보이며, 불러오기도 실행 취소할 수 있습니다. 이미지는 서버로 전송되지 않습니다.</p>
+    <p class="help">지우개는 선택 레이어를 투명하게 지우고, 비우기는 선택 레이어만 지웁니다. 채우기도 선택 레이어의 경계를 따릅니다. 숨긴 레이어는 표시한 뒤 그릴 수 있습니다. PNG는 보이는 레이어를 흰 배경 위에 합쳐 저장합니다. 최근 30개 작업을 되돌릴 수 있습니다. 비우기도 복구됩니다. PNG에는 레이어 편집 정보가 포함되지 않습니다. 그림은 자동 저장되지 않으니 창을 닫기 전에 PNG로 저장하세요. 필압을 지원하지 않는 기기에서는 일정한 굵기로 그려집니다.</p>
     <button id="keys-reset">기본 단축키로 되돌리기</button>
   </dialog>
 </body>

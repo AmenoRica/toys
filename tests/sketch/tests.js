@@ -21,9 +21,9 @@ document.getElementById('run').onclick = async () => {
     // Synthetic events have no OS pointer, so only capture calls are stubbed in this test iframe.
     let captured=null;
     canvas.setPointerCapture=id=>{captured=id;};canvas.hasPointerCapture=id=>captured===id;canvas.releasePointerCapture=()=>{captured=null;};
-    function pointer(type,x,y,{button=0,pressure=.5,pointerType='mouse',id=1,isPrimary=true}={}) {
+    function pointer(type,x,y,{button=0,pressure=.5,pointerType='mouse',id=1,isPrimary=true,shiftKey=false}={}) {
       const rect=canvas.getBoundingClientRect();
-      canvas.dispatchEvent(new win.PointerEvent(type,{bubbles:true,cancelable:true,pointerId:id,isPrimary,pointerType,button,buttons:type==='pointerup'?0:button===2?2:1,pressure:type==='pointerup'?0:pressure,clientX:rect.left+x*rect.width/800,clientY:rect.top+y*rect.height/600}));
+      canvas.dispatchEvent(new win.PointerEvent(type,{bubbles:true,cancelable:true,pointerId:id,isPrimary,pointerType,button,shiftKey,buttons:type==='pointerup'?0:button===2?2:1,pressure:type==='pointerup'?0:pressure,clientX:rect.left+x*rect.width/800,clientY:rect.top+y*rect.height/600}));
     }
     function stroke(points,options={}) {pointer('pointerdown',...points[0],options);points.slice(1).forEach(p=>pointer('pointermove',...p,options));pointer('pointerup',...points.at(-1),options);}
     const reset=()=>{$('clear').click();tool('brush');color('검정');setSize(12);};
@@ -57,6 +57,11 @@ document.getElementById('run').onclick = async () => {
     $('pressure').checked=true;stroke([[400,300],[600,300]],{pointerType:'mouse',pressure:.5});check('마우스는 pressure 0.5여도 설정한 굵기 유지',!white(500,318));
     reset();setSize(1);stroke([[100,50],[200,50]]);check('1 px 브러시가 끊기지 않고 단일 행을 그림',rgb(150,50,[32,36,38])&&white(150,49)&&white(150,51));setSize(12);
     pointer('pointerdown',100,100);pointer('pointermove',200,100);pointer('pointercancel',200,100);check('pointercancel은 진행 중 획만 복원',white(150,100)&&rgb(150,50,[32,36,38]));
+    pointer('pointerdown',400,150);pointer('pointermove',500,150);
+    canvas.dispatchEvent(new win.PointerEvent('lostpointercapture',{pointerId:1}));
+    check('캡처 해제 시 그린 획 보존 및 잘못된 끝점 방지',rgb(450,150,[32,36,38])&&white(300,90));
+    pointer('pointerup',500,150);$('undo').click();check('캡처 해제 뒤 늦은 pointerup은 중복 저장하지 않음',white(450,150)&&rgb(150,50,[32,36,38]));
+    $('redo').click();check('캡처 해제로 끝난 획 redo',rgb(450,150,[32,36,38]));
     pointer('pointerdown',100,200);pointer('pointermove',200,200);pointer('pointerdown',500,500,{id:2,isPrimary:false});pointer('pointerup',200,200);check('보조 터치 입력 무시',white(500,500)&&rgb(150,200,[32,36,38]));
     stroke([[600,350],[850,350]]);check('캔버스 밖으로 드래그해도 가장자리까지 그림',rgb(799,350,[32,36,38]));
     reset();color('빨강');color('파랑',2);press('s');stroke([[100,100]]);check('S 색 교환',rgb(100,100,[68,139,222]));
@@ -93,9 +98,46 @@ document.getElementById('run').onclick = async () => {
     for(const [type,x] of [['pointerdown',200],['pointermove',600],['pointerup',600]])cropCanvas.dispatchEvent(new win.PointerEvent(type,{pointerId:77,isPrimary:true,pointerType:'mouse',button:0,clientX:cr.left+x*cr.width/800,clientY:cr.top+300*cr.height/600,bubbles:true}));
     await closeCrop('crop-apply');check('확대하고 드래그한 위치로 잘라 적용',rgb(600,300,[255,0,0])&&rgb(100,300,[255,0,0]));
     await upload(file);await closeCrop('crop-cancel');check('불러오기 취소 시 그림 보존',rgb(600,300,[255,0,0]));
-    await upload(file);$('crop-zoom').value=25;$('crop-zoom').dispatchEvent(new win.Event('input'));await closeCrop('crop-apply');check('축소 시 흰 여백 유지',white(100,300)&&rgb(350,300,[255,0,0])&&rgb(450,300,[0,0,255]));
-    await upload(file);$('crop-zoom').value=300;$('crop-zoom').dispatchEvent(new win.Event('input'));$('crop-reset').click();await closeCrop('crop-apply');check('맞추기 버튼으로 위치와 크기 초기화',white(300,50)&&rgb(600,200,[0,0,255]));
+    await upload(file);$('crop-zoom').value=25;$('crop-zoom').dispatchEvent(new win.Event('input'));await closeCrop('crop-apply');check('축소한 새 레이어 여백에 아래 그림 유지',rgb(100,300,[255,0,0])&&rgb(350,300,[255,0,0])&&rgb(450,300,[0,0,255]));
+    await upload(file);$('crop-zoom').value=300;$('crop-zoom').dispatchEvent(new win.Event('input'));$('crop-reset').click();await closeCrop('crop-apply');check('맞추기 버튼으로 위치와 크기 초기화',rgb(300,50,[255,0,0])&&rgb(600,200,[0,0,255]));
     await upload(new win.File(['invalid'],'broken.png',{type:'image/png'}),false);check('손상된 이미지 오류 안내 및 기존 그림 보존',!$('image-crop').open&&rgb(600,200,[0,0,255]));
+    while(!$('layer-delete').disabled)$('layer-delete').click();
+    reset();color('빨강');stroke([[100,100]]);
+    $('layer-add').click();color('파랑');stroke([[100,100]]);
+    check('새 레이어는 위에 합성',rgb(100,100,[68,139,222]));
+    tool('eraser');stroke([[100,100]]);check('투명 지우개가 아래 레이어를 드러냄',rgb(100,100,[239,57,57]));
+    $('undo').click();check('레이어 지우개 취소',rgb(100,100,[68,139,222]));
+    $('layer-down').click();check('레이어 아래로 순서 변경',rgb(100,100,[239,57,57]));
+    $('layer-up').click();check('레이어 위로 순서 변경',rgb(100,100,[68,139,222]));
+    doc.querySelector('#layers input').click();check('레이어 숨김',rgb(100,100,[239,57,57]));
+    $('undo').click();check('숨김 취소',rgb(100,100,[68,139,222]));
+    $('clear').click();check('비우기는 선택 레이어만',rgb(100,100,[239,57,57]));
+    $('undo').click();$('layer-delete').click();check('삭제는 아래 레이어 보존',rgb(100,100,[239,57,57]));
+    $('undo').click();check('레이어 삭제 취소',rgb(100,100,[68,139,222]));
+    $('redo').click();doc.querySelector('#layers button').click();
+    reset();tool('ellipse');setSize(4);
+    stroke([[100,100],[300,200]]);
+    check('타원 테두리와 빈 내부',rgb(200,100,[32,36,38])&&white(200,150)&&white(100,100));
+    $('undo').click();check('타원 한 번에 실행 취소',white(200,100));$('redo').click();
+    const edgePixels=ctx.getImageData(0,0,800,600).data;
+    check('타원 AA 없는 픽셀',edgePixels.every((v,i)=>i%4===3?v===255:[32,36,38,255].includes(v)));
+    $('clear').click();$('ellipse-filled').checked=true;
+    stroke([[100,100],[300,200]],{shiftKey:true});
+    check('Shift 정원과 내부 채움',rgb(200,200,[32,36,38])&&rgb(200,290,[32,36,38])&&white(200,301));
+    $('clear').click();color('빨강',2);stroke([[300,200],[100,100]],{button:2});
+    check('역방향 타원 및 오른쪽 색',rgb(200,150,[239,57,57]));
+    pointer('pointerdown',400,300);pointer('pointermove',600,400);pointer('pointercancel',600,400);
+    check('타원 미리보기 취소',white(500,350)&&rgb(200,150,[239,57,57]));
+    pointer('pointerdown',400,300);pointer('pointermove',600,400);
+    canvas.dispatchEvent(new win.PointerEvent('lostpointercapture',{pointerId:2}));
+    pointer('pointermove',650,400);
+    check('다른 포인터의 캡처 해제는 현재 타원에 영향 없음',rgb(620,350,[32,36,38]));
+    canvas.dispatchEvent(new win.PointerEvent('lostpointercapture',{pointerId:1}));
+    check('타원도 캡처 해제 시 마지막 미리보기 유지',rgb(620,350,[32,36,38])&&white(350,250));
+    $('undo').click();check('캡처 해제로 끝난 타원 undo',white(620,350)&&rgb(200,150,[239,57,57]));
+    $('clear').click();tool('fill');color('검정');stroke([[20,20]]);
+    check('투명 영역 검정 채우기',rgb(799,599,[32,36,38]));
+    check('마지막 레이어 삭제 방지',$('layer-delete').disabled);
     reset();for(let i=0;i<35;i++)stroke([[20+i*20,100]]);for(let i=0;i<35;i++)$('undo').click();check('최근 30작업 제한 및 이전 상태 보존',$('undo').disabled&&rgb(20,100,[32,36,38])&&white(700,100));
     $('settings-open').click();$('keys-reset').click();$('settings-close').click();
     if(originalSettings===null)win.localStorage.removeItem('local-sketch-settings');else win.localStorage.setItem('local-sketch-settings',originalSettings);
