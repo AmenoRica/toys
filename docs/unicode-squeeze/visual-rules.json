@@ -1,0 +1,3687 @@
+{
+  "schema_version": 1,
+  "kind": "experimental_visual",
+  "source_sha256": "3d9b428cf5c4479e03feef9febf94e4fe241eac98614b193328db7393afa97ff",
+  "source_artifact": "unicode-stroke-rescan/candidates.json",
+  "font_size_px": 24,
+  "method": {
+    "base": "unicode-shape-pilot compare unchanged; additions only",
+    "additional_gate": "horizontal scanline contiguous ink-run count; match either neighboring row within 1 px in both directions; reject 3 or more consecutive unmatched nonempty rows",
+    "reason": "count persistent stroke additions or mergers rather than reusing one nearby stroke multiple times",
+    "calibration": "trial parameters selected against requested counterexamples and retained rn/m reference; not human-validated confidence",
+    "no_string_exceptions": true,
+    "limitations": [
+      "short differences spanning at most 2 consecutive rows can pass",
+      "same-count reshaping can pass",
+      "horizontal slices alone do not guarantee stroke identity",
+      "24px binary raster and bundled fonts only"
+    ],
+    "sha256": {
+      "unicode-stroke-review/review.py": "e9544d4e7d1e401b2ad5aa9e57cdeb3995a903cb1e3cd286e0b2873e1412b4d0",
+      "unicode-shape-pilot/pilot.py": "2f98851cddfefcbc584a19f91b1a3467b0ba88585064428a6d730b2e18a30826"
+    }
+  },
+  "confidence_percent": null,
+  "rules": [
+    {
+      "source": "Aa",
+      "replacement": "🗛",
+      "codepoint": "U+1F5DB",
+      "name": "DECREASE FONT SIZE SYMBOL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Cl",
+      "replacement": "🂴",
+      "codepoint": "U+1F0B4",
+      "name": "PLAYING CARD FOUR OF HEARTS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ct",
+      "replacement": "ᘯ",
+      "codepoint": "U+162F",
+      "name": "CANADIAN SYLLABICS CARRIER LHO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCanadianAboriginal-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Dl",
+      "replacement": "Ꙕ",
+      "codepoint": "U+A654",
+      "name": "CYRILLIC CAPITAL LETTER REVERSED YU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Dy",
+      "replacement": "Ѹ",
+      "codepoint": "U+0478",
+      "name": "CYRILLIC CAPITAL LETTER UK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "⎍",
+      "codepoint": "U+238D",
+      "name": "MONOSTABLE SYMBOL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "⏸",
+      "codepoint": "U+23F8",
+      "name": "DOUBLE VERTICAL BAR",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "⮅",
+      "codepoint": "U+2B85",
+      "name": "UPWARDS TRIANGLE-HEADED PAIRED ARROWS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "⮇",
+      "codepoint": "U+2B87",
+      "name": "DOWNWARDS TRIANGLE-HEADED PAIRED ARROWS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "𝖀",
+      "codepoint": "U+1D580",
+      "name": "MATHEMATICAL BOLD FRAKTUR CAPITAL U",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "II",
+      "replacement": "𝡢",
+      "codepoint": "U+1D862",
+      "name": "SIGNWRITING HAND-FLAT SPLIT CENTRE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IIl",
+      "replacement": "Ⅲ",
+      "codepoint": "U+2162",
+      "name": "ROMAN NUMERAL THREE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IIl",
+      "replacement": "㍺",
+      "codepoint": "U+337A",
+      "name": "SQUARE IU",
+      "bidi_class": "ON",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IJ",
+      "replacement": "⢿",
+      "codepoint": "U+28BF",
+      "name": "BRAILLE PATTERN DOTS-1234568",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IL",
+      "replacement": "Ỻ",
+      "codepoint": "U+1EFA",
+      "name": "LATIN CAPITAL LETTER MIDDLE-WELSH LL",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ILl",
+      "replacement": "Ɯ",
+      "codepoint": "U+019C",
+      "name": "LATIN CAPITAL LETTER TURNED M",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IU",
+      "replacement": "ᗯ",
+      "codepoint": "U+15EF",
+      "name": "CANADIAN SYLLABICS CARRIER GU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCanadianAboriginal-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IfJ",
+      "replacement": "까",
+      "codepoint": "U+AE4C",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IfJ",
+      "replacement": "꺄",
+      "codepoint": "U+AE84",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "ǁ",
+      "codepoint": "U+01C1",
+      "name": "LATIN LETTER LATERAL CLICK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "ỻ",
+      "codepoint": "U+1EFB",
+      "name": "LATIN SMALL LETTER MIDDLE-WELSH LL",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "ῃ",
+      "codepoint": "U+1FC3",
+      "name": "GREEK SMALL LETTER ETA WITH YPOGEGRAMMENI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "Ⅱ",
+      "codepoint": "U+2161",
+      "name": "ROMAN NUMERAL TWO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "⏸",
+      "codepoint": "U+23F8",
+      "name": "DOUBLE VERTICAL BAR",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "⸩",
+      "codepoint": "U+2E29",
+      "name": "RIGHT DOUBLE PARENTHESIS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "𑃁",
+      "codepoint": "U+110C1",
+      "name": "KAITHI DOUBLE DANDA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansKaithi-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "𑪜",
+      "codepoint": "U+11A9C",
+      "name": "SOYOMBO MARK DOUBLE SHAD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "𝖀",
+      "codepoint": "U+1D580",
+      "name": "MATHEMATICAL BOLD FRAKTUR CAPITAL U",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Il",
+      "replacement": "𝡢",
+      "codepoint": "U+1D862",
+      "name": "SIGNWRITING HAND-FLAT SPLIT CENTRE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IlI",
+      "replacement": "Ⅲ",
+      "codepoint": "U+2162",
+      "name": "ROMAN NUMERAL THREE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "IlI",
+      "replacement": "㍺",
+      "codepoint": "U+337A",
+      "name": "SQUARE IU",
+      "bidi_class": "ON",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ill",
+      "replacement": "Ⲽ",
+      "codepoint": "U+2CBC",
+      "name": "COPTIC CAPITAL LETTER CRYPTOGRAMMIC NI",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCoptic-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ill",
+      "replacement": "㍺",
+      "codepoint": "U+337A",
+      "name": "SQUARE IU",
+      "bidi_class": "ON",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ItJ",
+      "replacement": "띠",
+      "codepoint": "U+B760",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ix",
+      "replacement": "㏓",
+      "codepoint": "U+33D3",
+      "name": "SQUARE LX",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "JI",
+      "replacement": "⼙",
+      "codepoint": "U+2F19",
+      "name": "KANGXI RADICAL SEAL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "JI",
+      "replacement": "卩",
+      "codepoint": "U+5369",
+      "name": "<CJK Ideograph>",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Jt",
+      "replacement": "ɲ",
+      "codepoint": "U+0272",
+      "name": "LATIN SMALL LETTER N WITH LEFT HOOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "KIl",
+      "replacement": "Ⅻ",
+      "codepoint": "U+216B",
+      "name": "ROMAN NUMERAL TWELVE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Kl",
+      "replacement": "Ⅺ",
+      "codepoint": "U+216A",
+      "name": "ROMAN NUMERAL ELEVEN",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "KlI",
+      "replacement": "Ⅻ",
+      "codepoint": "U+216B",
+      "name": "ROMAN NUMERAL TWELVE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "U",
+      "codepoint": "U+0055",
+      "name": "LATIN CAPITAL LETTER U",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "⨿",
+      "codepoint": "U+2A3F",
+      "name": "AMALGAMATION OR COPRODUCT",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "Ⳙ",
+      "codepoint": "U+2CD8",
+      "name": "COPTIC CAPITAL LETTER OLD COPTIC DJA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCoptic-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "⼐",
+      "codepoint": "U+2F10",
+      "name": "KANGXI RADICAL OPEN BOX",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "凵",
+      "codepoint": "U+51F5",
+      "name": "<CJK Ideograph>",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ll",
+      "replacement": "𝈈",
+      "codepoint": "U+1D208",
+      "name": "GREEK VOCAL NOTATION SYMBOL-9",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoMusic-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "LlI",
+      "replacement": "Ɯ",
+      "codepoint": "U+019C",
+      "name": "LATIN CAPITAL LETTER TURNED M",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "LlI",
+      "replacement": "Ш",
+      "codepoint": "U+0428",
+      "name": "CYRILLIC CAPITAL LETTER SHA",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "OI",
+      "replacement": "Ƣ",
+      "codepoint": "U+01A2",
+      "name": "LATIN CAPITAL LETTER OI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "OZ",
+      "replacement": "Ǳ",
+      "codepoint": "U+01F1",
+      "name": "LATIN CAPITAL LETTER DZ",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Oc",
+      "replacement": "ǲ",
+      "codepoint": "U+01F2",
+      "name": "LATIN CAPITAL LETTER D WITH SMALL LETTER Z",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Ol",
+      "replacement": "Ꙕ",
+      "codepoint": "U+A654",
+      "name": "CYRILLIC CAPITAL LETTER REVERSED YU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "Oz",
+      "replacement": "ǲ",
+      "codepoint": "U+01F2",
+      "name": "LATIN CAPITAL LETTER D WITH SMALL LETTER Z",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "RJ",
+      "replacement": "㖊",
+      "codepoint": "U+358A",
+      "name": "<CJK Ideograph Extension A>",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "VIl",
+      "replacement": "Ⅶ",
+      "codepoint": "U+2166",
+      "name": "ROMAN NUMERAL SEVEN",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "VfI",
+      "replacement": "Ⅶ",
+      "codepoint": "U+2166",
+      "name": "ROMAN NUMERAL SEVEN",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "XIl",
+      "replacement": "Ⅻ",
+      "codepoint": "U+216B",
+      "name": "ROMAN NUMERAL TWELVE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "XlI",
+      "replacement": "Ⅻ",
+      "codepoint": "U+216B",
+      "name": "ROMAN NUMERAL TWELVE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "aV",
+      "replacement": "㋎",
+      "codepoint": "U+32CE",
+      "name": "SQUARE EV",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ajJ",
+      "replacement": "매",
+      "codepoint": "U+B9E4",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ajJ",
+      "replacement": "메",
+      "codepoint": "U+BA54",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ao",
+      "replacement": "ၹ",
+      "codepoint": "U+1079",
+      "name": "MYANMAR LETTER SHAN ZA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ao",
+      "replacement": "ꩣ",
+      "codepoint": "U+AA63",
+      "name": "MYANMAR LETTER KHAMTI JA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ao",
+      "replacement": "ꩧ",
+      "codepoint": "U+AA67",
+      "name": "MYANMAR LETTER KHAMTI TTHA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "cjJ",
+      "replacement": "대",
+      "codepoint": "U+B300",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "co",
+      "replacement": "တ",
+      "codepoint": "U+1010",
+      "name": "MYANMAR LETTER TA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "co",
+      "replacement": "ၸ",
+      "codepoint": "U+1078",
+      "name": "MYANMAR LETTER SHAN CA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "co",
+      "replacement": "ꩡ",
+      "codepoint": "U+AA61",
+      "name": "MYANMAR LETTER KHAMTI CA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "co",
+      "replacement": "𑄖",
+      "codepoint": "U+11116",
+      "name": "CHAKMA LETTER TAA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansChakma-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "cr",
+      "replacement": "𑢹",
+      "codepoint": "U+118B9",
+      "name": "WARANG CITI CAPITAL LETTER HIYO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansWarangCiti-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fI",
+      "replacement": "ꟗ",
+      "codepoint": "U+A7D7",
+      "name": "LATIN SMALL LETTER MIDDLE SCOTS S",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fI",
+      "replacement": "🔃",
+      "codepoint": "U+1F503",
+      "name": "CLOCKWISE DOWNWARDS AND UPWARDS OPEN CIRCLE ARROWS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fJ",
+      "replacement": "⢿",
+      "codepoint": "U+28BF",
+      "name": "BRAILLE PATTERN DOTS-1234568",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fL",
+      "replacement": "Ỻ",
+      "codepoint": "U+1EFA",
+      "name": "LATIN CAPITAL LETTER MIDDLE-WELSH LL",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fff",
+      "replacement": "ﬄ",
+      "codepoint": "U+FB04",
+      "name": "LATIN SMALL LIGATURE FFL",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "ㅐ",
+      "codepoint": "U+3150",
+      "name": "HANGUL LETTER AE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "ㅔ",
+      "codepoint": "U+3154",
+      "name": "HANGUL LETTER E",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "ꔔ",
+      "codepoint": "U+A514",
+      "name": "VAI SYLLABLE DEE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansVai-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "ￃ",
+      "codepoint": "U+FFC3",
+      "name": "HALFWIDTH HANGUL LETTER AE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "ￇ",
+      "codepoint": "U+FFC7",
+      "name": "HALFWIDTH HANGUL LETTER E",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fl",
+      "replacement": "𑪜",
+      "codepoint": "U+11A9C",
+      "name": "SOYOMBO MARK DOUBLE SHAD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fli",
+      "replacement": "ﬃ",
+      "codepoint": "U+FB03",
+      "name": "LATIN SMALL LIGATURE FFI",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fll",
+      "replacement": "Ⲽ",
+      "codepoint": "U+2CBC",
+      "name": "COPTIC CAPITAL LETTER CRYPTOGRAMMIC NI",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCoptic-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "fll",
+      "replacement": "ﬄ",
+      "codepoint": "U+FB04",
+      "name": "LATIN SMALL LIGATURE FFL",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ft",
+      "replacement": "ꔔ",
+      "codepoint": "U+A514",
+      "name": "VAI SYLLABLE DEE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansVai-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ft",
+      "replacement": "ﬂ",
+      "codepoint": "U+FB02",
+      "name": "LATIN SMALL LIGATURE FL",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ii",
+      "replacement": "ü",
+      "codepoint": "U+00FC",
+      "name": "LATIN SMALL LETTER U WITH DIAERESIS",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "‖",
+      "codepoint": "U+2016",
+      "name": "DOUBLE VERTICAL LINE",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "⣿",
+      "codepoint": "U+28FF",
+      "name": "BRAILLE PATTERN DOTS-12345678",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "ㅐ",
+      "codepoint": "U+3150",
+      "name": "HANGUL LETTER AE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "ￃ",
+      "codepoint": "U+FFC3",
+      "name": "HALFWIDTH HANGUL LETTER AE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "𜰯",
+      "codepoint": "U+1CC2F",
+      "name": "SEPARATED BLOCK QUADRANT-1234",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jJ",
+      "replacement": "𜻠",
+      "codepoint": "U+1CEE0",
+      "name": "GEOMANTIC FIGURE POPULUS",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "kY",
+      "replacement": "㎸",
+      "codepoint": "U+33B8",
+      "name": "SQUARE KV",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lB",
+      "replacement": "ᗸ",
+      "codepoint": "U+15F8",
+      "name": "CANADIAN SYLLABICS CARRIER KHEE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCanadianAboriginal-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lC",
+      "replacement": "ꗫ",
+      "codepoint": "U+A5EB",
+      "name": "VAI SYLLABLE MBE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansVai-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lD",
+      "replacement": "Ю",
+      "codepoint": "U+042E",
+      "name": "CYRILLIC CAPITAL LETTER YU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lE",
+      "replacement": "Ѥ",
+      "codepoint": "U+0464",
+      "name": "CYRILLIC CAPITAL LETTER IOTIFIED E",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lEJ",
+      "replacement": "떠",
+      "codepoint": "U+B5A0",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "ǁ",
+      "codepoint": "U+01C1",
+      "name": "LATIN LETTER LATERAL CLICK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "ỻ",
+      "codepoint": "U+1EFB",
+      "name": "LATIN SMALL LETTER MIDDLE-WELSH LL",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "Ⅱ",
+      "codepoint": "U+2161",
+      "name": "ROMAN NUMERAL TWO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "⏸",
+      "codepoint": "U+23F8",
+      "name": "DOUBLE VERTICAL BAR",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "𑃁",
+      "codepoint": "U+110C1",
+      "name": "KAITHI DOUBLE DANDA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansKaithi-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "𑙂",
+      "codepoint": "U+11642",
+      "name": "MODI DOUBLE DANDA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "𑪜",
+      "codepoint": "U+11A9C",
+      "name": "SOYOMBO MARK DOUBLE SHAD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "𝖀",
+      "codepoint": "U+1D580",
+      "name": "MATHEMATICAL BOLD FRAKTUR CAPITAL U",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lI",
+      "replacement": "𝚄",
+      "codepoint": "U+1D684",
+      "name": "MATHEMATICAL MONOSPACE CAPITAL U",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lII",
+      "replacement": "Ⅲ",
+      "codepoint": "U+2162",
+      "name": "ROMAN NUMERAL THREE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lII",
+      "replacement": "Ⲽ",
+      "codepoint": "U+2CBC",
+      "name": "COPTIC CAPITAL LETTER CRYPTOGRAMMIC NI",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCoptic-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lIl",
+      "replacement": "Ɯ",
+      "codepoint": "U+019C",
+      "name": "LATIN CAPITAL LETTER TURNED M",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lIl",
+      "replacement": "ᗯ",
+      "codepoint": "U+15EF",
+      "name": "CANADIAN SYLLABICS CARRIER GU",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCanadianAboriginal-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lIl",
+      "replacement": "ㆬ",
+      "codepoint": "U+31AC",
+      "name": "BOPOMOFO LETTER IM",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lJ",
+      "replacement": "ӄ",
+      "codepoint": "U+04C4",
+      "name": "CYRILLIC SMALL LETTER KA WITH HOOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lJ",
+      "replacement": "ӈ",
+      "codepoint": "U+04C8",
+      "name": "CYRILLIC SMALL LETTER EN WITH HOOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lJ",
+      "replacement": "ᥦ",
+      "codepoint": "U+1966",
+      "name": "TAI LE LETTER EH",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lJ",
+      "replacement": "⺉",
+      "codepoint": "U+2E89",
+      "name": "CJK RADICAL KNIFE TWO",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lJ",
+      "replacement": "刂",
+      "codepoint": "U+5202",
+      "name": "<CJK Ideograph>",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lL",
+      "replacement": "ዚ",
+      "codepoint": "U+12DA",
+      "name": "ETHIOPIC SYLLABLE ZI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lP",
+      "replacement": "㏋",
+      "codepoint": "U+33CB",
+      "name": "SQUARE HP",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lTl",
+      "replacement": "ㆬ",
+      "codepoint": "U+31AC",
+      "name": "BOPOMOFO LETTER IM",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 1,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lYl",
+      "replacement": "𐅕",
+      "codepoint": "U+10155",
+      "name": "GREEK ACROPHONIC ATTIC TEN THOUSAND STATERS",
+      "bidi_class": "ON",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lc",
+      "replacement": "ｋ",
+      "codepoint": "U+FF4B",
+      "name": "FULLWIDTH LATIN SMALL LETTER K",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ll",
+      "replacement": "⏸",
+      "codepoint": "U+23F8",
+      "name": "DOUBLE VERTICAL BAR",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 1,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ll",
+      "replacement": "𐁖",
+      "codepoint": "U+10056",
+      "name": "LINEAR B SYMBOL B056",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ll",
+      "replacement": "𑪜",
+      "codepoint": "U+11A9C",
+      "name": "SOYOMBO MARK DOUBLE SHAD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 1,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ll",
+      "replacement": "𘠒",
+      "codepoint": "U+18812",
+      "name": "TANGUT COMPONENT-019",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ll",
+      "replacement": "𝍪",
+      "codepoint": "U+1D36A",
+      "name": "COUNTING ROD TENS DIGIT TWO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 1,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lll",
+      "replacement": "⫴",
+      "codepoint": "U+2AF4",
+      "name": "TRIPLE VERTICAL BAR BINARY RELATION",
+      "bidi_class": "ON",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lll",
+      "replacement": "Ⲽ",
+      "codepoint": "U+2CBC",
+      "name": "COPTIC CAPITAL LETTER CRYPTOGRAMMIC NI",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCoptic-Regular.ttf",
+          "max_contour_distance_px": 1,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lll",
+      "replacement": "𝍫",
+      "codepoint": "U+1D36B",
+      "name": "COUNTING ROD TENS DIGIT THREE",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ls",
+      "replacement": "ꝃ",
+      "codepoint": "U+A743",
+      "name": "LATIN SMALL LETTER K WITH DIAGONAL STROKE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lt",
+      "replacement": "ҟ",
+      "codepoint": "U+049F",
+      "name": "CYRILLIC SMALL LETTER KA WITH STROKE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lt",
+      "replacement": "⫫",
+      "codepoint": "U+2AEB",
+      "name": "DOUBLE UP TACK",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lt",
+      "replacement": "ꝁ",
+      "codepoint": "U+A741",
+      "name": "LATIN SMALL LETTER K WITH STROKE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lt",
+      "replacement": "𑪜",
+      "codepoint": "U+11A9C",
+      "name": "SOYOMBO MARK DOUBLE SHAD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "lu",
+      "replacement": "ƕ",
+      "codepoint": "U+0195",
+      "name": "LATIN SMALL LETTER HV",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "nS",
+      "replacement": "㎱",
+      "codepoint": "U+33B1",
+      "name": "SQUARE NS",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "oe",
+      "replacement": "ꧼ",
+      "codepoint": "U+A9FC",
+      "name": "MYANMAR LETTER TAI LAING DHA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "oo",
+      "replacement": "⚯",
+      "codepoint": "U+26AF",
+      "name": "UNMARRIED PARTNERSHIP SYMBOL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "oo",
+      "replacement": "⯺",
+      "codepoint": "U+2BFA",
+      "name": "UNITED SYMBOL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "oo",
+      "replacement": "⯻",
+      "codepoint": "U+2BFB",
+      "name": "SEPARATED SYMBOL",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "oz",
+      "replacement": "ꩡ",
+      "codepoint": "U+AA61",
+      "name": "MYANMAR LETTER KHAMTI CA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "rJ",
+      "replacement": "〢",
+      "codepoint": "U+3022",
+      "name": "HANGZHOU NUMERAL TWO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "rn",
+      "replacement": "ᲅ",
+      "codepoint": "U+1C85",
+      "name": "CYRILLIC SMALL LETTER THREE-LEGGED TE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "rn",
+      "replacement": "ꡕ",
+      "codepoint": "U+A855",
+      "name": "PHAGS-PA LETTER ZA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ro",
+      "replacement": "ꡄ",
+      "codepoint": "U+A844",
+      "name": "PHAGS-PA LETTER CA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ru",
+      "replacement": "ꡃ",
+      "codepoint": "U+A843",
+      "name": "PHAGS-PA LETTER NGA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "se",
+      "replacement": "🪪",
+      "codepoint": "U+1FAAA",
+      "name": "IDENTIFICATION CARD",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "sjJ",
+      "replacement": "캐",
+      "codepoint": "U+CE90",
+      "name": "<Hangul Syllable>",
+      "bidi_class": "L",
+      "source_codepoints": 3,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "ss",
+      "replacement": "☷",
+      "codepoint": "U+2637",
+      "name": "TRIGRAM FOR EARTH",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "st",
+      "replacement": "ㄺ",
+      "codepoint": "U+313A",
+      "name": "HANGUL LETTER RIEUL-KIYEOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "st",
+      "replacement": "ﾪ",
+      "codepoint": "U+FFAA",
+      "name": "HALFWIDTH HANGUL LETTER RIEUL-KIYEOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tJ",
+      "replacement": "𝜼",
+      "codepoint": "U+1D73C",
+      "name": "MATHEMATICAL BOLD ITALIC SMALL ETA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tJ",
+      "replacement": "𝞰",
+      "codepoint": "U+1D7B0",
+      "name": "MATHEMATICAL SANS-SERIF BOLD ITALIC SMALL ETA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tO",
+      "replacement": "တ",
+      "codepoint": "U+1010",
+      "name": "MYANMAR LETTER TA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMyanmar-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tl",
+      "replacement": "ꔔ",
+      "codepoint": "U+A514",
+      "name": "VAI SYLLABLE DEE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansVai-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tl",
+      "replacement": "𝡢",
+      "codepoint": "U+1D862",
+      "name": "SIGNWRITING HAND-FLAT SPLIT CENTRE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont_upper-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "ኵ",
+      "codepoint": "U+12B5",
+      "name": "ETHIOPIC SYLLABLE KWE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "ㅠ",
+      "codepoint": "U+3160",
+      "name": "HANGUL LETTER YU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "ￗ",
+      "codepoint": "U+FFD7",
+      "name": "HALFWIDTH HANGUL LETTER YU",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "𑰢",
+      "codepoint": "U+11C22",
+      "name": "BHAIKSUKI LETTER PA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansBhaiksuki-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "𝝅",
+      "codepoint": "U+1D745",
+      "name": "MATHEMATICAL BOLD ITALIC SMALL PI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tr",
+      "replacement": "𝞹",
+      "codepoint": "U+1D7B9",
+      "name": "MATHEMATICAL SANS-SERIF BOLD ITALIC SMALL PI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tt",
+      "replacement": "π",
+      "codepoint": "U+03C0",
+      "name": "GREEK SMALL LETTER PI",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tt",
+      "replacement": "₶",
+      "codepoint": "U+20B6",
+      "name": "LIVRE TOURNOIS SIGN",
+      "bidi_class": "ET",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tt",
+      "replacement": "ㄸ",
+      "codepoint": "U+3138",
+      "name": "HANGUL LETTER SSANGTIKEUT",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "tt",
+      "replacement": "ﾨ",
+      "codepoint": "U+FFA8",
+      "name": "HALFWIDTH HANGUL LETTER SSANGTIKEUT",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vs",
+      "replacement": "𑇛",
+      "codepoint": "U+111DB",
+      "name": "SHARADA SIGN SIDDHAM",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSharada-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "W",
+      "codepoint": "U+0057",
+      "name": "LATIN CAPITAL LETTER W",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "Ԝ",
+      "codepoint": "U+051C",
+      "name": "CYRILLIC CAPITAL LETTER WE",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "Ⱳ",
+      "codepoint": "U+2C72",
+      "name": "LATIN CAPITAL LETTER W WITH HOOK",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSans-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "ꓪ",
+      "codepoint": "U+A4EA",
+      "name": "LISU LETTER WA",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansLisu-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "ｗ",
+      "codepoint": "U+FF57",
+      "name": "FULLWIDTH LATIN SMALL LETTER W",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "𝐖",
+      "codepoint": "U+1D416",
+      "name": "MATHEMATICAL BOLD CAPITAL W",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "𝖶",
+      "codepoint": "U+1D5B6",
+      "name": "MATHEMATICAL SANS-SERIF CAPITAL W",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "source": "vv",
+      "replacement": "𝗪",
+      "codepoint": "U+1D5EA",
+      "name": "MATHEMATICAL SANS-SERIF BOLD CAPITAL W",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansMath-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "zd",
+      "replacement": "㏅",
+      "codepoint": "U+33C5",
+      "name": "SQUARE CD",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansCJKkr-Regular.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "zr",
+      "replacement": "ꀔ",
+      "codepoint": "U+A014",
+      "name": "YI SYLLABLE E",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "unifont-18.0.01.otf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "zs",
+      "replacement": "☷",
+      "codepoint": "U+2637",
+      "name": "TRIGRAM FOR EARTH",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "source": "zs",
+      "replacement": "ꘒ",
+      "codepoint": "U+A612",
+      "name": "VAI SYLLABLE NDOLE SOO",
+      "bidi_class": "L",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansVai-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "source": "zz",
+      "replacement": "☷",
+      "codepoint": "U+2637",
+      "name": "TRIGRAM FOR EARTH",
+      "bidi_class": "ON",
+      "source_codepoints": 2,
+      "replacement_codepoints": 1,
+      "evidence": [
+        {
+          "kind": "visual",
+          "font_file": "NotoSansSymbols2-Regular.ttf",
+          "max_contour_distance_px": 2,
+          "longest_unmatched_rows": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

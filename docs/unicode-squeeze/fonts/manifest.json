@@ -1,0 +1,351 @@
+{
+  "fonts": [
+    {
+      "file": "NotoSans-Regular.ttf",
+      "url": "https://notofonts.github.io/latin-greek-cyrillic/fonts/NotoSans/full/ttf/NotoSans-Regular.ttf",
+      "sha256": "ca4bca035c9ee760cb472c6967f30b9739179584141eb6ac8762613552f9b17c",
+      "bytes": 570400,
+      "repository": "latin-greek-cyrillic",
+      "font_family": "Squeeze Noto Sans",
+      "codepoint_count": 3096
+    },
+    {
+      "file": "NotoSansSymbols-Regular.ttf",
+      "url": "https://notofonts.github.io/symbols/fonts/NotoSansSymbols/full/ttf/NotoSansSymbols-Regular.ttf",
+      "sha256": "a0faf9edcc79d99d4c7ec8336da86464c7146ab2bbc481581da2500215366ff1",
+      "bytes": 198120,
+      "repository": "symbols",
+      "font_family": "Squeeze Noto Sans Symbols",
+      "codepoint_count": 1096
+    },
+    {
+      "file": "NotoSansSymbols2-Regular.ttf",
+      "url": "https://notofonts.github.io/symbols/fonts/NotoSansSymbols2/full/ttf/NotoSansSymbols2-Regular.ttf",
+      "sha256": "dac469477e407e5499c05b4530b729c9dc38c5e4c982af732bc4b3a0f6ef9f97",
+      "bytes": 687736,
+      "repository": "symbols",
+      "font_family": "Squeeze Noto Sans Symbols 2",
+      "codepoint_count": 2946
+    },
+    {
+      "file": "NotoSansMath-Regular.ttf",
+      "url": "https://notofonts.github.io/math/fonts/NotoSansMath/full/ttf/NotoSansMath-Regular.ttf",
+      "sha256": "92cea8bc749ce778118fc6d3b52dcceae3f59b6cfe00d241849be09fecc006c2",
+      "bytes": 1010348,
+      "repository": "math",
+      "font_family": "Squeeze Noto Sans Math",
+      "codepoint_count": 3033
+    },
+    {
+      "file": "NotoSansHebrew-Regular.ttf",
+      "url": "https://notofonts.github.io/hebrew/fonts/NotoSansHebrew/full/ttf/NotoSansHebrew-Regular.ttf",
+      "sha256": "6b76713a79e59fb5fd578e6cbcfe0956f9122767c2dffc9026fefb8cf62916c5",
+      "bytes": 66144,
+      "repository": "hebrew",
+      "font_family": "Squeeze Noto Sans Hebrew",
+      "codepoint_count": 464
+    },
+    {
+      "file": "NotoSansDevanagari-Regular.ttf",
+      "url": "https://notofonts.github.io/devanagari/fonts/NotoSansDevanagari/full/ttf/NotoSansDevanagari-Regular.ttf",
+      "sha256": "4dec7767ae4c4df0a55b3fe4378efb411f0fadf03f95e67eb6f235daa942cc0d",
+      "bytes": 263412,
+      "repository": "devanagari",
+      "font_family": "Squeeze Noto Sans Devanagari",
+      "codepoint_count": 551
+    },
+    {
+      "file": "NotoSansCanadianAboriginal-Regular.ttf",
+      "url": "https://notofonts.github.io/canadian-aboriginal/fonts/NotoSansCanadianAboriginal/full/ttf/NotoSansCanadianAboriginal-Regular.ttf",
+      "sha256": "e219fe6526de14b23b9a4a9bbc126dc08c3d3348f4057899fe06f003d3243368",
+      "bytes": 220976,
+      "repository": "canadian-aboriginal",
+      "font_family": "Squeeze Noto Sans Canadian Aboriginal",
+      "codepoint_count": 1048
+    },
+    {
+      "file": "NotoSansLisu-Regular.ttf",
+      "url": "https://notofonts.github.io/lisu/fonts/NotoSansLisu/full/ttf/NotoSansLisu-Regular.ttf",
+      "sha256": "f3ce8f9d6361ee0892ff95ace9262e7ed9ed161441101f4f1420bc9a68ee9d82",
+      "bytes": 54412,
+      "repository": "lisu",
+      "font_family": "Squeeze Noto Sans Lisu",
+      "codepoint_count": 377
+    },
+    {
+      "file": "NotoSansCoptic-Regular.ttf",
+      "url": "https://notofonts.github.io/coptic/fonts/NotoSansCoptic/full/ttf/NotoSansCoptic-Regular.ttf",
+      "sha256": "eebbd4be0a803b0cc974835a385c31af7d5b0dd2fa6e2a02d110e04bc4f6778f",
+      "bytes": 77488,
+      "repository": "coptic",
+      "font_family": "Squeeze Noto Sans Coptic Noto Sans Coptic",
+      "codepoint_count": 509
+    },
+    {
+      "file": "NotoSansMyanmar-Regular.ttf",
+      "url": "https://notofonts.github.io/myanmar/fonts/NotoSansMyanmar/full/ttf/NotoSansMyanmar-Regular.ttf",
+      "sha256": "8aaf08dc8cccb7c1bfe1253dbb5630752ed2210d43c7a89d647aa9cb9467942e",
+      "bytes": 232232,
+      "repository": "myanmar",
+      "font_family": "Squeeze Noto Sans Myanmar",
+      "codepoint_count": 551
+    },
+    {
+      "file": "NotoSansSaurashtra-Regular.ttf",
+      "url": "https://notofonts.github.io/saurashtra/fonts/NotoSansSaurashtra/full/ttf/NotoSansSaurashtra-Regular.ttf",
+      "sha256": "76bd83bf6b903289bb1aa808b73d513b984fa9731f9ce94956569d14390c7042",
+      "bytes": 65708,
+      "repository": "saurashtra",
+      "font_family": "Squeeze Noto Sans Saurashtra",
+      "codepoint_count": 408
+    },
+    {
+      "file": "NotoSansBrahmi-Regular.ttf",
+      "url": "https://notofonts.github.io/brahmi/fonts/NotoSansBrahmi/full/ttf/NotoSansBrahmi-Regular.ttf",
+      "sha256": "f798c7256ed16505a481280c9b5958535e074009745c851cc18a0ec60e2fd11f",
+      "bytes": 64776,
+      "repository": "brahmi",
+      "font_family": "Squeeze Noto Sans Brahmi",
+      "codepoint_count": 441
+    },
+    {
+      "file": "NotoSansKaithi-Regular.ttf",
+      "url": "https://notofonts.github.io/kaithi/fonts/NotoSansKaithi/full/ttf/NotoSansKaithi-Regular.ttf",
+      "sha256": "1e06206250d41188b303a92d67734857538a92f68513ddcb56b878a4708d5b93",
+      "bytes": 91136,
+      "repository": "kaithi",
+      "font_family": "Squeeze Noto Sans Kaithi",
+      "codepoint_count": 415
+    },
+    {
+      "file": "NotoSansChakma-Regular.ttf",
+      "url": "https://notofonts.github.io/chakma/fonts/NotoSansChakma/full/ttf/NotoSansChakma-Regular.ttf",
+      "sha256": "b1f94cd4158e57be619d62c131300300b2712e380bb19f73541fa62e5eb745a4",
+      "bytes": 112532,
+      "repository": "chakma",
+      "font_family": "Squeeze Noto Sans Chakma Noto Sans Chakma",
+      "codepoint_count": 416
+    },
+    {
+      "file": "NotoSansSharada-Regular.ttf",
+      "url": "https://notofonts.github.io/sharada/fonts/NotoSansSharada/full/ttf/NotoSansSharada-Regular.ttf",
+      "sha256": "b256e258591a7e285e76fa1a2cd25090c75b068ef28c2cef66c90d7e417c1880",
+      "bytes": 76272,
+      "repository": "sharada",
+      "font_family": "Squeeze Noto Sans Sharada",
+      "codepoint_count": 424
+    },
+    {
+      "file": "NotoSansNewa-Regular.ttf",
+      "url": "https://notofonts.github.io/newa/fonts/NotoSansNewa/full/ttf/NotoSansNewa-Regular.ttf",
+      "sha256": "9a4a071ef371c32159e59c332277520746a0dc453314147ba4122fe7e78eb3bd",
+      "bytes": 192376,
+      "repository": "newa",
+      "font_family": "Squeeze Noto Sans Newa",
+      "codepoint_count": 423
+    },
+    {
+      "file": "NotoSansModi-Regular.ttf",
+      "url": "https://notofonts.github.io/modi/fonts/NotoSansModi/full/ttf/NotoSansModi-Regular.ttf",
+      "sha256": "78ecb607b49ea9c8de4d6ea9963eded943d72b4e5a04e34b1fb2c611d44494ab",
+      "bytes": 82716,
+      "repository": "modi",
+      "font_family": "Squeeze Noto Sans Modi",
+      "codepoint_count": 415
+    },
+    {
+      "file": "NotoSansBhaiksuki-Regular.ttf",
+      "url": "https://notofonts.github.io/bhaiksuki/fonts/NotoSansBhaiksuki/full/ttf/NotoSansBhaiksuki-Regular.ttf",
+      "sha256": "8baab718d2e3390424803d692ad2578dfbc7d601751de88c14e6f13ea3c7cf64",
+      "bytes": 252044,
+      "repository": "bhaiksuki",
+      "font_family": "Squeeze Noto Sans Bhaiksuki Noto Sans Bhaiksuki",
+      "codepoint_count": 421
+    },
+    {
+      "file": "NotoMusic-Regular.ttf",
+      "url": "https://notofonts.github.io/music/fonts/NotoMusic/full/ttf/NotoMusic-Regular.ttf",
+      "sha256": "772f99ed783a9a27a0cc7bb52ce19046c590ac27cb828bb34f6a9073d5a11cd0",
+      "bytes": 124336,
+      "repository": "music",
+      "font_family": "Squeeze Noto Music",
+      "codepoint_count": 879
+    },
+    {
+      "file": "NotoSansVai-Regular.ttf",
+      "url": "https://notofonts.github.io/vai/fonts/NotoSansVai/full/ttf/NotoSansVai-Regular.ttf",
+      "sha256": "27374fb2244ad5fbce85cc150a1e345016193a759222559741229d329e2f67ef",
+      "bytes": 119412,
+      "repository": "vai",
+      "font_family": "Squeeze Noto Sans Vai Noto Sans Vai",
+      "codepoint_count": 622
+    },
+    {
+      "file": "NotoSansArmenian-Regular.ttf",
+      "url": "https://notofonts.github.io/armenian/fonts/NotoSansArmenian/full/ttf/NotoSansArmenian-Regular.ttf",
+      "sha256": "2a5232651ce7261b52dd19669117f5fddb4a6faa80c90af9d27b08ac3059ef16",
+      "bytes": 68592,
+      "repository": "armenian",
+      "font_family": "Squeeze Noto Sans Armenian",
+      "codepoint_count": 420
+    },
+    {
+      "file": "NotoSansWarangCiti-Regular.ttf",
+      "url": "https://notofonts.github.io/warang-citi/fonts/NotoSansWarangCiti/full/ttf/NotoSansWarangCiti-Regular.ttf",
+      "sha256": "6290d9ee101bea1ca0a1fe95290c7301da84c91ff8b03b0e700da2c1b99523bc",
+      "bytes": 67036,
+      "repository": "warang-citi",
+      "font_family": "Squeeze Noto Sans Warang Citi Noto Sans Warang Citi",
+      "codepoint_count": 406
+    },
+    {
+      "file": "NotoSansCJKkr-Regular.otf",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/Korean/NotoSansCJKkr-Regular.otf",
+      "sha256": "6bcb2a0703aa137e874fc2dffa85f6c21ba9a67fa329e81b8c801663af7e992a",
+      "bytes": 16433112,
+      "repository": "noto-cjk",
+      "font_family": "Squeeze Noto Sans CJK KR",
+      "codepoint_count": 44810
+    },
+    {
+      "file": "unifont-18.0.01.otf",
+      "url": "https://unifoundry.com/pub/unifont/unifont-18.0.01/font-builds/unifont-18.0.01.otf",
+      "bytes": 5320148,
+      "sha256": "88d0a14d4aa9a96419720b39ba5da921a59560d76d4ec7d523acc06ed85cd3c2",
+      "repository": "unifont",
+      "font_family": "Squeeze Unifont",
+      "codepoint_count": 58910
+    },
+    {
+      "file": "unifont_upper-18.0.01.otf",
+      "url": "https://unifoundry.com/pub/unifont/unifont-18.0.01/font-builds/unifont_upper-18.0.01.otf",
+      "bytes": 5954156,
+      "sha256": "472201e45a050bff4c7658208b8c73e34ebce3764b287a5a46c7774038ef9391",
+      "repository": "unifont",
+      "font_family": "Squeeze Unifont Upper",
+      "codepoint_count": 57728
+    }
+  ],
+  "licenses": [
+    {
+      "file": "licenses/armenian.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/armenian/main/OFL.txt",
+      "sha256": "0468358b316f69f405b55cadf8a8314e16e3610b8feaad96772bd5d968112d02"
+    },
+    {
+      "file": "licenses/bhaiksuki.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/bhaiksuki/main/OFL.txt",
+      "sha256": "55acad617cc72f630484d7cef2c12074a818df03eea7d89d6d595c663fc92fc5"
+    },
+    {
+      "file": "licenses/brahmi.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/brahmi/main/OFL.txt",
+      "sha256": "46d6caa05a24bda40dd8c1d073c3857b69738b856a8b644238104a62bf2cd6d1"
+    },
+    {
+      "file": "licenses/canadian-aboriginal.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/canadian-aboriginal/main/OFL.txt",
+      "sha256": "507cc466e43d021662b9e9320a55a81798d293ed6a4a80c8d519f917bd90fdeb"
+    },
+    {
+      "file": "licenses/chakma.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/chakma/main/OFL.txt",
+      "sha256": "4f95be0c30353cefed3d98051bb6762754893267ddbe123783cf92e8aa6f787f"
+    },
+    {
+      "file": "licenses/coptic.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/coptic/main/OFL.txt",
+      "sha256": "322570ceef6e9935b2422470682e42481903eb444fc416455c32c2c3c888c78c"
+    },
+    {
+      "file": "licenses/devanagari.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/devanagari/main/OFL.txt",
+      "sha256": "a216f6f8d85c7228093e0ee5e258d9d377e6671f68acb4db1930b29583d0f331"
+    },
+    {
+      "file": "licenses/hebrew.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/hebrew/main/OFL.txt",
+      "sha256": "e08036dbb38d9e7a033a721e0ca60befde2ed9d1a8075922dbd3429093dd793b"
+    },
+    {
+      "file": "licenses/kaithi.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/kaithi/main/OFL.txt",
+      "sha256": "5f4eef8d6ea9e1b6d08376007ea9ff1763bda32f5bb58c53042b061cdfcc026f"
+    },
+    {
+      "file": "licenses/latin-greek-cyrillic.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/latin-greek-cyrillic/main/OFL.txt",
+      "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a"
+    },
+    {
+      "file": "licenses/lisu.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/lisu/main/OFL.txt",
+      "sha256": "1f65bfdc26d6bd6e57249c60a86ea355761fb9150694e50206175d3fa8d3c166"
+    },
+    {
+      "file": "licenses/math.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/math/main/OFL.txt",
+      "sha256": "403a95275b469061b7d4371c328e0ada3bc7d63328abe2e88aad5cd243b2fe21"
+    },
+    {
+      "file": "licenses/modi.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/modi/main/OFL.txt",
+      "sha256": "fc8470520ea4c92c2430e6cb57b6d92bc1aabff954292ce8f20db2c5465d4a25"
+    },
+    {
+      "file": "licenses/music.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/music/main/OFL.txt",
+      "sha256": "1679cb60544990b4c2445320c6d5298e4bb0c08ff00dbb5a526f3793fdaa1e6f"
+    },
+    {
+      "file": "licenses/myanmar.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/myanmar/main/OFL.txt",
+      "sha256": "246a75859267af7da466823969d2e2b407ed8455ee5f74f4c8d63d8783be9b57"
+    },
+    {
+      "file": "licenses/newa.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/newa/main/OFL.txt",
+      "sha256": "39b6d4531cfac5e6004bf5f34668bf1ce50ef3b1f2cbe0b2ecc432949a45c6dd"
+    },
+    {
+      "file": "licenses/saurashtra.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/saurashtra/main/OFL.txt",
+      "sha256": "aef66e1a5ca98031d65b2284c24de0e66158703fe84a0bf339ac600c8e355c1a"
+    },
+    {
+      "file": "licenses/sharada.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/sharada/main/OFL.txt",
+      "sha256": "110e682353242abfe1529151fda818b381cb722b4d5a46388c13f55225e21b1b"
+    },
+    {
+      "file": "licenses/symbols.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/symbols/main/OFL.txt",
+      "sha256": "b118dd41337806a5d4797052c77caf3bd096aed783e5eb21b4d11154351e1ac0"
+    },
+    {
+      "file": "licenses/unifont.txt",
+      "url": "https://unifoundry.com/OFL-1.1.txt",
+      "sha256": "869692af094c57fb7258c57fe26820c759319603321d0ffeb278de3651763ded"
+    },
+    {
+      "file": "licenses/unifont-1.txt",
+      "url": "https://unifoundry.com/LICENSE.txt",
+      "sha256": "1e74cb82bf476843e97c2596297b04219b1a7e51f7238944a8c031cb9401fa87"
+    },
+    {
+      "file": "licenses/vai.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/vai/main/OFL.txt",
+      "sha256": "765206100bc8ad011be3a0976323394c28f335c69c49de152c3bd8bd27cdb803"
+    },
+    {
+      "file": "licenses/warang-citi.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/warang-citi/main/OFL.txt",
+      "sha256": "a97d2d7a91aa60fe67b6c9b77ff562fd0d29e1c27f667c650bd52f322ab0be88"
+    },
+    {
+      "file": "licenses/noto-cjk.txt",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/LICENSE",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    }
+  ]
+}

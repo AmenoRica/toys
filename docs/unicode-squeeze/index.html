@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>문자 줄이기 · toys</title>
+  <meta name="description" content="영문을 유니코드 문자로 줄이는 작은 도구.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'none'">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../shared/base.css?v=1">
+  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="fonts.css?v=4">
+</head>
+<body>
+  <main aria-label="유니코드 문자 줄이기">
+    <header class="topbar"><a class="home-link" href="../" aria-label="toys 목록으로">← toys</a><h1>문자 줄이기</h1></header>
+    <div class="input-box">
+      <div id="input-highlight" class="text-box" aria-hidden="true"></div>
+      <textarea id="input" class="text-box" aria-label="원본 텍스트" placeholder="영문을 입력하세요" spellcheck="false"></textarea>
+    </div>
+    <div class="arrow" aria-hidden="true">↓</div>
+    <div id="output" class="text-box" role="textbox" aria-label="변환 결과" aria-readonly="true" aria-multiline="true" tabindex="0" data-placeholder="규칙 불러오는 중…"></div>
+    <div class="options">
+      <label><input id="ignore-case" type="checkbox"> 대소문자 무시</label>
+      <label><input id="chaos" type="checkbox" aria-describedby="chaos-hint" disabled> 카오스 모드</label>
+      <label><input id="random" type="checkbox"> 랜덤 셔플</label>
+      <button id="shuffle" type="button" disabled>다시 섞기</button>
+    </div>
+    <p id="chaos-hint" class="hint" role="status" hidden>모양이 비슷한 후보도 사용합니다.</p>
+  </main>
+  <script type="module" src="app.mjs?v=4"></script>
+</body>
+</html>

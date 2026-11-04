@@ -1,0 +1,42 @@
+[
+  {
+    "file": "UnicodeData.txt",
+    "url": "https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt",
+    "resolved_url": "https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt",
+    "sha256": "0736451de439ae7baf1425136617da495e09ee5afbe6e394374db7009ea08950",
+    "bytes": 2243593,
+    "retrieved_at": "2026-11-02T00:51:58.948334+00:00"
+  },
+  {
+    "file": "ReadMe.txt",
+    "url": "https://www.unicode.org/Public/UCD/latest/ucd/ReadMe.txt",
+    "resolved_url": "https://www.unicode.org/Public/UCD/latest/ucd/ReadMe.txt",
+    "sha256": "b0ea442f29dee90584aacd3665a6e1ce87ffc917a4d31f34e1916d2d6f7f9205",
+    "bytes": 729,
+    "retrieved_at": "2026-11-02T00:51:59.442182+00:00"
+  },
+  {
+    "file": "NormalizationTest.txt",
+    "url": "https://www.unicode.org/Public/UCD/latest/ucd/NormalizationTest.txt",
+    "resolved_url": "https://www.unicode.org/Public/UCD/latest/ucd/NormalizationTest.txt",
+    "sha256": "25a50d816764b04abfb4a646d3eb2b2a803284c3873d9a06757b94fe4513dde3",
+    "bytes": 2863708,
+    "retrieved_at": "2026-11-02T00:52:00.800110+00:00"
+  },
+  {
+    "file": "confusables.txt",
+    "url": "https://www.unicode.org/Public/security/latest/confusables.txt",
+    "resolved_url": "https://www.unicode.org/Public/security/latest/confusables.txt",
+    "sha256": "6ed3ee967c9dfdf6677d563c9985182fbc50a2efb7d6059cd57b2e2ce18f5b92",
+    "bytes": 763128,
+    "retrieved_at": "2026-11-02T00:52:01.705023+00:00"
+  },
+  {
+    "file": "LICENSE.txt",
+    "url": "https://www.unicode.org/license.txt",
+    "resolved_url": "https://www.unicode.org/license.txt",
+    "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+    "bytes": 1995,
+    "retrieved_at": "2026-11-02T00:52:02.101684+00:00"
+  }
+]

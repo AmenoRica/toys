@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+body { margin: 0; padding: 20px 8px; }
+main { width: min(100%, 834px); margin: 0 auto; }
+.text-box { display: block; width: 100%; height: 190px; resize: vertical; overflow: auto; padding: 16px; border: 1px solid #bbb; border-radius: 0; background: #fff; color: inherit; font: 24px/1.6 system-ui, sans-serif; white-space: pre-wrap; overflow-wrap: break-word; }
+.input-box { position: relative; height: 190px; min-height: 100px; resize: vertical; overflow: hidden; border-radius: 0; }
+.input-box .text-box { position: absolute; inset: 0; height: 100%; resize: none; }
+#input-highlight { pointer-events: none; scrollbar-color: transparent transparent; }
+.input-box:focus-within { outline: 2px solid #2369bb; outline-offset: 3px; }
+#input-highlight::after { content: '\200b'; }
+#input { color: transparent; background: transparent; caret-color: #262626; }
+#input::selection { background: #b6d4ff; color: #262626; }
+mark { color: #164fa1; background: #e4efff; }
+#output:empty::before { content: attr(data-placeholder); color: #777; font-size: 18px; }
+textarea::placeholder { color: #777; font-size: 18px; }
+:focus-visible { outline: 2px solid #2369bb; outline-offset: 3px; }
+.arrow { text-align: center; font-size: 28px; line-height: 48px; color: #777; }
+.options { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 12px; }
+label { display: flex; align-items: center; gap: 6px; min-height: 36px; cursor: pointer; }
+input { accent-color: #2369bb; }
+button { border: 1px solid #bbb; border-radius: 0; padding: 8px 12px; background: #fff; color: inherit; font: inherit; cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+@media (max-width: 480px) { .text-box { height: 170px; padding: 16px; } .input-box { height: 170px; } }
+
+.topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+h1 { font-size: 12px; font-weight: normal; margin: 0; }
+.hint { margin: 8px 0 0; font-size: 11px; color: #555; text-align: center; }
+@media (max-width: 480px) { body { padding: 8px 6px; } }
