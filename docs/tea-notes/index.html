@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>차 맛 기록표</title>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f3f3;color:#292929;font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:16px}.toolbar{max-width:794px;margin:28px auto 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 8px}.home-link{color:#555;white-space:nowrap;text-decoration:none}.toolbar{flex-wrap:wrap}.toolbar p{margin:0;color:#666666;font-size:15px;line-height:1.6}button{border:0;background:#333333;color:white;padding:12px 20px;border-radius:6px;font:inherit;cursor:pointer;white-space:nowrap}button:hover{background:#222222}button:focus-visible,[contenteditable]:focus-visible{outline:2px solid #777777;outline-offset:3px}.paper{width:210mm;min-height:277mm;margin:0 auto 32px;padding:18mm 14mm;background:white;box-shadow:0 6px 36px #00000008}h1{font-size:32px;letter-spacing:-1px;font-weight:600;margin:0 0 12px}.meta{display:flex;justify-content:flex-end;gap:22px;margin:28px 0 16px;font-size:14px}.meta span{display:inline-block;min-width:95px;min-height:23px;border-bottom:1px solid #bbbbbb;vertical-align:bottom;padding:2px 5px}table{width:100%;border-collapse:collapse;table-layout:fixed;border-top:2px solid #555555}th,td{border:1px solid #cccccc}thead th{height:15mm;background:#f5f5f5;font-size:14px;font-weight:600}thead small{display:block;margin-top:4px;color:#777777;font-size:12px;font-weight:400}tbody th{font-size:15px;font-weight:500;text-align:left;padding:12px;line-height:1.8}td{vertical-align:top;padding:10px;font-size:14px;line-height:1.7;overflow-wrap:anywhere}tbody tr{height:31mm;break-inside:avoid}.rating{text-align:center;padding:12px 3px;vertical-align:middle}.stars{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}.stars label{cursor:pointer;font-size:21px;line-height:1.4;color:#555555}.stars input{position:absolute;opacity:0;width:1px;height:1px}.stars input:focus-visible+span{outline:2px solid #777777}.stars input:checked+span{color:#333333}.stars input:checked+span:before{content:'★'}.stars input:checked+span{font-size:0}.stars input:checked+span:before{font-size:21px}.guide{display:flex;gap:14px;margin-top:15px;font-size:12px;line-height:1.8;color:#777777}.guide strong{white-space:nowrap;font-weight:500;color:#444444}.bottom{margin-top:25px;font-size:14px;display:flex;gap:14px;align-items:baseline}.bottom span{flex:1;border-bottom:1px solid #bbbbbb;min-height:25px;padding:3px 5px}.screen-note{max-width:794px;margin:0 auto 28px;text-align:center;color:#777777;font-size:14px}[contenteditable]{white-space:pre-wrap} @media(max-width:820px){.toolbar{margin:16px}.paper{width:calc(100% - 24px);padding:28px 18px;min-height:0;overflow-x:auto}table{min-width:610px}.meta{justify-content:flex-start}.guide{min-width:580px}.toolbar p{max-width:220px}.screen-note{padding:0 20px;line-height:1.6}}
+@page{size:A4 portrait;margin:10mm} @media print{body{background:white;color:#222}.toolbar,.screen-note{display:none}.paper{width:100%;min-height:0;margin:0;padding:8mm 4mm;box-shadow:none;overflow:visible}table{min-width:0}thead th{background:#f5f5f5;print-color-adjust:exact;-webkit-print-color-adjust:exact}.guide{min-width:0}h1{font-size:29px}[contenteditable]{outline:none}tr{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="toolbar"><a href="../" class="home-link">← toys</a><p>칸을 눌러 수정하거나, 빈 기록표로 인쇄하세요.</p><button type="button" id="print">인쇄 / PDF 저장</button></div>
+<main class="paper">
+<h1>차 맛 기록표</h1>
+<div class="meta"><label>이름 <span contenteditable="true" role="textbox" aria-label="이름"></span></label><label>날짜 <span contenteditable="true" role="textbox" aria-label="날짜"></span></label></div>
+<table aria-label="차 다섯 종류의 맛 기록"><colgroup><col style="width:18%"><col style="width:29%"><col style="width:19%"><col style="width:21%"><col style="width:13%"></colgroup><thead><tr><th scope="col">차 이름</th><th scope="col">맛/향</th><th scope="col">입안의 느낌<small>질감 · 무게감</small></th><th scope="col">여운<small>삼킨 뒤 남는 느낌</small></th><th scope="col">선호도</th></tr></thead><tbody id="rows"></tbody></table>
+<div class="guide"><strong>표현이 어렵다면</strong><span>아이디어 — 꿀 · 캐러멜 · 구운 밤 · 볶은 견과류 · 구운 보리 · 복숭아 · 감귤 껍질 · 건포도 · 김 · 다크초콜릿<br>맛 — 달다 · 쓰다 · 새콤하다 · 구수하다 · 고소하다 · 감칠맛이 난다 · 담백하다<br>향 — 꽃향(장미·자스민·난초) · 과일향 · 허브향 · 풋풀향 · 나무향 · 솔향 · 볶은 곡물향 · 훈연향<br>입안의 느낌 — 부드럽다 · 가볍다 · 묵직하다 · 떫다<br>여운 — 짧다 · 오래간다 · 단맛이 남는다</span></div>
+<div class="bottom"><strong>가장 마음에 든 차와 이유</strong><span contenteditable="true" role="textbox" aria-label="가장 마음에 든 차와 이유"></span></div>
+</main>
+<p class="screen-note">PDF 저장: 인쇄 창에서 ‘PDF로 저장’을 선택하세요. A4 세로 · 배율 100% · 머리글/바닥글 끄기<br>입력 내용은 새로고침하면 초기화됩니다. 작성 후 PDF로 저장해 주세요.</p>
+<script>
+const teas=Array(5).fill('');
+const rows=document.getElementById('rows');
+teas.forEach((tea,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<th scope="row" contenteditable="true" aria-label="${i+1}번째 차 이름">${tea}</th><td contenteditable="true" role="textbox" aria-label="${i+1}번째 차 맛과 향"></td><td contenteditable="true" role="textbox" aria-label="${i+1}번째 차 입안의 느낌"></td><td contenteditable="true" role="textbox" aria-label="${i+1}번째 차 여운"></td><td class="rating"><div class="stars">${[1,2,3,4,5].map(n=>`<label><input type="checkbox" aria-label="${i+1}번째 차 별 ${n}"><span aria-hidden="true">☆</span></label>`).join('')}</div></td>`;rows.append(tr)});
+document.getElementById('print').addEventListener('click',async()=>{await document.fonts.ready;window.print()});
+console.assert(rows.children.length===5,'Five tea rows required');
+</script>
+</body></html>
+
