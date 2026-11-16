@@ -88,3 +88,9 @@ WebMollusk는 AGPL 기반이며 원작·JUCE 고지와 전체 빌드 소스를 �
 별도 라이선스가 명시된 제3자 자료를 제외한 이 저장소의 코드와 문서는 GNU Affero General Public License version 3 (`AGPL-3.0-only`)에 따라 배포합니다. 라이선스 전문은 [LICENSE](LICENSE)를 참고하세요. 제3자 자료의 저작권·라이선스 고지는 유지하며, 해당 자료에는 각각의 라이선스가 적용됩니다.
 
 이 프로젝트는 있는 그대로 제공됩니다. 별도의 서면 약정이 없는 한, 유지관리자는 기술 지원, 버그 수정, 보안 업데이트, 호환성 유지 또는 지속적인 개발을 제공할 의무를 부담하지 않습니다. 무보증 및 책임 제한은 관련 법률이 허용하는 범위에서 AGPLv3 제15~17조에 따릅니다. 이 안내는 AGPLv3에 따른 이용자의 권리나 배포자의 소스 제공·고지 의무를 제한하지 않습니다.
+
+## Pixel-3DGS + Physics Test 1
+
+https://ameno.cc/toys/pixel-3dgs-physics-test-1/
+
+픽셀 Gaussian splat 해변과 원반 절단/물리 실험. 정적 배포는 `docs/pixel-3dgs-physics-test-1/`, 재빌드 소스와 검사는 `sources/pixel-3dgs-physics-test-1/`에 있다. 해당 폴더에서 `npm ci`, `npm test`, `npm run build`로 갱신한다. 키보드/마우스를 사용하는 데스크톱용이며 모바일 터치 이동은 제공하지 않는다. 원본 MIT 및 의존성 라이선스는 해당 배포의 `THIRD-PARTY-NOTICES.txt`에 포함한다.
